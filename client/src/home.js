@@ -233,12 +233,12 @@ const Home = () => {
               </div>
               <div id="faq3" className="collapse" data-bs-parent=".faq-list">
                 <p>
-                  Sorry but as per government guidelines, a student should be
-                  fully vaccinated to attend the in-person classes for the
-                  safety of all. Since 18+ age vaccines have been provided for
-                  quite a long time now, therefore it is expected from the
-                  student to be fully vaccinated in order to attend the
-                  in-person class.
+                  If you're under 18 age, yes. But otherwise, sorry, but as per
+                  government guidelines, a student should be fully vaccinated to
+                  attend the in-person classes for the safety of all. Since 18+
+                  age vaccines have been provided for quite a long time now,
+                  therefore it is expected from the student to be fully
+                  vaccinated in order to attend the in-person class.
                 </p>
               </div>
             </li>

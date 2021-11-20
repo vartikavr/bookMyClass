@@ -3,9 +3,10 @@ import Header from "./header";
 import Home from "./home";
 import Login from "./views/user/login";
 import ConfirmEmail from "./views/user/confirmEmail";
-import Classrooms from "./views/classes/classrooms";
-import NewClassroom from "./views/classes/newClassroom";
-import ShowClassroom from "./views/classes/showClassroom";
+import Classrooms from "./views/classroom/classrooms";
+import NewClassroom from "./views/classroom/newClassroom";
+import ShowClassroom from "./views/classroom/showClassroom";
+import NewClass from "./views/class/newClass";
 
 function App() {
   return (
@@ -34,6 +35,10 @@ function App() {
         <Route exact path="/classrooms/:id">
           <Header />
           <ShowClassroom />
+        </Route>
+        <Route exact path="/classrooms/:id/new">
+          <Header />
+          <NewClass />
         </Route>
       </Switch>
     </Router>

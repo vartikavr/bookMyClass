@@ -1,5 +1,6 @@
 const User = require("../schemas/user");
 const Classroom = require("../schemas/classroom");
+const Class = require("../schemas/class");
 const bcrypt = require("bcrypt");
 
 module.exports.getMyClassrooms = async (req, res) => {
@@ -64,6 +65,73 @@ module.exports.specificClassroom = async (req, res) => {
       "classes"
     );
     console.log(currentClassroom);
+    const user = await User.findById(currentUser);
+    return res.status(200).send({ currentClassroom, user });
+  } catch (e) {
+    console.log("error", e);
+    return res.status(400).send({ error: "error in showing classroom" });
+  }
+};
+
+module.exports.deleteClassroom = async (req, res) => {
+  try {
+    const classroomId = req.params.id;
+    const classroom = await Classroom.findById(classroomId);
+    console.log(classroom.teacher, currentUser);
+    if (classroom.teacher.toString() == currentUser.toString()) {
+      //delete classrooms from user
+      const users = await User.find({ classrooms: { $in: classroomId } });
+      for (const index in users) {
+        await User.findByIdAndUpdate(users[index]._id, {
+          $pull: { classrooms: classroomId },
+        });
+      }
+      //delete classes of the classroom from user
+      const deletedClasses = await Class.find({ classroom: classroomId });
+      for (const classIndex in deletedClasses) {
+        const users = await User.find({
+          classes: { $in: deletedClasses[classIndex]._id },
+        });
+        for (const index in users) {
+          await User.findByIdAndUpdate(users[index]._id, {
+            $pull: { classes: deletedClasses[classIndex]._id },
+          });
+        }
+      }
+      //delete related classes
+      await Class.deleteMany({ classroom: classroomId });
+      //delete classroom
+      await Classroom.findByIdAndDelete(classroomId);
+      return res.status(200).send({ success: "successful deletion" });
+    } else {
+      return res
+        .status(400)
+        .send({ error: "Error! Only teacher can delete their classroom" });
+    }
+  } catch (e) {
+    console.log("error", e);
+    return res.status(400).send({ error: "error in showing classroom" });
+  }
+};
+
+module.exports.addNewClass = async (req, res) => {
+  try {
+    const classroomId = req.params.id;
+    const currentClassroom = await Classroom.findById(classroomId);
+    console.log(currentClassroom);
+    const newClass = new Class({
+      title: req.body.title,
+      date: req.body.date,
+      startTime: req.body.startTime,
+      endTime: req.body.endTime,
+    });
+    newClass.classroom = currentClassroom._id;
+    if (req.body.seats != "") {
+      newClass.availableSeats = req.body.seats;
+    }
+    await newClass.save();
+    currentClassroom.classes.push(newClass._id);
+    await currentClassroom.save();
     return res.status(200).send({ currentClassroom, currentUser });
   } catch (e) {
     console.log("error", e);

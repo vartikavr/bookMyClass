@@ -163,6 +163,7 @@ const Login = () => {
               id="email"
               placeholder="Email"
               required
+              autoFocus
               value={email}
               onChange={(event) => setEmail(event.target.value)}
             />

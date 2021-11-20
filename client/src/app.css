@@ -381,7 +381,8 @@
   border-color: #ef7f4d;
 }
 .services .icon i,
-.myClassrooms .icon i {
+.myClassrooms .icon i,
+.showClassroom .icon i {
   font-size: 48px;
   line-height: 1;
   margin-bottom: 15px;
@@ -521,8 +522,8 @@
   display: flex;
   justify-content: space-between;
 }
-/*----Classes----*/
-/* .classes .btn {
+/*----new Class----*/
+.newClass .btn {
   border-radius: 20px;
   border: 1px solid #ff4b2b;
   background-color: #ff4b2b;
@@ -531,50 +532,84 @@
   font-weight: bold;
 }
 
-.classes .card {
-  margin-top: 8em;
+.newClass .card {
+  margin-top: 5em;
+}
+@media (max-width: 1280px) {
+  .newClass .time p {
+    display: none;
+  }
+  .newClass .time #startTime {
+    margin-bottom: 1em;
+  }
 }
 
-.classes .card-img {
+@media (min-width: 1280px) {
+  .newClass .time {
+    display: inline-flex;
+  }
+}
+@media (min-width: 1400px) {
+  .newClass .time {
+    margin-left: 1em;
+  }
+}
+
+.newClass .card-img {
   width: 70%;
-  margin-top: 3em;
+  margin-top: 4em;
   margin-left: 3.5em;
-  animation: up-down 2s ease-in-out infinite alternate-reverse both; 
+  /* animation: up-down 2s ease-in-out infinite alternate-reverse both; */
 }
 
 @media (max-width: 991px) {
-  .classes .animated {
+  .newClass .animated {
     animation: none;
   }
 }
+@media (max-width: 1280px) {
+  .newClass .card-img {
+    margin-top: 3em;
+  }
+}
 @media (max-width: 768px) {
-  .classes .card {
+  .newClass .card {
     width: 70%;
     margin-left: 5em;
     margin-top: 3em;
   }
 }
 @media (min-width: 768px) and (max-width: 991px) {
-  .classes .card {
+  .newClass .card {
     width: 80%;
     margin-left: 4em;
     margin-top: 4em;
   }
 }
 @media (min-width: 991px) and (max-width: 1024px) {
-  .classes .card {
+  .newClass .card {
     width: 70%;
     margin-left: 6em;
     margin-top: 4em;
   }
 }
 @media (min-width: 1025px) and (max-width: 1280px) {
-  .classes .card {
+  .newClass .card {
     width: 70%;
     margin-left: 8em;
     margin-top: 4em;
   }
-} */
+}
+
+.newClass .btn {
+  color: #f88138;
+  border: 2px solid #f88138;
+  background-color: #fff;
+}
+.newClass .btn:hover {
+  color: #fff;
+  background-color: #f88138;
+}
 
 .newClassroom,
 .newClassroom::before,
@@ -905,6 +940,7 @@
   margin: 2em;
   border: 1px solid #f08858;
   height: 26vh;
+  width: 100vw;
 }
 .myClassrooms .icon-box h4 {
   white-space: nowrap;
@@ -914,54 +950,120 @@
 }
 
 .myClassrooms .icon-box p {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
   font-size: 1em;
 }
 
-/*--------showClassroom-----*/
-.showClassroom .card-class a {
-  font-family: "Raleway", sans-serif;
-  font-weight: 500;
-  font-size: 28px;
-  letter-spacing: 1px;
-  color: rgb(228, 222, 222);
-  text-decoration: none;
-  border-bottom: 0.2rem solid rgb(228, 222, 222);
+.myClassrooms .btn-classroomDelete {
+  border-radius: 10px;
+  margin-top: 0.5em;
+  color: #f88138;
+  border: 1px solid #f88138;
+  background-color: inherit;
+  padding: 0 30px;
 }
 
-.showClassroom .card-class a:hover {
-  border-bottom: 0.2rem solid #fff;
+.myClassrooms .btn-classroomDelete:hover {
   color: #fff;
+  background-color: #f88138;
+}
+/*--------showClassroom-----*/
+.showClassroom .card-class button {
+  background-color: transparent;
+}
+
+.showClassroom .card-class button:hover {
+  transform: translateY(-1px);
 }
 
 .showClassroom .card-title,
 .showClassroom .card-class {
   padding-bottom: 0;
 }
+.showClassroom .dropdown-menu-classroom {
+  position: relative;
+}
+.showClassroom .menu-content {
+  z-index: 1;
+  position: absolute;
+  display: none;
+  background-color: rgba(255, 255, 255);
+  border-color: black;
+  margin-left: 20px;
+  margin-top: -13px;
+  box-shadow: 2px 2px #acaaaa;
+}
 
+.showClassroom .menu-btn {
+  border: none;
+}
+.showClassroom .close {
+  border: none;
+  background: transparent;
+  font-size: 2em;
+  color: grey;
+}
+.showClassroom .close:hover {
+  color: black;
+}
+.showClassroom .links {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  font-size: 0.4em;
+  border: none;
+}
+.showClassroom .links.code {
+  border-bottom: 1px solid rgba(94, 91, 91, 0.842);
+  padding-right: 30px;
+}
+.showClassroom .links.delete {
+  border-bottom: 1px solid rgba(94, 91, 91, 0.842);
+  padding-right: 22px;
+}
+.showClassroom .links:hover {
+  background-color: rgb(216, 210, 210);
+}
 .showClassroom .title-text {
   font-size: 0.8em;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  padding-right: 2em;
 }
+
 @media (max-width: 991px) {
-  .showClassroom .card-head {
+  /* .showClassroom .card-head {
     display: block;
-  }
+  } */
+}
+
+.showClassroom .card-title {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  padding-right: 2em;
 }
 
 /*----------Classes------*/
 .btn-addClass {
   padding: 5px 150px;
   margin: 30px auto;
+  margin-bottom: 0;
   display: block;
   font-size: 1.2em;
   border-radius: 20px;
-  background-color: #ef7f4d;
-  border-color: #ef7f4d;
-  color: #fff;
+  border: 2px solid #f88138;
+  color: #f88138;
   font-weight: 600;
+  outline: none;
 }
 
 .btn-addClass:hover {
   transform: translateY(-2px);
-  background-color: #ec6e34;
-  border-color: #ec6e34;
+  background-color: #f88138;
+  color: #fff;
 }

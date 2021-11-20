@@ -11,4 +11,13 @@ router.post("/join", isLoggedIn, isVerified, classrooms.joinClassroom);
 
 router.get("/:id", isLoggedIn, isVerified, classrooms.specificClassroom);
 
+router.delete(
+  "/:id/delete",
+  isLoggedIn,
+  isVerified,
+  classrooms.deleteClassroom
+);
+
+router.post("/:id/new", isLoggedIn, isVerified, classrooms.addNewClass);
+
 module.exports = router;
