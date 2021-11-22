@@ -7,6 +7,14 @@ import styles from "../../styles/login.module.css";
 toast.configure();
 
 const Login = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [forgotPwdEmail, setForgotPwdEmail] = useState("");
+  const [vaccineStatus, setVaccineStatus] = useState("");
+  const [password, setPassword] = useState("");
+  const [isPending, setIsPending] = useState(false);
+  const history = useHistory();
+
   useEffect(() => {
     const signUpButton = document.getElementById("signUp");
     const signInButton = document.getElementById("signIn");
@@ -21,12 +29,14 @@ const Login = () => {
     });
   }, []);
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [vaccineStatus, setVaccineStatus] = useState("");
-  const [password, setPassword] = useState("");
-  const [isPending, setIsPending] = useState(false);
-  const history = useHistory();
+  useEffect(() => {
+    const form = document.getElementById("forgotPasswordForm");
+    document.getElementById("submitBtnEmail").disabled = true;
+    form.addEventListener("change", () => {
+      document.getElementById("submitBtnEmail").disabled =
+        !form.checkValidity();
+    });
+  }, [forgotPwdEmail]);
 
   const handleRegisterSubmit = (e) => {
     e.preventDefault();
@@ -96,8 +106,93 @@ const Login = () => {
       });
   };
 
+  const handleForgotPassword = () => {
+    const axiosConfig = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    axios
+      .post(
+        "/reset",
+        {
+          email: forgotPwdEmail,
+        },
+        axiosConfig
+      )
+      .then((res) => {
+        toast.success("Check email to reset password!");
+        console.log("forgot password mail sent");
+      })
+      .catch((res, e) => {
+        toast.error("An error occured. Please try again!");
+        console.log(res.error, "error in client ...", e);
+      });
+  };
+
   return (
     <div className={styles.login}>
+      <div
+        class="modal fade"
+        id="exampleModalCenter"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">
+                Enter your registered email id
+              </h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form id="forgotPasswordForm">
+                <label className="form-label">
+                  <b>Email id:</b>
+                </label>
+                <input
+                  style={{ outline: "none" }}
+                  className="ms-2"
+                  id="email"
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  value={forgotPwdEmail}
+                  onChange={(event) => setForgotPwdEmail(event.target.value)}
+                />
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-dismiss="modal"
+                id="submitBtnEmail"
+                onClick={handleForgotPassword}
+              >
+                Submit
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
       <div className={styles.container} id="container">
         <div className="formContainer signUpContainer">
           <form className={styles.form} onSubmit={handleRegisterSubmit}>
@@ -116,6 +211,7 @@ const Login = () => {
               className={styles.input}
               name="vaccineStatus"
               required
+              title="Vaccination status"
               value={vaccineStatus}
               onChange={(event) => setVaccineStatus(event.target.value)}
             >
@@ -177,7 +273,12 @@ const Login = () => {
               value={password}
               onChange={(event) => setPassword(event.target.value)}
             />
-            <a className={styles.a} href="#">
+            <a
+              href=""
+              className={styles.forgotPasswordLink}
+              data-toggle="modal"
+              data-target="#exampleModalCenter"
+            >
               Forgot your password?
             </a>
             {!isPending && <button className="buttonLogin">Sign In</button>}

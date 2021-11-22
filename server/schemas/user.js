@@ -42,7 +42,6 @@ userSchema.pre("save", function (next) {
     return next();
   }
   this.password = bcrypt.hashSync(this.password, 12);
-  this.isVerified = false;
   return next();
 });
 

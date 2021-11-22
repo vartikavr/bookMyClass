@@ -3,6 +3,7 @@ import stylesHome from "../../styles/home.module.css";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useHistory, useParams, Link } from "react-router-dom";
+import ReactLoading from "react-loading";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 toast.configure();
@@ -21,6 +22,7 @@ const ShowClassroom = () => {
   }, [isBooked, isClassDeleted]);
 
   const getClassroomInfo = () => {
+    setEndPending(false);
     const axiosConfig = {
       headers: {
         "Content-Type": "application/json",
@@ -153,6 +155,10 @@ const ShowClassroom = () => {
     history.push(`/classrooms/${classroomId}/new`);
   };
 
+  const redirectToPeople = () => {
+    history.push(`/classrooms/${classroomId}/people`);
+  };
+
   return (
     <div className="showClassroom mb-4">
       <div
@@ -193,8 +199,18 @@ const ShowClassroom = () => {
           </div>
         </div>
       </div>
-      <div className="col-sm-8 offset-sm-2">
-        {endPending && (
+      {!endPending && (
+        <div className="pageLoading">
+          <ReactLoading
+            type={"balls"}
+            color={"#ff4b2b"}
+            height={80}
+            width={80}
+          />
+        </div>
+      )}
+      {endPending && (
+        <div className="col-sm-8 offset-sm-2">
           <div className="containerClassrooms">
             <div className="Classrooms card">
               <div className="card-head">
@@ -217,14 +233,14 @@ const ShowClassroom = () => {
                   <button className="menu-btn" onClick={openDropdown}>
                     <img src="https://img.icons8.com/ios-glyphs/30/ffffff/menu-2.png" />
                   </button>
-                  <div className="menu-content">
+                  <div className="menu-content" id="menu-content">
                     {currentUser._id == classroom.teacher && (
                       <button
-                        class="links code"
+                        class="links"
                         data-toggle="modal"
                         data-target="#exampleModalCenter"
                       >
-                        Code
+                        Classroom Code
                       </button>
                     )}
                     {currentUser._id == classroom.teacher && (
@@ -235,9 +251,13 @@ const ShowClassroom = () => {
                         Delete
                       </button>
                     )}
-                    <Link class="links" to="/">
+                    <button
+                      class="links people"
+                      to={`/classsrooms/${classroom._id}/people`}
+                      onClick={redirectToPeople}
+                    >
                       People
-                    </Link>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -340,8 +360,8 @@ const ShowClassroom = () => {
               </div>
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };

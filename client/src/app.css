@@ -2,6 +2,14 @@
   background-color: #fef8f5;
 }
 
+.pageLoading {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
 .navbar-bg-header {
   background-color: black;
 }
@@ -996,10 +1004,16 @@
   box-shadow: 2px 2px #acaaaa;
 }
 
+@media (max-width: 580px) {
+  .showClassroom .menu-content {
+    margin-left: -120px;
+  }
+}
 .showClassroom .menu-btn {
   border: none;
 }
-.showClassroom .close {
+.showClassroom .close,
+.modal .close {
   border: none;
   background: transparent;
   font-size: 2em;
@@ -1015,14 +1029,14 @@
   display: block;
   font-size: 0.4em;
   border: none;
-}
-.showClassroom .links.code {
-  border-bottom: 1px solid rgba(94, 91, 91, 0.842);
-  padding-right: 30px;
+  padding-right: 15px;
+  white-space: nowrap;
 }
 .showClassroom .links.delete {
-  border-bottom: 1px solid rgba(94, 91, 91, 0.842);
-  padding-right: 22px;
+  padding-right: 83px;
+}
+.showClassroom .links.people {
+  padding-right: 80px;
 }
 .showClassroom .links:hover {
   background-color: rgb(216, 210, 210);
@@ -1060,10 +1074,37 @@
   color: #f88138;
   font-weight: 600;
   outline: none;
+  background: transparent;
 }
 
 .btn-addClass:hover {
   transform: translateY(-2px);
   background-color: #f88138;
   color: #fff;
+}
+
+/*-------Reset Password-----*/
+.resetPassword .card {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  padding: 4em;
+  padding-top: 2em;
+}
+.resetPassword form input {
+  width: 25em;
+}
+.resetPassword form input:focus {
+  box-shadow: none;
+}
+.resetPassword .btn {
+  font-size: 1.2em;
+}
+.resetPassword .btn:focus {
+  box-shadow: none;
+}
+.resetPassword .btn:hover {
+  transform: translateY(-2px);
 }

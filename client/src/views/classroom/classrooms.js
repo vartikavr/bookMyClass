@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import ReactLoading from "react-loading";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 toast.configure();
@@ -18,6 +19,7 @@ const Classrooms = () => {
   }, []);
 
   const getAllClassrooms = () => {
+    setEndPending(false);
     const axiosConfig = {
       headers: {
         "Content-Type": "application/json",
@@ -48,8 +50,18 @@ const Classrooms = () => {
 
   return (
     <div className="myClassrooms mb-4">
-      <div className="col-sm-8 offset-sm-2">
-        {endPending && (
+      {!endPending && (
+        <div className="pageLoading">
+          <ReactLoading
+            type={"balls"}
+            color={"#ff4b2b"}
+            height={80}
+            width={80}
+          />
+        </div>
+      )}
+      {endPending && (
+        <div className="col-sm-8 offset-sm-2">
           <div className="containerClassrooms">
             <div className="Classrooms card">
               <div className="card-head">
@@ -145,8 +157,8 @@ const Classrooms = () => {
               ) : null}
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };

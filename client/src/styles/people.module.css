@@ -1,0 +1,43 @@
+/*--------show people-------*/
+.showPeople {
+  padding-top: 3em;
+  background-color: #fef8f5;
+  font-family: "Raleway", sans-serif;
+}
+/* 
+.studentsHeading {
+  position: relative; 
+  overflow: hidden;
+} */
+
+.studentsHeading h1 {
+  display: inline-block;
+  width: 100%;
+  margin-right: -12%;
+}
+
+@media (max-width: 1140px) {
+  .studentsHeading h1 {
+    margin-right: -18%;
+  }
+}
+
+@media (max-width: 860px) {
+  .studentsHeading h1 {
+    margin-right: -25%;
+  }
+}
+
+.inviteBtn {
+  border-radius: 10px;
+  background: transparent;
+  border: 1px solid #f88138;
+  color: #f88138;
+  font-size: 1.2em;
+  padding: 5px 20px;
+}
+
+.inviteBtn:hover {
+  background: #f88138;
+  color: #fff;
+}

@@ -27,8 +27,12 @@ const Header = () => {
       .then((res) => {
         localStorage.removeItem("isLoggedIn");
         console.log("log out");
-        toast.info("Logged out");
-        history.push("/");
+        if (url == "/") {
+          window.location.reload();
+        } else {
+          toast.info("Logged out");
+          history.push("/");
+        }
       })
       .catch((e) => {
         console.log("error in client ...", e);

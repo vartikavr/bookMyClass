@@ -3,10 +3,12 @@ import Header from "./header";
 import Home from "./home";
 import Login from "./views/user/login";
 import ConfirmEmail from "./views/user/confirmEmail";
+import ResetPassword from "./views/user/resetPassword";
 import Classrooms from "./views/classroom/classrooms";
 import NewClassroom from "./views/classroom/newClassroom";
 import ShowClassroom from "./views/classroom/showClassroom";
 import NewClass from "./views/class/newClass";
+import People from "./views/classroom/people";
 
 function App() {
   return (
@@ -24,6 +26,10 @@ function App() {
           <Header />
           <ConfirmEmail />
         </Route>
+        <Route exact path="/reset/:token">
+          <Header />
+          <ResetPassword />
+        </Route>
         <Route exact path="/classrooms">
           <Header />
           <Classrooms />
@@ -39,6 +45,10 @@ function App() {
         <Route exact path="/classrooms/:id/new">
           <Header />
           <NewClass />
+        </Route>
+        <Route exact path="/classrooms/:id/people">
+          <Header />
+          <People />
         </Route>
       </Switch>
     </Router>

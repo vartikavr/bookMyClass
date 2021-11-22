@@ -11,6 +11,8 @@ router.post("/join", isLoggedIn, isVerified, classrooms.joinClassroom);
 
 router.get("/:id", isLoggedIn, isVerified, classrooms.specificClassroom);
 
+router.post("/:id/invite", isLoggedIn, isVerified, classrooms.sendInvite);
+
 router.delete(
   "/:id/delete",
   isLoggedIn,

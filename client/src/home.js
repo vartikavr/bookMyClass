@@ -99,6 +99,24 @@ const Home = () => {
           </div>
           <div className="row">
             <div
+              class="col-md-6 col-lg-3 d-flex align-items-stretch"
+              data-aos="zoom-in"
+              data-aos-delay="400"
+            >
+              <div class="icon-box">
+                <div class="icon">
+                  <i class="bx bx-checkbox-checked"></i>
+                </div>
+                <h4 class={styles.h4} style={{ color: "#eb5d1e" }}>
+                  Create classrooms
+                </h4>
+                <p class="description">
+                  Create classrooms of your own as their teacher and invite
+                  relevant students in them.
+                </p>
+              </div>
+            </div>
+            <div
               className="col-md-6 col-lg-3 d-flex align-items-stretch"
               data-aos="zoom-in"
               data-aos-delay="100"
@@ -149,24 +167,6 @@ const Home = () => {
                 <p className="description">
                   Book a seat for yourself from the given available seats for a
                   particular class.
-                </p>
-              </div>
-            </div>
-            <div
-              class="col-md-6 col-lg-3 d-flex align-items-stretch"
-              data-aos="zoom-in"
-              data-aos-delay="400"
-            >
-              <div class="icon-box">
-                <div class="icon">
-                  <i class="bx bx-checkbox-checked"></i>
-                </div>
-                <h4 class={styles.h4} style={{ color: "#eb5d1e" }}>
-                  Know about your booking status
-                </h4>
-                <p class="description">
-                  You can check if your booking for a particular in-person class
-                  has been confirmed or not.
                 </p>
               </div>
             </div>
