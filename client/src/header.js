@@ -91,6 +91,14 @@ const Header = () => {
               )}
               {localStorage.getItem("isLoggedIn") && (
                 <a
+                  className={`nav-item ${url == "/class" ? " active" : ""}`}
+                  href="/class"
+                >
+                  My Bookings
+                </a>
+              )}
+              {localStorage.getItem("isLoggedIn") && (
+                <a
                   className={`nav-item ${url == "/logout" ? " active" : ""}`}
                   onClick={handleLogout}
                   style={{ cursor: "pointer" }}

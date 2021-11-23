@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const users = require("../controllers/users");
-const { isLoggedIn, isVerified } = require("../middleware");
+const { isLoggedIn } = require("../middleware");
 
 router.post("/register", users.registerUser);
 

@@ -3,8 +3,8 @@ const Classroom = require("../schemas/classroom");
 const Class = require("../schemas/class");
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
+const schedule = require("node-schedule");
 require("dotenv").config();
-const jwt = require("jsonwebtoken");
 
 module.exports.getMyClassrooms = async (req, res) => {
   try {
@@ -164,7 +164,7 @@ module.exports.deleteClassroom = async (req, res) => {
     }
   } catch (e) {
     console.log("error", e);
-    return res.status(400).send({ error: "error in showing classroom" });
+    return res.status(400).send({ error: "error in deleting classroom" });
   }
 };
 
@@ -173,24 +173,100 @@ module.exports.addNewClass = async (req, res) => {
     const classroomId = req.params.id;
     const currentClassroom = await Classroom.findById(classroomId);
     console.log(currentClassroom);
-    const newClass = new Class({
-      title: req.body.title,
-      date: req.body.date,
-      startTime: req.body.startTime,
-      endTime: req.body.endTime,
-    });
-    newClass.classroom = currentClassroom._id;
-    if (req.body.seats != "") {
-      newClass.availableSeats = req.body.seats;
+    if (currentClassroom.teacher.toString() == currentUser.toString()) {
+      const newClass = new Class({
+        title: req.body.title,
+        date: req.body.date,
+        startTime: req.body.startTime,
+        endTime: req.body.endTime,
+      });
+      newClass.classroom = currentClassroom._id;
+      if (req.body.seats != "") {
+        newClass.availableSeats = req.body.seats;
+      }
+      await newClass.save();
+      currentClassroom.classes.push(newClass._id);
+      await currentClassroom.save();
+      //set reminder email for this class (for the teacher)
+      const stringDate =
+        newClass.date.toISOString().split("T")[0] +
+        " " +
+        newClass.startTime +
+        ":00";
+      const classDate = new Date(stringDate);
+      console.log("classDate", classDate);
+      var milliseconds = classDate.getTime();
+      milliseconds = milliseconds - 60 * 60 * 1000; //60mins ago
+      var reminderDate = new Date(milliseconds);
+      console.log("reminderDate", reminderDate);
+      const year = reminderDate.getFullYear();
+      const month = reminderDate.getMonth();
+      const newDate = reminderDate.getDate();
+      const hours = reminderDate.getHours();
+      const mins = reminderDate.getMinutes();
+      console.log(year, month, newDate, hours, mins);
+      reminderDate = new Date(year, month, newDate, hours, mins, 0);
+      //mail options
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: process.env.ADMIN_EMAIL,
+          pass: process.env.ADMIN_PWD,
+        },
+      });
+      const teacher = await User.findById(currentClassroom.teacher);
+      const mailOptions = {
+        from: process.env.ADMIN_EMAIL,
+        to: teacher.email,
+        subject: "[Reminder] Book My Class - Your class starts in 1 hour!",
+        html: `<h4>Greetings from Book My Class!</h4>
+        <p>This is to remind you, that your class, <b>${
+          newClass.title
+        }</b>, scheduled on <b>${String(newClass.date).substring(
+          0,
+          3
+        )}, ${String(newClass.date).substring(
+          4,
+          15
+        )}</b>, starts in 1 hour! The details of this class are listed below.</p>
+        <p><b>Course: </b>${currentClassroom.classname} - Section ${
+          currentClassroom.section
+        }</p>
+        <p><b>Subject: </b>${currentClassroom.subject}</p>
+        <p><b>Timings: </b>${newClass.startTime} to ${
+          newClass.endTime
+        } (IST)</p>
+        <h4>Happy learning!</h4> 
+        `,
+      };
+      //job name => teacher id+class id
+      // console.log("...", teacher._id.toString() + newClass._id.toString());
+      const job = schedule.scheduleJob(reminderDate, function () {
+        //scheduling to send an email later
+        transporter.sendMail(mailOptions, (error, info) => {
+          if (error) {
+            console.log("error in sending mail..", error);
+            return res.status(403).send({ error: "error in sending mail" });
+          } else {
+            console.log("Email sent: ", info.response);
+            return res.status(200).send({ success: "Email sent" });
+          }
+        });
+      });
+      // var myJob = schedule.scheduledJobs["619b328829d861e7a76601c7"];
+      // console.log(
+      //   ",,,,,,",
+      //   teacher._id.toString() + "619ccccae03adeadd7a8f95e"
+      // );
+      // myJob.cancel();
+      return res
+        .status(200)
+        .send({ success: "successfully created a new class!" });
+    } else {
+      return res.status(400).send({ isClassroomTeacher: false });
     }
-    await newClass.save();
-    currentClassroom.classes.push(newClass._id);
-    await currentClassroom.save();
-    return res
-      .status(200)
-      .send({ success: "successfully created a new class!" });
   } catch (e) {
     console.log("error", e);
-    return res.status(400).send({ error: "error in showing classroom" });
+    return res.status(400).send({ error: "error in creating class" });
   }
 };

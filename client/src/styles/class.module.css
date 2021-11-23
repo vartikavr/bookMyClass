@@ -24,49 +24,83 @@
 
 /* Position the front and back side */
 .flipCardFront,
-.flipCardBack {
+.flipCardBack,
+.flipCardBackBooking,
+.flipCardFrontBooking {
   position: absolute;
   width: 100%;
-  height: 24vh;
   border-radius: 20px;
   -webkit-backface-visibility: hidden; /* Safari */
   backface-visibility: hidden;
 }
 
+.flipCardFront,
+.flipCardBack {
+  height: 24vh;
+}
+
+.flipCardFrontBooking,
+.flipCardBackBooking {
+  height: 30vh;
+}
+
 /* Style the front side (fallback if image is missing) */
-.flipCardFront {
+.flipCardFront,
+.flipCardFrontBooking {
   background-color: #fef8f5;
   color: black;
   border: 1px solid #ef7f4d;
-  padding-top: 2.5em;
   padding-left: 1.2em;
   padding-right: 1.2em;
 }
 
-.flipCardFront h4 {
+.flipCardFront {
+  padding-top: 2.5em;
+}
+
+.flipCardFrontBooking {
+  padding-top: 3.5em;
+}
+.flipCardFront h4,
+.flipCardFrontBooking h4 {
   color: black;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
 }
 /* Style the back side */
-.flipCardBack {
+.flipCardBack,
+.flipCardBackBooking {
   background-color: #f88138;
   color: white;
   transform: rotateY(180deg);
   padding-top: 1em;
 }
 
-.flipCardBack button {
+.flipCardBack button,
+.flipCardBackBooking button {
   border-radius: 15px;
   background-color: transparent;
   border: 1px solid #fff;
   color: #fff;
-  font-size: 1.3em;
   padding: 2px 12px;
 }
 
-.flipCardBack button:hover {
+.flipCardBack button {
+  font-size: 1.3em;
+}
+
+.flipCardBackBooking button {
+  font-size: 1em;
+}
+
+.flipCardBackBooking .cancelBtn {
+  margin-inline-start: 1.6em;
+  margin-inline-end: 1.6em;
+}
+
+.flipCardBack button:hover,
+.flipCardBackBooking button {
   background-color: #fff;
   color: #f88138;
   transform: translateY(-1px);

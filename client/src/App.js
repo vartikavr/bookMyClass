@@ -9,6 +9,10 @@ import NewClassroom from "./views/classroom/newClassroom";
 import ShowClassroom from "./views/classroom/showClassroom";
 import NewClass from "./views/class/newClass";
 import People from "./views/classroom/people";
+import ViewSeats from "./views/class/viewSeats";
+import Profile from "./views/user/profile";
+import MyClasses from "./views/class/myClasses";
+import NotFound from "./notFound";
 
 function App() {
   return (
@@ -34,6 +38,10 @@ function App() {
           <Header />
           <Classrooms />
         </Route>
+        <Route exact path="/class">
+          <Header />
+          <MyClasses />
+        </Route>
         <Route exact path="/classrooms/new">
           <Header />
           <NewClassroom />
@@ -50,6 +58,15 @@ function App() {
           <Header />
           <People />
         </Route>
+        <Route exact path="/class/:id/seats">
+          <Header />
+          <ViewSeats />
+        </Route>
+        <Route exact path="/profile">
+          <Header />
+          <Profile />
+        </Route>
+        <Route component={NotFound} />
       </Switch>
     </Router>
   );

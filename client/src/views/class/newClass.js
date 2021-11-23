@@ -35,13 +35,26 @@ const NewClass = () => {
         axiosConfig
       )
       .then((res) => {
-        console.log("class added");
+        console.log("class added", res);
         toast.success("New class scheduled!");
         history.push(`/classrooms/${classroomId}`);
       })
-      .catch((res, e) => {
-        toast.error("Invalid entry. Please try again!");
-        console.log("error in client", e);
+      .catch((e) => {
+        if (e.response.data.isLoggedIn == false) {
+          toast.error("Error occured! User not logged in.");
+          history.push("/login");
+        } else if (e.response.data.isVerified == false) {
+          toast.error("Error occured! Confirm your email id to continue.");
+          history.push("/");
+        } else if (e.response.data.isClassroomTeacher == false) {
+          toast.error(
+            "An error occured! Only the classroom's teacher can create new classes."
+          );
+          history.push("/classrooms");
+        } else {
+          toast.error("Invalid entry. Please try again!");
+          console.log("error in client", e);
+        }
       });
   };
 
@@ -93,6 +106,7 @@ const NewClass = () => {
                         onChange={(event) => setDate(event.target.value)}
                       />
                     </div>
+                    <label className="mb-2">Start and End time in IST :</label>
                     <div className="time mb-3">
                       <input
                         className="form-control"
@@ -100,7 +114,7 @@ const NewClass = () => {
                         id="startTime"
                         name="startTime"
                         placeholder="Start Time"
-                        title="Enter start time"
+                        title="Enter start time in IST"
                         required
                         value={startTime}
                         onChange={(event) => setStartTime(event.target.value)}
@@ -114,7 +128,7 @@ const NewClass = () => {
                         id="endTime"
                         name="endTime"
                         placeholder="End Time"
-                        title="Enter end time"
+                        title="Enter end time in IST"
                         required
                         value={endTime}
                         onChange={(event) => setEndTime(event.target.value)}
@@ -126,6 +140,7 @@ const NewClass = () => {
                         type="text"
                         id="seats"
                         name="seats"
+                        title="Enter total no. of in-person seats"
                         placeholder="in-person seats (optional)"
                         value={seats}
                         onChange={(event) => setSeats(event.target.value)}

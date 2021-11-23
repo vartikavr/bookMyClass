@@ -25,12 +25,6 @@ const classSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Classroom",
   },
-  // students: [
-  //   {
-  //     type: mongoose.Schema.Types.ObjectId,
-  //     ref: "User",
-  //   },
-  // ],
 });
 
 module.exports = mongoose.model("Class", classSchema);

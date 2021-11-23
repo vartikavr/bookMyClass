@@ -41,3 +41,22 @@
   background: #f88138;
   color: #fff;
 }
+
+.viewSeats {
+  background-color: #fef8f5;
+  font-family: "Raleway", sans-serif;
+}
+
+.viewSeats .inPerson {
+  background-color: inherit;
+  border-radius: 10px;
+  border: 1px solid green;
+  color: green;
+}
+
+.viewSeats .remote {
+  background-color: inherit;
+  border-radius: 10px;
+  border: 1px solid red;
+  color: red;
+}

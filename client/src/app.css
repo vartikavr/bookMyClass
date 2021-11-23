@@ -390,7 +390,8 @@
 }
 .services .icon i,
 .myClassrooms .icon i,
-.showClassroom .icon i {
+.showClassroom .icon i,
+.myClasses .icon i {
   font-size: 48px;
   line-height: 1;
   margin-bottom: 15px;
@@ -909,7 +910,9 @@
 
 /*------classrooms----*/
 .myClassrooms,
-.showClassroom {
+.showClassroom,
+.myClasses,
+.notFound {
   padding-top: 2em;
   background-color: #fef8f5;
 }
@@ -1107,4 +1110,48 @@
 }
 .resetPassword .btn:hover {
   transform: translateY(-2px);
+}
+
+/*-------myClasses------*/
+.myClasses {
+  margin-bottom: 4em;
+}
+.myClasses .btn-group {
+  margin-left: 20em;
+}
+
+@media (min-width: 1000px) and (max-width: 1400px) {
+  .myClasses .btn-group {
+    margin-left: 8em;
+  }
+}
+
+@media (min-width: 800px) and (max-width: 1000px) {
+  .myClasses .btn-group {
+    margin-left: 5em;
+  }
+}
+
+@media (max-width: 800px) {
+  .myClasses .btn-group {
+    margin-left: 2em;
+  }
+}
+.myClasses .btn-group button {
+  padding: 0.5em 2em;
+  border-radius: 0;
+  background-color: transparent;
+  border: 1px solid #f88138;
+  color: #f88138;
+  box-shadow: none;
+}
+
+.myClasses .btn-group button:hover {
+  transform: translateY(-1px);
+}
+
+.myClasses .btn-group .selected {
+  background-color: #f88138;
+  border: 1px solid #f88138;
+  color: #fff;
 }

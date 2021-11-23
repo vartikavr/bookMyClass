@@ -7,6 +7,8 @@ const {
   isQualifiedForBooking,
 } = require("../middleware");
 
+router.post("/", isLoggedIn, isVerified, classes.viewMyClasses);
+
 router.get(
   "/:id/book",
   isLoggedIn,
@@ -14,6 +16,10 @@ router.get(
   isQualifiedForBooking,
   classes.bookClass
 );
+
+router.get("/:id/cancel", isLoggedIn, isVerified, classes.cancelBooking);
+
+router.get("/:id/seats", isLoggedIn, isVerified, classes.viewSeats);
 
 router.delete("/:id/delete", isLoggedIn, isVerified, classes.deleteClass);
 

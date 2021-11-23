@@ -86,7 +86,7 @@ module.exports.loginUser = async (req, res) => {
     return res.status(200).send({ sucess: "logged in!" });
   } else {
     console.log("email not found");
-    return res.status(403).send({ error: "invalid" });
+    return res.status(403).send({ error: "login unsuccessful" });
   }
 };
 
@@ -146,7 +146,7 @@ module.exports.confirmResetPassword = async (req, res) => {
     console.log("result = ", result);
     const user = await User.findById(result.userId);
     const newPassword = req.body.newPassword;
-    const isOldPassword = await bcrypt.compare(newPassword, user.password);
+    const isOldPassword = await user.comparePassword(newPassword);
     if (!isOldPassword) {
       const confirmPassword = req.body.confirmPassword;
       if (confirmPassword == newPassword) {

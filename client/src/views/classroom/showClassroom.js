@@ -135,6 +135,10 @@ const ShowClassroom = () => {
           toast.error(
             "Student needs to be either under 18 age or fully vaccinated to book an in-person class!"
           );
+        } else if (e.response.data.isSeatLeft == false) {
+          toast.error("Sorry, all available seats are booked!");
+        } else if (e.response.data.isClassroomMember == false) {
+          toast.error("You've not joined this classroom yet!");
         } else {
           toast.error("An error occured while booking. Try again!");
         }
@@ -274,7 +278,7 @@ const ShowClassroom = () => {
               <div className="row">
                 {classroom.classes.length > 0 ? (
                   classroom.classes.map((currentClass) => (
-                    <div className="col-lg-6 col-xl-4 d-flex align-items">
+                    <div className="col-lg-6 col-xl-4 offset-2 offset-lg-0 d-flex align-items">
                       <div class={styles.flipCard} title={currentClass.title}>
                         <div class={styles.flipCardInner}>
                           <div class={styles.flipCardFront}>
@@ -301,7 +305,7 @@ const ShowClassroom = () => {
                                 currentClass._id
                               ) && (
                                 <button
-                                  title=""
+                                  title="Book seat for in-person class"
                                   id={currentClass._id}
                                   onClick={handleSeatBooking}
                                 >
@@ -328,13 +332,13 @@ const ShowClassroom = () => {
                                 </button>
                                 <button title="">
                                   <Link
-                                    to="/"
+                                    to={`/class/${currentClass._id}/seats`}
                                     style={{
                                       textDecoration: "none",
                                       color: "inherit",
                                     }}
                                   >
-                                    Seats
+                                    Roster
                                   </Link>
                                 </button>
                               </div>
