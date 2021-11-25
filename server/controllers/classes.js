@@ -12,8 +12,17 @@ module.exports.viewMyClasses = async (req, res) => {
       options: { sort: { date: 1, startTime: 1 } },
     });
     // console.log(user);
-    var currentDate = new Date();
-    currentDate = currentDate.toISOString().split("T")[0];
+    var date = new Date();
+    var month = date.getMonth() + 1;
+    if (month < 10) {
+      month = "0" + month;
+    }
+    var dateToday = date.getDate();
+    if (dateToday < 10) {
+      dateToday = "0" + dateToday;
+    }
+    const currentDate = date.getFullYear() + "-" + month + "-" + dateToday;
+    // currentDate = currentDate.toISOString().split("T")[0];
     var filteredClasses = [];
     if (req.body.selected == "expired") {
       for (const index in user.classes) {
@@ -109,8 +118,10 @@ module.exports.bookClass = async (req, res) => {
         <h4>Happy learning!</h4> 
         `,
         };
-        //job Name => user id
-        const job = schedule.scheduleJob(reminderDate, function () {
+        //job name => user id+class id
+        const jobId = user._id.toString() + targetClass._id.toString();
+        console.log("jobId=", jobId);
+        const job = schedule.scheduleJob(jobId, reminderDate, function () {
           //scheduling to send an email later
           transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
@@ -122,6 +133,7 @@ module.exports.bookClass = async (req, res) => {
             }
           });
         });
+        console.log("all schedules=", schedule.scheduledJobs);
         return res.status(200).send({ success: "booking done!" });
       } else {
         return res.status(400).send({ isSeatLeft: false });
@@ -144,6 +156,10 @@ module.exports.cancelBooking = async (req, res) => {
     const currentClass = await Class.findById(classId);
     currentClass.availableSeats = currentClass.availableSeats + 1;
     await currentClass.save();
+    const jobId = user._id.toString() + currentClass._id.toString();
+    console.log("scheduled job=", schedule.scheduledJobs[jobId]);
+    schedule.cancelJob(jobId);
+    console.log("all schedules=", schedule.scheduledJobs);
     return res.status(200).send({ success: "booking cancelled!" });
   } catch (e) {
     console.log("error", e);
@@ -187,11 +203,23 @@ module.exports.deleteClass = async (req, res) => {
         await User.findByIdAndUpdate(users[index]._id, {
           $pull: { classes: classId },
         });
+        //cancel reminder email schedule for students who booked this class
+        const jobId =
+          users[index]._id.toString() + classToBeDeleted._id.toString();
+        console.log("scheduled job=", schedule.scheduledJobs[jobId]);
+        schedule.cancelJob(jobId);
       }
       //delete class from its classroom
       await Classroom.findByIdAndUpdate(associatedClassroom._id, {
         $pull: { classes: classId },
       });
+      //cancel reminder email schedule for teacher of this class
+      const jobIdTeacher =
+        associatedClassroom.teacher.toString() +
+        classToBeDeleted._id.toString();
+      console.log("scheduled job=", schedule.scheduledJobs[jobIdTeacher]);
+      schedule.cancelJob(jobIdTeacher);
+      console.log("all schedules=", schedule.scheduledJobs);
       //delete class
       await Class.findByIdAndDelete(classId);
       return res.status(200).send({ success: "deleted class!" });

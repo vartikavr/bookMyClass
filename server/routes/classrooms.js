@@ -13,6 +13,8 @@ router.get("/:id", isLoggedIn, isVerified, classrooms.specificClassroom);
 
 router.post("/:id/invite", isLoggedIn, isVerified, classrooms.sendInvite);
 
+router.post("/:id/edit", isLoggedIn, isVerified, classrooms.editClassroom);
+
 router.delete(
   "/:id/delete",
   isLoggedIn,

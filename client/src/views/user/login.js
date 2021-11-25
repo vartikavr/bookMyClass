@@ -68,9 +68,18 @@ const Login = () => {
         history.push("/classrooms");
         setIsPending(false);
       })
-      .catch((res, e) => {
+      .catch((e) => {
         setIsPending(false);
-        toast.error("Invalid entry. Please try again!");
+        setPassword("");
+        if (e.response.data.isAlreadyLoggedIn) {
+          toast.error("User already logged in!");
+        } else if (e.response.data.isEmailExisting) {
+          toast.error(
+            "Invalid entry! Email already registered on our website."
+          );
+        } else {
+          toast.error("Invalid entry. Please try again!");
+        }
         console.log("error in client", e);
       });
   };
@@ -99,10 +108,15 @@ const Login = () => {
         history.push("/classrooms");
         setIsPending(false);
       })
-      .catch((res, e) => {
+      .catch((e) => {
         setPassword("");
-        toast.error("Invalid email or password. Please try again!");
-        console.log(res.error, "error in client ...", e);
+        setIsPending(false);
+        if (e.response.data.isAlreadyLoggedIn) {
+          toast.error("User already logged in!");
+        } else {
+          toast.error("Invalid email or password. Please try again!");
+        }
+        console.log("error in client ...", e);
       });
   };
 
@@ -245,7 +259,14 @@ const Login = () => {
             />
             {!isPending && <button className="buttonLogin">Sign Up</button>}
             {isPending && (
-              <button className="buttonLogin disabled">Sign Up</button>
+              <button className="buttonLogin" disabled>
+                <span
+                  class="spinner-border spinner-border-sm"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+                &nbsp; Sign Up
+              </button>
             )}
           </form>
         </div>
@@ -283,7 +304,14 @@ const Login = () => {
             </a>
             {!isPending && <button className="buttonLogin">Sign In</button>}
             {isPending && (
-              <button className="buttonLogin disabled">Sign In</button>
+              <button className="buttonLogin" disabled>
+                <span
+                  class="spinner-border spinner-border-sm"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+                &nbsp; Sign In
+              </button>
             )}
           </form>
         </div>

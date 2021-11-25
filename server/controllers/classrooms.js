@@ -127,6 +127,31 @@ module.exports.sendInvite = async (req, res) => {
   }
 };
 
+module.exports.editClassroom = async (req, res) => {
+  try {
+    const classroomId = req.params.id;
+    const classroom = await Classroom.findById(classroomId);
+    if (classroom.teacher.toString() == currentUser.toString()) {
+      const updatedClassroom = await Classroom.findByIdAndUpdate(classroomId, {
+        classname: req.body.classname,
+        section: req.body.section,
+        subject: req.body.subject,
+      });
+      await updatedClassroom.save();
+      return res
+        .status(200)
+        .send({ success: "Classroom Edited successfully!" });
+    } else {
+      return res
+        .status(400)
+        .send({ error: "Error! Only teacher can edit their classroom" });
+    }
+  } catch (e) {
+    console.log("error", e);
+    return res.status(400).send({ error: "error in editing classroom!" });
+  }
+};
+
 module.exports.deleteClassroom = async (req, res) => {
   try {
     const classroomId = req.params.id;
@@ -146,12 +171,25 @@ module.exports.deleteClassroom = async (req, res) => {
         const users = await User.find({
           classes: { $in: deletedClasses[classIndex]._id },
         });
+        //cancel reminder email schedule for all the classes for teacher of this classroom
+        const jobIdTeacher =
+          classroom.teacher.toString() +
+          deletedClasses[classIndex]._id.toString();
+        console.log("scheduled job=", schedule.scheduledJobs[jobIdTeacher]);
+        schedule.cancelJob(jobIdTeacher);
         for (const index in users) {
           await User.findByIdAndUpdate(users[index]._id, {
             $pull: { classes: deletedClasses[classIndex]._id },
           });
+          //cancel reminder email schedule for students who booked this class
+          const jobId =
+            users[index]._id.toString() +
+            deletedClasses[classIndex]._id.toString();
+          console.log("scheduled job=", schedule.scheduledJobs[jobId]);
+          schedule.cancelJob(jobId);
         }
       }
+      console.log("all schedules=", schedule.scheduledJobs);
       //delete related classes
       await Class.deleteMany({ classroom: classroomId });
       //delete classroom
@@ -240,8 +278,9 @@ module.exports.addNewClass = async (req, res) => {
         `,
       };
       //job name => teacher id+class id
-      // console.log("...", teacher._id.toString() + newClass._id.toString());
-      const job = schedule.scheduleJob(reminderDate, function () {
+      const jobId = teacher._id.toString() + newClass._id.toString();
+      console.log("jobId=", jobId);
+      const job = schedule.scheduleJob(jobId, reminderDate, function () {
         //scheduling to send an email later
         transporter.sendMail(mailOptions, (error, info) => {
           if (error) {
@@ -253,12 +292,7 @@ module.exports.addNewClass = async (req, res) => {
           }
         });
       });
-      // var myJob = schedule.scheduledJobs["619b328829d861e7a76601c7"];
-      // console.log(
-      //   ",,,,,,",
-      //   teacher._id.toString() + "619ccccae03adeadd7a8f95e"
-      // );
-      // myJob.cancel();
+      console.log("all schedules=", schedule.scheduledJobs);
       return res
         .status(200)
         .send({ success: "successfully created a new class!" });

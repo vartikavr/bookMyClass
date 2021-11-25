@@ -13,6 +13,14 @@ router.post("/reset", users.resetPassword);
 
 router.post("/reset/:token", users.confirmResetPassword);
 
+router.get("/profile", isLoggedIn, users.getMyProfile);
+
+router.post("/edit", isLoggedIn, users.editDetails);
+
+router.post("/edit/email", isLoggedIn, users.changeEmail);
+
+router.delete("/delete", isLoggedIn, users.deleteProfile);
+
 router.get("/logout", users.logoutUser);
 
 module.exports = router;

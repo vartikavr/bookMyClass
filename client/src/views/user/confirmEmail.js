@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useHistory, useParams } from "react-router-dom";
+import { useState } from "react";
 import { WifiLoader } from "react-awesome-loaders";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -7,8 +8,10 @@ toast.configure();
 
 const ConfirmEmail = () => {
   const { token } = useParams();
+  const [isPending, setIsPending] = useState(false);
 
   const verifyEmail = () => {
+    setIsPending(true);
     const axiosConfig = {
       headers: {
         "Content-Type": "application/json",
@@ -20,6 +23,7 @@ const ConfirmEmail = () => {
         console.log("email confirmed");
         toast.success("Email confirmed!");
         history.push("/classrooms");
+        setIsPending(false);
       })
       .catch((e) => {
         if (e.response.data.isLoggedIn == false) {
@@ -30,6 +34,7 @@ const ConfirmEmail = () => {
           history.push("/classrooms");
         }
         console.log("error in client ...", e);
+        setIsPending(false);
       });
   };
   const history = useHistory();
@@ -44,7 +49,17 @@ const ConfirmEmail = () => {
         backColor="#E8F2FC"
         frontColor="#ff4b2b"
       />
-      <button onClick={verifyEmail}>Confirm Email</button>
+      {!isPending && <button onClick={verifyEmail}>Confirm Email</button>}
+      {isPending && (
+        <button disabled>
+          <span
+            class="spinner-border spinner-border-sm"
+            role="status"
+            aria-hidden="true"
+          ></span>
+          &nbsp;Confirm Email
+        </button>
+      )}
     </div>
   );
 };

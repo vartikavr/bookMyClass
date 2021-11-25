@@ -14,7 +14,19 @@ const MyClasses = () => {
   var selected = "all";
   const [selectedState, setSelectedState] = useState("all");
   const [isCancelled, setIsCancelled] = useState(false);
+  const [isPending, setIsPending] = useState(false);
   const history = useHistory();
+  const date = new Date();
+  var month = date.getMonth() + 1;
+  if (month < 10) {
+    month = "0" + month;
+  }
+  var dateToday = date.getDate();
+  if (dateToday < 10) {
+    dateToday = "0" + dateToday;
+  }
+  const currentDate = date.getFullYear() + "-" + month + "-" + dateToday;
+  // const currentDate = new Date().toISOString().split("T")[0];
 
   useEffect(() => {
     getClassesInfo();
@@ -70,6 +82,7 @@ const MyClasses = () => {
 
   const handleCancelBooking = (event) => {
     setIsCancelled(false);
+    setIsPending(true);
     const classId = event.target.id;
     const axiosConfig = {
       headers: {
@@ -83,6 +96,9 @@ const MyClasses = () => {
         console.log("successful cancelation!");
         toast.success("Successfully cancelled booking!");
         setIsCancelled(true);
+        setIsPending(false);
+        selected = "all";
+        setSelectedState("all");
       })
       .catch((e) => {
         if (e.response.data.isLoggedIn == false) {
@@ -96,6 +112,9 @@ const MyClasses = () => {
         }
         console.log("error in client", e);
         setIsCancelled(false);
+        setIsPending(false);
+        selected = "all";
+        setSelectedState("all");
       });
   };
 
@@ -120,7 +139,8 @@ const MyClasses = () => {
             <hr style={{ color: "black" }} />
             <h5 className="ms-2 me-2" style={{ fontWeight: "100" }}>
               Following are your booked in-person classes, sorted by date and
-              time. Classes are considered expired when their date is surpassed.
+              time. Classes are considered expired when their scheduled date is
+              surpassed.
             </h5>
             <div class="btn-group mt-4" role="group" aria-label="Basic example">
               <button
@@ -177,14 +197,46 @@ const MyClasses = () => {
                             <p title="">
                               Available seats : {currentClass.availableSeats}
                             </p>
-                            <button
-                              className={styles.cancelBtn}
-                              title=""
-                              id={currentClass._id}
-                              onClick={handleCancelBooking}
-                            >
-                              Cancel Booking
-                            </button>
+                            {currentClass.date.substring(0, 10) >=
+                              currentDate && (
+                              <div>
+                                {!isPending && (
+                                  <button
+                                    className={styles.cancelBtn}
+                                    title=""
+                                    id={currentClass._id}
+                                    onClick={handleCancelBooking}
+                                  >
+                                    Cancel Booking
+                                  </button>
+                                )}
+                                {isPending && (
+                                  <button
+                                    className={styles.cancelBtn}
+                                    title=""
+                                    id={currentClass._id}
+                                    disabled
+                                  >
+                                    <span
+                                      class="spinner-border spinner-border-sm"
+                                      role="status"
+                                      aria-hidden="true"
+                                    ></span>
+                                    &nbsp; Cancel
+                                  </button>
+                                )}
+                              </div>
+                            )}
+                            {currentClass.date.substring(0, 10) <
+                              currentDate && (
+                              <button
+                                className={styles.endedBtn}
+                                title="Class Expired"
+                                disabled
+                              >
+                                Ended
+                              </button>
+                            )}
                             <Link
                               to={`/classrooms/${currentClass.classroom._id}`}
                               style={{
@@ -192,7 +244,7 @@ const MyClasses = () => {
                                 color: "inherit",
                               }}
                             >
-                              <button className="mt-2" title="">
+                              <button className="mt-2 viewBtn" title="">
                                 View Classroom
                               </button>
                             </Link>

@@ -1,10 +1,21 @@
 const User = require("../schemas/user");
+const Class = require("../schemas/class");
+const Classroom = require("../schemas/classroom");
 const nodemailer = require("nodemailer");
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const schedule = require("node-schedule");
 
 module.exports.registerUser = async (req, res) => {
+  if (currentUser) {
+    return res.status(400).send({ isAlreadyLoggedIn: true });
+  }
+  const findEmailUser = await User.findOne({ email: req.body.email });
+  console.log(findEmailUser);
+  if (findEmailUser) {
+    return res.status(400).send({ isEmailExisting: true });
+  }
   console.log(req.body);
   const newUser = new User({
     name: req.body.name,
@@ -73,6 +84,9 @@ module.exports.confirmEmail = async (req, res) => {
 };
 
 module.exports.loginUser = async (req, res) => {
+  if (currentUser) {
+    return res.status(400).send({ isAlreadyLoggedIn: true });
+  }
   const email = req.body.email;
   const password = req.body.password;
   const checkUser = await User.findOne({ email: email });
@@ -165,11 +179,172 @@ module.exports.confirmResetPassword = async (req, res) => {
   }
 };
 
+module.exports.getMyProfile = async (req, res) => {
+  try {
+    const user = await User.findById(currentUser);
+    return res.status(200).send({ user });
+  } catch (e) {
+    console.log("error", e);
+    return res.status(400).send({ error: "error in getting user profile!" });
+  }
+};
+
+module.exports.editDetails = async (req, res) => {
+  try {
+    await User.findByIdAndUpdate(currentUser, {
+      name: req.body.name,
+      vaccineStatus: req.body.vaccineStatus,
+    });
+    return res.status(200).send({ success: "user details updated!" });
+  } catch (e) {
+    console.log("error", e);
+    return res.status(400).send({ error: "error in updating user details!" });
+  }
+};
+
+module.exports.changeEmail = async (req, res) => {
+  try {
+    const newEmail = req.body.changedEmail;
+    const user = await User.findById(currentUser);
+    if (newEmail == user.email) {
+      return res.status(400).send({ isOldEmail: true });
+    }
+    const findEmailUser = await User.findOne({ email: req.body.changedEmail });
+    console.log(findEmailUser);
+    if (findEmailUser) {
+      return res.status(400).send({ isEmailExisting: true });
+    }
+    await User.findByIdAndUpdate(currentUser, {
+      email: newEmail,
+      isVerified: false,
+    });
+    jwt.sign(
+      {
+        userId: user._id,
+      },
+      process.env.EMAIL_SECRET,
+      {
+        expiresIn: "1d",
+      },
+      (err, emailToken) => {
+        const url = `${process.env.SERVER_URI}/confirmation/${emailToken}`;
+        console.log(emailToken);
+        const transporter = nodemailer.createTransport({
+          service: "gmail",
+          auth: {
+            user: process.env.ADMIN_EMAIL,
+            pass: process.env.ADMIN_PWD,
+          },
+        });
+        const mailOptions = {
+          from: process.env.ADMIN_EMAIL,
+          to: newEmail,
+          subject: "Confirm Email for Book My Class",
+          html: `<h4>Hey ${user.name}! Please click the following link to confirm your email:</h4> 
+                      <a href="${url}">${url}</a> 
+                      `,
+        };
+        transporter.sendMail(mailOptions, (error, info) => {
+          if (error) {
+            console.log("error in sending mail..", error);
+          } else {
+            console.log("Email sent: ", info.response);
+          }
+        });
+      }
+    );
+    return res.status(200).send({ success: "Email id updated!" });
+  } catch (e) {
+    console.log("error", e);
+    return res.status(400).send({ error: "error in updating email!" });
+  }
+};
+
+module.exports.deleteProfile = async (req, res) => {
+  try {
+    const userToBeDeleted = await User.findById(currentUser);
+    //cancel schedules for booked classes by the user
+    const bookedClasses = userToBeDeleted.classes;
+    for (const bookedClassIndex in bookedClasses) {
+      const classRemove = await Class.findById(
+        bookedClasses[bookedClassIndex]._id
+      );
+      classRemove.availableSeats = classRemove.availableSeats + 1;
+      await classRemove.save();
+      const jobId =
+        userToBeDeleted._id.toString() +
+        bookedClasses[bookedClassIndex]._id.toString();
+      console.log("scheduled job=", schedule.scheduledJobs[jobId]);
+      schedule.cancelJob(jobId);
+    }
+    //remove this user from their joined classrooms
+    const joinedClassrooms = await Classroom.find({
+      students: { $in: userToBeDeleted._id },
+    });
+    for (const joinedClassroomIndex in joinedClassrooms) {
+      await Classroom.findByIdAndUpdate(
+        joinedClassrooms[joinedClassroomIndex]._id,
+        { $pull: { students: userToBeDeleted._id } }
+      );
+    }
+    //delete classrooms made by user
+    const classrooms = await Classroom.find({ teacher: currentUser });
+    for (const classroomIndex in classrooms) {
+      //delete classrooms from all the users who have joined it
+      const joinedUsers = await User.find({
+        classrooms: { $in: classrooms[classroomIndex]._id },
+      });
+      for (const usersIndex in joinedUsers) {
+        await User.findByIdAndUpdate(joinedUsers[usersIndex]._id, {
+          $pull: { classrooms: classrooms[classroomIndex]._id },
+        });
+      }
+      //delete classes of these classrooms
+      const deletedClasses = classrooms[classroomIndex].classes;
+      for (const classIndex in deletedClasses) {
+        //cancel reminder email schedule (for currentUser as it's teacher) for all these classes
+        const jobIdTeacher =
+          userToBeDeleted._id.toString() +
+          deletedClasses[classIndex]._id.toString();
+        console.log("scheduled job=", schedule.scheduledJobs[jobIdTeacher]);
+        schedule.cancelJob(jobIdTeacher);
+        //cancel reminder email schedule for students who booked these classes
+        const users = await User.find({
+          classes: { $in: deletedClasses[classIndex]._id },
+        });
+        for (const index in users) {
+          await User.findByIdAndUpdate(users[index]._id, {
+            $pull: { classes: deletedClasses[classIndex]._id },
+          });
+          const jobId =
+            users[index]._id.toString() +
+            deletedClasses[classIndex]._id.toString();
+          console.log("scheduled job=", schedule.scheduledJobs[jobId]);
+          schedule.cancelJob(jobId);
+        }
+        await Class.findByIdAndDelete(deletedClasses[classIndex]._id);
+      }
+      await Classroom.findByIdAndDelete(classrooms[classroomIndex]._id);
+    }
+    console.log("all schedules=", schedule.scheduledJobs);
+    //delete User
+    await User.findByIdAndDelete(userToBeDeleted._id);
+    //logout User
+    console.log("current user=", currentUser);
+    currentUser = null;
+    console.log("logging out..", currentUser);
+    return res.status(200).send({ success: "Profile deleted!" });
+  } catch (e) {
+    console.log("error", e);
+    return res.status(400).send({ error: "error in deleting profile!" });
+  }
+};
+
 module.exports.logoutUser = async (req, res) => {
   console.log(currentUser);
   if (currentUser) {
     currentUser = null;
-    console.log("logging out ...", req.user);
+    console.log("logging out ...", currentUser);
     res.status(200).send({ success: "Logged out!" });
   } else {
     return res.status(403).send({ error: "not logged out" });

@@ -159,8 +159,13 @@ const NewClassroom = () => {
                 </button>
               )}
               {isPending && (
-                <button type="submit" class="btn-create disabled">
-                  Submit
+                <button type="submit" class="btn-create" disabled>
+                  <span
+                    class="spinner-border spinner-border-sm"
+                    role="status"
+                    aria-hidden="true"
+                  ></span>
+                  &nbsp; Submit
                 </button>
               )}
             </form>
@@ -194,8 +199,13 @@ const NewClassroom = () => {
                 </button>
               )}
               {isPending && (
-                <button type="submit" class="btn-join disabled">
-                  Join
+                <button type="submit" class="btn-join" disabled>
+                  <span
+                    class="spinner-border spinner-border-sm"
+                    role="status"
+                    aria-hidden="true"
+                  ></span>
+                  &nbsp; Join
                 </button>
               )}
             </form>

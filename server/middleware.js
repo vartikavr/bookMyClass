@@ -19,10 +19,7 @@ module.exports.isVerified = async (req, res, next) => {
 
 module.exports.isQualifiedForBooking = async (req, res, next) => {
   const user = await User.findById(currentUser);
-  if (
-    user.vaccinationStatus == "First Dose" ||
-    user.vaccinationStatus == "NOTA"
-  ) {
+  if (user.vaccineStatus == "First Dose" || user.vaccineStatus == "NOTA") {
     console.log("not qualified for class booking");
     return res.status(403).send({ isQualifiedForBooking: false });
   }

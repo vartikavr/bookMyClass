@@ -9,10 +9,12 @@ const ResetPassword = () => {
   const { token } = useParams();
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [isPending, setIsPending] = useState(false);
   const history = useHistory();
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsPending(true);
     const axiosConfig = {
       headers: {
         "Content-Type": "application/json",
@@ -29,6 +31,7 @@ const ResetPassword = () => {
       )
       .then((res) => {
         toast.success("Password successfully changed!");
+        setIsPending(false);
         history.push("/login");
       })
       .catch((e) => {
@@ -42,6 +45,7 @@ const ResetPassword = () => {
           toast.error("Invalid entry. Please try again!");
           console.log("error in client ...", e);
         }
+        setIsPending(false);
       });
   };
 
@@ -89,15 +93,34 @@ const ResetPassword = () => {
                 />
               </div>
               <div className="d-grid mt-4">
-                <button
-                  className="btn"
-                  style={{
-                    backgroundColor: "#f88138",
-                    color: "#fff",
-                  }}
-                >
-                  Submit
-                </button>
+                {!isPending && (
+                  <button
+                    className="btn"
+                    style={{
+                      backgroundColor: "#f88138",
+                      color: "#fff",
+                    }}
+                  >
+                    Submit
+                  </button>
+                )}
+                {isPending && (
+                  <button
+                    className="btn"
+                    disabled
+                    style={{
+                      backgroundColor: "#f88138",
+                      color: "#fff",
+                    }}
+                  >
+                    <span
+                      class="spinner-border spinner-border-sm"
+                      role="status"
+                      aria-hidden="true"
+                    ></span>
+                    &nbsp; Submit
+                  </button>
+                )}
               </div>
             </form>
           </div>

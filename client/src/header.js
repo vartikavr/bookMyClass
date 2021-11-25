@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 toast.configure();
@@ -44,9 +44,9 @@ const Header = () => {
     <div className="Header">
       <nav className="navbar sticky-top navbar-expand-lg navbar-dark navbar-bg-header">
         <div className="container-fluid">
-          <a className="navbar-brand" href="/">
+          <Link className="navbar-brand" to="/">
             BookMyClass
-          </a>
+          </Link>
           <button
             className="navbar-toggler"
             type="button"
@@ -60,51 +60,59 @@ const Header = () => {
           </button>
           <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div className="navbar-nav">
-              <a
+              <Link
                 className={`nav-item ${url == "/" ? " active" : ""}`}
                 aria-current="page"
-                href="/"
+                to="/"
               >
                 Home
-              </a>
+              </Link>
             </div>
             <div className="navbar-nav ms-auto">
               {!localStorage.getItem("isLoggedIn") && (
-                <a
+                <Link
                   className={`nav-item d-block ${
                     url == "/login" ? " active" : ""
                   }`}
-                  href="/login"
+                  to="/login"
                 >
                   SignUp/SignIn
-                </a>
+                </Link>
               )}
               {localStorage.getItem("isLoggedIn") && (
-                <a
+                <Link
                   className={`nav-item ${
                     url == "/classrooms" ? " active" : ""
                   }`}
-                  href="/classrooms"
+                  to="/classrooms"
                 >
                   My Classrooms
-                </a>
+                </Link>
               )}
               {localStorage.getItem("isLoggedIn") && (
-                <a
+                <Link
                   className={`nav-item ${url == "/class" ? " active" : ""}`}
-                  href="/class"
+                  to="/class"
                 >
                   My Bookings
-                </a>
+                </Link>
               )}
               {localStorage.getItem("isLoggedIn") && (
-                <a
+                <Link
+                  className={`nav-item ${url == "/profile" ? " active" : ""}`}
+                  to="/profile"
+                >
+                  My Profile
+                </Link>
+              )}
+              {localStorage.getItem("isLoggedIn") && (
+                <Link
                   className={`nav-item ${url == "/logout" ? " active" : ""}`}
                   onClick={handleLogout}
                   style={{ cursor: "pointer" }}
                 >
                   Logout
-                </a>
+                </Link>
               )}
             </div>
           </div>

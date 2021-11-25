@@ -12,11 +12,23 @@ const NewClass = () => {
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [seats, setSeats] = useState("");
+  const [isPending, setIsPending] = useState("");
   const history = useHistory();
+  const getDate = new Date();
+  var month = getDate.getMonth() + 1;
+  if (month < 10) {
+    month = "0" + month;
+  }
+  var dateToday = getDate.getDate();
+  if (dateToday < 10) {
+    dateToday = "0" + dateToday;
+  }
+  const currentDate = getDate.getFullYear() + "-" + month + "-" + dateToday;
+  // const currentDate = new Date().toISOString().split("T")[0];
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    setIsPending(true);
     const axiosConfig = {
       headers: {
         "Content-Type": "application/json",
@@ -38,6 +50,7 @@ const NewClass = () => {
         console.log("class added", res);
         toast.success("New class scheduled!");
         history.push(`/classrooms/${classroomId}`);
+        setIsPending(false);
       })
       .catch((e) => {
         if (e.response.data.isLoggedIn == false) {
@@ -55,6 +68,7 @@ const NewClass = () => {
           toast.error("Invalid entry. Please try again!");
           console.log("error in client", e);
         }
+        setIsPending(false);
       });
   };
 
@@ -101,6 +115,7 @@ const NewClass = () => {
                         name="date"
                         placeholder="Date"
                         title="Enter date"
+                        min={currentDate}
                         required
                         value={date}
                         onChange={(event) => setDate(event.target.value)}
@@ -147,9 +162,21 @@ const NewClass = () => {
                       />
                     </div>
                     <div className="d-grid">
-                      <button className="btn btn-block mt-2 mb-4">
-                        Submit
-                      </button>
+                      {!isPending && (
+                        <button className="btn btn-block mt-2 mb-4">
+                          Submit
+                        </button>
+                      )}
+                      {isPending && (
+                        <button className="btn btn-block mt-2 mb-4" disabled>
+                          <span
+                            class="spinner-border spinner-border-sm"
+                            role="status"
+                            aria-hidden="true"
+                          ></span>
+                          &nbsp;Submit
+                        </button>
+                      )}
                     </div>
                   </form>
                 </div>

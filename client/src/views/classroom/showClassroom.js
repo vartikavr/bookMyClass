@@ -11,15 +11,32 @@ toast.configure();
 const ShowClassroom = () => {
   const { id: classroomId } = useParams();
   const [classroom, setClassroom] = useState([]);
+  const [classname, setClassname] = useState("");
+  const [subject, setSubject] = useState("");
+  const [section, setSection] = useState("");
   const [endPending, setEndPending] = useState(false);
   const [currentUser, setCurrentUser] = useState("");
   const [isBooked, setIsBooked] = useState(false);
   const [isClassDeleted, setIsClassDeleted] = useState(false);
+  const [isEdited, setIsEdited] = useState(false);
+  const [isClassroomDeleted, setIsClassroomDeleted] = useState(false);
+  const [isPendingBtn, setIsPendingBtn] = useState(false);
   const history = useHistory();
+  const date = new Date();
+  var month = date.getMonth() + 1;
+  if (month < 10) {
+    month = "0" + month;
+  }
+  var dateToday = date.getDate();
+  if (dateToday < 10) {
+    dateToday = "0" + dateToday;
+  }
+  const currentDate = date.getFullYear() + "-" + month + "-" + dateToday;
+  // const currentDate = new Date().toISOString().split("T")[0];
 
   useEffect(() => {
     getClassroomInfo();
-  }, [isBooked, isClassDeleted]);
+  }, [isBooked, isClassDeleted, isEdited]);
 
   const getClassroomInfo = () => {
     setEndPending(false);
@@ -33,6 +50,9 @@ const ShowClassroom = () => {
       .then((res) => {
         console.log(res.data);
         setClassroom(res.data.currentClassroom);
+        setClassname(res.data.currentClassroom.classname);
+        setSection(res.data.currentClassroom.section);
+        setSubject(res.data.currentClassroom.subject);
         setCurrentUser(res.data.user);
         console.log(classroom, "successful seed!");
         setEndPending(true);
@@ -53,6 +73,7 @@ const ShowClassroom = () => {
   };
 
   const handleDeleteClassroom = () => {
+    setIsClassroomDeleted(true);
     const axiosConfig = {
       headers: {
         "Content-Type": "application/json",
@@ -64,6 +85,7 @@ const ShowClassroom = () => {
         console.log("successfully deleted classroom!");
         toast.success("Successfully deleted a classroom!");
         history.push("/classrooms");
+        setIsClassroomDeleted(false);
       })
       .catch((e) => {
         if (e.response.data.isLoggedIn == false) {
@@ -75,6 +97,7 @@ const ShowClassroom = () => {
         } else {
           toast.error("An error occured. Try again!");
         }
+        setIsClassroomDeleted(false);
         console.log("error in client", e);
       });
   };
@@ -82,6 +105,7 @@ const ShowClassroom = () => {
   const handleDeleteClass = (event) => {
     const classId = event.target.id;
     setIsClassDeleted(false);
+    setIsPendingBtn(true);
     const axiosConfig = {
       headers: {
         "Content-Type": "application/json",
@@ -93,6 +117,7 @@ const ShowClassroom = () => {
         console.log("successfully deleted class!");
         toast.success("Successfully deleted a class!");
         setIsClassDeleted(true);
+        setIsPendingBtn(false);
       })
       .catch((e) => {
         if (e.response.data.isLoggedIn == false) {
@@ -105,6 +130,7 @@ const ShowClassroom = () => {
           toast.error("An error occured. Try again!");
         }
         setIsClassDeleted(false);
+        setIsPendingBtn(false);
         console.log("error in client", e);
       });
   };
@@ -112,6 +138,7 @@ const ShowClassroom = () => {
   const handleSeatBooking = (event) => {
     const classId = event.target.id;
     setIsBooked(false);
+    setIsPendingBtn(true);
     const axiosConfig = {
       headers: {
         "Content-Type": "application/json",
@@ -123,6 +150,7 @@ const ShowClassroom = () => {
         console.log("successfully booked class!");
         toast.success("Successfully booked the class!");
         setIsBooked(true);
+        setIsPendingBtn(false);
       })
       .catch((e) => {
         if (e.response.data.isLoggedIn == false) {
@@ -144,8 +172,47 @@ const ShowClassroom = () => {
         }
         console.log("error in client", e);
         setIsBooked(false);
+        setIsPendingBtn(false);
       });
   };
+
+  const handleEditClassroom = () => {
+    setIsEdited(false);
+    const axiosConfig = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    axios
+      .post(
+        `/classrooms/${classroom._id}/edit`,
+        {
+          classname: classname,
+          subject: subject,
+          section: section,
+        },
+        axiosConfig
+      )
+      .then((res) => {
+        console.log("successfully edited classroom!");
+        toast.success("Successfully edited the classroom details!");
+        setIsEdited(true);
+      })
+      .catch((e) => {
+        if (e.response.data.isLoggedIn == false) {
+          toast.error("Error occured! User not logged in.");
+          history.push("/login");
+        } else if (e.response.data.isVerified == false) {
+          toast.error("Error occured! Confirm your email id to continue.");
+          history.push("/");
+        } else {
+          toast.error("An error occured. Try again!");
+        }
+        console.log("error in client", e);
+        setIsEdited(false);
+      });
+  };
+
   const openDropdown = () => {
     let menuContent = document.querySelector(".menu-content");
     if (menuContent.style.display === "") {
@@ -167,16 +234,16 @@ const ShowClassroom = () => {
     <div className="showClassroom mb-4">
       <div
         class="modal fade"
-        id="exampleModalCenter"
+        id="codeModalCenter"
         tabindex="-1"
         role="dialog"
-        aria-labelledby="exampleModalCenterTitle"
+        aria-labelledby="codeModalCenterTitle"
         aria-hidden="true"
       >
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLongTitle">
+              <h5 class="modal-title" id="codeModalLongTitle">
                 Classroom Code
               </h5>
               <button
@@ -198,6 +265,95 @@ const ShowClassroom = () => {
                 data-dismiss="modal"
               >
                 Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="modal fade"
+        id="editModalCenter"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="editModalCenterTitle"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="editModalLongTitle">
+                Edit Classroom Details
+              </h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div className="mb-2">
+                  <label className="form-label">
+                    <b>Class:</b>
+                  </label>
+                  <input
+                    style={{ outline: "none", width: "70%" }}
+                    className="ms-2"
+                    id="class"
+                    type="text"
+                    name="class"
+                    value={classname}
+                    onChange={(event) => setClassname(event.target.value)}
+                  />
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">
+                    <b>Section:</b>
+                  </label>
+                  <input
+                    style={{ outline: "none", width: "70%" }}
+                    className="ms-2"
+                    id="section"
+                    type="text"
+                    name="section"
+                    value={section}
+                    onChange={(event) => setSection(event.target.value)}
+                  />
+                </div>
+                <div className="mb-2">
+                  <label className="form-label">
+                    <b>Subject:</b>
+                  </label>
+                  <input
+                    style={{ outline: "none", width: "70%" }}
+                    className="ms-2"
+                    id="subject"
+                    type="text"
+                    name="subject"
+                    value={subject}
+                    onChange={(event) => setSubject(event.target.value)}
+                  />
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-dismiss="modal"
+                onClick={handleEditClassroom}
+              >
+                Edit
               </button>
             </div>
           </div>
@@ -242,21 +398,41 @@ const ShowClassroom = () => {
                       <button
                         class="links"
                         data-toggle="modal"
-                        data-target="#exampleModalCenter"
+                        data-target="#codeModalCenter"
                       >
                         Classroom Code
                       </button>
                     )}
                     {currentUser._id == classroom.teacher && (
                       <button
-                        class="links delete"
-                        onClick={handleDeleteClassroom}
+                        class="links"
+                        data-toggle="modal"
+                        data-target="#editModalCenter"
                       >
-                        Delete
+                        Edit
                       </button>
                     )}
+                    {currentUser._id == classroom.teacher && (
+                      <div>
+                        {!isClassroomDeleted && (
+                          <button class="links" onClick={handleDeleteClassroom}>
+                            Delete
+                          </button>
+                        )}
+                        {isClassroomDeleted && (
+                          <button class="links" disabled>
+                            <span
+                              class="spinner-border spinner-border-sm"
+                              role="status"
+                              aria-hidden="true"
+                            ></span>
+                            &nbsp; Delete
+                          </button>
+                        )}
+                      </div>
+                    )}
                     <button
-                      class="links people"
+                      class="links"
                       to={`/classsrooms/${classroom._id}/people`}
                       onClick={redirectToPeople}
                     >
@@ -295,41 +471,89 @@ const ShowClassroom = () => {
                             </h5>
                             <p className="time mb-2" title="">
                               Time : {currentClass.startTime} to{" "}
-                              {currentClass.endTime}
+                              {currentClass.endTime} (IST)
                             </p>
                             <p title="">
                               Available seats : {currentClass.availableSeats}
                             </p>
                             {classroom.teacher != currentUser._id &&
-                              !currentUser.classes.includes(
-                                currentClass._id
-                              ) && (
+                              !currentUser.classes.includes(currentClass._id) &&
+                              currentClass.date.substring(0, 10) >=
+                                currentDate && (
+                                <div className="div">
+                                  {!isPendingBtn && (
+                                    <button
+                                      title="Book seat for in-person class"
+                                      id={currentClass._id}
+                                      onClick={handleSeatBooking}
+                                    >
+                                      Book seat
+                                    </button>
+                                  )}
+                                  {isPendingBtn && (
+                                    <button
+                                      title=""
+                                      id={currentClass._id}
+                                      disabled
+                                    >
+                                      <span
+                                        class="spinner-border spinner-border-sm"
+                                        role="status"
+                                        aria-hidden="true"
+                                      ></span>
+                                      &nbsp; Booking..
+                                    </button>
+                                  )}
+                                </div>
+                              )}
+                            {classroom.teacher != currentUser._id &&
+                              currentUser.classes.includes(currentClass._id) &&
+                              currentClass.date.substring(0, 10) >=
+                                currentDate && (
                                 <button
-                                  title="Book seat for in-person class"
-                                  id={currentClass._id}
-                                  onClick={handleSeatBooking}
+                                  className="btn disabled"
+                                  title="Class Booked"
                                 >
-                                  Book seat
+                                  Booked
                                 </button>
                               )}
                             {classroom.teacher != currentUser._id &&
-                              currentUser.classes.includes(
-                                currentClass._id
-                              ) && (
-                                <button className="btn disabled" title="">
-                                  Booked
+                              currentClass.date.substring(0, 10) <
+                                currentDate && (
+                                <button
+                                  className="btn disabled"
+                                  title="Class Expired"
+                                >
+                                  Ended
                                 </button>
                               )}
                             {classroom.teacher == currentUser._id && (
                               <div className="teacherButtons">
-                                <button
-                                  className="me-3"
-                                  title=""
-                                  id={currentClass._id}
-                                  onClick={handleDeleteClass}
-                                >
-                                  Delete
-                                </button>
+                                {!isPendingBtn && (
+                                  <button
+                                    className="me-3"
+                                    title=""
+                                    id={currentClass._id}
+                                    onClick={handleDeleteClass}
+                                  >
+                                    Delete
+                                  </button>
+                                )}
+                                {isPendingBtn && (
+                                  <button
+                                    className="me-3"
+                                    title=""
+                                    id={currentClass._id}
+                                    disabled
+                                  >
+                                    <span
+                                      class="spinner-border spinner-border-sm"
+                                      role="status"
+                                      aria-hidden="true"
+                                    ></span>
+                                    &nbsp;Delete
+                                  </button>
+                                )}
                                 <button title="">
                                   <Link
                                     to={`/class/${currentClass._id}/seats`}
