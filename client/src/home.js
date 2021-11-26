@@ -1,4 +1,5 @@
 import styles from "./styles/home.module.css";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
@@ -112,7 +113,7 @@ const Home = () => {
                 </h4>
                 <p class="description">
                   Create classrooms of your own as their teacher and invite
-                  relevant students in them.
+                  related students in them.
                 </p>
               </div>
             </div>
@@ -130,7 +131,7 @@ const Home = () => {
                 </h4>
                 <p className="description">
                   Join classrooms for different courses in order to get updates
-                  about their classes.
+                  about their scheduled classes.
                 </p>
               </div>
             </div>
@@ -195,9 +196,10 @@ const Home = () => {
               </div>
               <div id="faq1" className="collapse" data-bs-parent=".faq-list">
                 <p>
-                  All the scheduled classes for your course can be viewed on{" "}
-                  <a href="/">Classes</a>. You need to signUp/signIn prior to
-                  that.
+                  All the scheduled classes for your course of a particular
+                  classroom can be viewed on{" "}
+                  <Link to="/classrooms">My Classrooms</Link>. You need to{" "}
+                  <Link to="/login">signUp/signIn</Link> prior to that.
                 </p>
               </div>
             </li>
@@ -273,7 +275,7 @@ const Home = () => {
               <div id="faq5" className="collapse" data-bs-parent=".faq-list">
                 <p>
                   Yes. In case of emergency, the student can cancel their
-                  booking.
+                  upcoming booking on <Link to="/class">My Bookings</Link>.
                 </p>
               </div>
             </li>
