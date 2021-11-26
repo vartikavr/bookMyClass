@@ -1,4 +1,5 @@
-import styles from "../../styles/home.module.css";
+import styles from "../../../styles/home.module.css";
+import Searchbar from "./searchbar";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useState, useEffect } from "react";
@@ -73,34 +74,7 @@ const Classrooms = () => {
                 </div>
               </div>
             </div>
-            <div className="searchBar input-group">
-              <input
-                className="input-group rounded searchBar"
-                type="text"
-                id="search"
-                name="search"
-                autoComplete="off"
-                placeholder="search by subject .."
-                value={search}
-                onChange={(event) => setSearch(event.target.value)}
-              />
-              <span
-                className="input-group-text border-0"
-                id="search-addon"
-                style={{ background: "transparent", display: "inline-block" }}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  className="bi bi-search"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-                </svg>
-              </span>
-            </div>
+            <Searchbar searchValue={search} changeSearchValue={setSearch} />
             <div className="row">
               {allClassrooms &&
                 allClassrooms.map((classroom) =>
@@ -109,33 +83,29 @@ const Classrooms = () => {
                     .includes(search.toLowerCase()) ? (
                     <div className="col-lg-6 col-xl-4 d-flex align-items">
                       <div className="icon-box">
-                        <div className="icon">
-                          <i class="bx bx-book-open"></i>
-                        </div>
                         <Link
                           to={`/classrooms/${classroom._id}`}
-                          title={`${classroom.classname} - Section ${classroom.section}`}
                           style={{
                             color: "inherit",
                             textDecoration: "none",
                           }}
                         >
+                          <div className="icon">
+                            <i class="bx bx-book-open"></i>
+                          </div>
                           <h4
                             className={styles.h4}
+                            title={`${classroom.classname} - Section ${classroom.section}`}
                             style={{ color: "#eb5d1e" }}
                           >
                             {classroom.classname} - Section {classroom.section}
                           </h4>
-                        </Link>
-                        <Link
-                          to={`/classrooms/${classroom._id}`}
-                          title={`${classroom.subject}`}
-                          style={{
-                            color: "inherit",
-                            textDecoration: "none",
-                          }}
-                        >
-                          <p className="description">{classroom.subject}</p>
+                          <p
+                            className="description"
+                            title={`${classroom.subject}`}
+                          >
+                            {classroom.subject}
+                          </p>
                         </Link>
                       </div>
                     </div>

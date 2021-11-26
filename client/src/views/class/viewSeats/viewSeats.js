@@ -1,5 +1,5 @@
 import axios from "axios";
-import styles from "../../styles/people.module.css";
+import styles from "../../../styles/people.module.css";
 import { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import ReactLoading from "react-loading";

@@ -7,6 +7,7 @@ const schedule = require("node-schedule");
 require("dotenv").config();
 
 module.exports.getMyClassrooms = async (req, res) => {
+  // console.log("cookie=", req.headers.cookie.split("=")[1]);
   try {
     const requestedUser = await User.findById(currentUser);
     const classroomIds = requestedUser.classrooms;

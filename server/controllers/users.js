@@ -8,9 +8,9 @@ const bcrypt = require("bcrypt");
 const schedule = require("node-schedule");
 
 module.exports.registerUser = async (req, res) => {
-  if (currentUser) {
-    return res.status(400).send({ isAlreadyLoggedIn: true });
-  }
+  // if (currentUser) {
+  //   return res.status(400).send({ isAlreadyLoggedIn: true });
+  // }
   const findEmailUser = await User.findOne({ email: req.body.email });
   console.log(findEmailUser);
   if (findEmailUser) {
@@ -28,6 +28,16 @@ module.exports.registerUser = async (req, res) => {
     await newUser.save();
     console.log(newUser);
     currentUser = newUser._id;
+    // const token = jwt.sign(
+    //   {
+    //     u_id: newUser._id,
+    //   },
+    //   process.env.JWT_SECRET
+    // );
+    // res.cookie("u_id", token, {
+    //   expire: new Date() + 1000 * 60 * 60 * 24,
+    // });
+    // console.log("cookie=", req.headers.cookie.split("=")[1]);
     jwt.sign(
       {
         userId: newUser._id,
@@ -84,9 +94,9 @@ module.exports.confirmEmail = async (req, res) => {
 };
 
 module.exports.loginUser = async (req, res) => {
-  if (currentUser) {
-    return res.status(400).send({ isAlreadyLoggedIn: true });
-  }
+  // if (currentUser) {
+  //   return res.status(400).send({ isAlreadyLoggedIn: true });
+  // }
   const email = req.body.email;
   const password = req.body.password;
   const checkUser = await User.findOne({ email: email });
@@ -97,6 +107,21 @@ module.exports.loginUser = async (req, res) => {
       return res.status(403).send({ error: "invalid pwd" });
     }
     currentUser = checkUser._id;
+    // const token = jwt.sign(
+    //   {
+    //     u_id: checkUser._id,
+    //   },
+    //   process.env.JWT_SECRET
+    // );
+    // res.cookie("u_id", token, {
+    //   expire: new Date() + 1000 * 60 * 60 * 24,
+    // });
+    // console.log("cookie=", req.headers.cookie.split("=")[1]);
+    // const result = jwt.verify(
+    //   req.headers.cookie.split("=")[1],
+    //   process.env.JWT_SECRET
+    // );
+    // console.log("result=", result.u_id);
     return res.status(200).send({ sucess: "logged in!" });
   } else {
     console.log("email not found");
@@ -343,6 +368,7 @@ module.exports.deleteProfile = async (req, res) => {
 module.exports.logoutUser = async (req, res) => {
   console.log(currentUser);
   if (currentUser) {
+    // res.clearCookie("u_id");
     currentUser = null;
     console.log("logging out ...", currentUser);
     res.status(200).send({ success: "Logged out!" });

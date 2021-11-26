@@ -1,4 +1,5 @@
-import styles from "../../styles/people.module.css";
+import styles from "../../../styles/people.module.css";
+import SendInvite from "./sendInvite";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
@@ -60,100 +61,13 @@ const People = () => {
       });
   };
 
-  const sendInvite = () => {
-    const axiosConfig = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-    axios
-      .post(
-        `/classrooms/${classroom._id}/invite`,
-        {
-          email: email,
-        },
-        axiosConfig
-      )
-      .then((res) => {
-        console.log("invite sent!");
-        toast.success("Successfully sent invite!");
-      })
-      .catch((e) => {
-        if (e.response.data.isLoggedIn == false) {
-          toast.error("Error occured! User not logged in.");
-          history.push("/login");
-        } else if (e.response.data.isVerified == false) {
-          toast.error("Error occured! Confirm your email id to continue.");
-          history.push("/classrooms");
-        } else {
-          toast.error("An error occured. Please try again!");
-          console.log("error in client", e);
-        }
-      });
-  };
   return (
     <div className={styles.showPeople}>
-      <div
-        class="modal fade"
-        id="exampleModalCenter"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="exampleModalCenterTitle"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLongTitle">
-                Enter student's email id to send an invite
-              </h5>
-              <button
-                type="button"
-                class="close"
-                data-dismiss="modal"
-                aria-label="Close"
-              >
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <form id="form">
-                <label className="form-label">
-                  <b>Email id:</b>
-                </label>
-                <input
-                  style={{ outline: "none" }}
-                  className="ms-2"
-                  id="email"
-                  type="email"
-                  name="email"
-                  placeholder="Email"
-                  value={email}
-                  onChange={(event) => setEmail(event.target.value)}
-                />
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-dismiss="modal"
-              >
-                Close
-              </button>
-              <button
-                type="button"
-                class="btn btn-primary"
-                data-dismiss="modal"
-                id="submitBtnEmail"
-                onClick={sendInvite}
-              >
-                Send
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <SendInvite
+        email={email}
+        changeEmail={setEmail}
+        classroomId={classroom._id}
+      />
       {!endPending && (
         <div className="pageLoading">
           <ReactLoading
@@ -178,7 +92,7 @@ const People = () => {
                 <button
                   className={styles.inviteBtn}
                   data-toggle="modal"
-                  data-target="#exampleModalCenter"
+                  data-target="#inviteModalCenter"
                 >
                   Invite
                 </button>
