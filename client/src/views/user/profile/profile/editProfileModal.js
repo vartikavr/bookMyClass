@@ -33,7 +33,7 @@ const EditProfileModal = ({
         isUserInfoEdited(true);
       })
       .catch((e) => {
-        if (e.response.data.isLoggedIn == false) {
+        if (e.response.data.isLoggedIn === false) {
           toast.error("Error occured! User not logged in.");
           history.push("/login");
         } else {
@@ -45,29 +45,29 @@ const EditProfileModal = ({
 
   return (
     <div
-      class="modal fade"
+      className="modal fade"
       id="editModalCenter"
       tabindex="-1"
       role="dialog"
       aria-labelledby="editModalCenterTitle"
       aria-hidden="true"
     >
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="editModalLongTitle">
+      <div className="modal-dialog modal-dialog-centered" role="document">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h5 className="modal-title" id="editModalLongTitle">
               Edit User Details
             </h5>
             <button
               type="button"
-              class="close"
+              className="close"
               data-dismiss="modal"
               aria-label="Close"
             >
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body">
+          <div className="modal-body">
             <form>
               <div className="mb-2">
                 <label className="form-label">
@@ -101,40 +101,40 @@ const EditProfileModal = ({
                   </option>
                   <option
                     value="Below 18"
-                    disabled={vaccineStatus == "Below 18"}
+                    disabled={vaccineStatus === "Below 18"}
                   >
                     Under 18 age
                   </option>
                   <option
                     value="First Dose"
-                    disabled={vaccineStatus == "First Dose"}
+                    disabled={vaccineStatus === "First Dose"}
                   >
                     First dose done
                   </option>
                   <option
                     value="Second Dose"
-                    disabled={vaccineStatus == "Second Dose"}
+                    disabled={vaccineStatus === "Second Dose"}
                   >
                     Second dose done
                   </option>
-                  <option value="NOTA" disabled={vaccineStatus == "NOTA"}>
+                  <option value="NOTA" disabled={vaccineStatus === "NOTA"}>
                     NOTA
                   </option>
                 </select>
               </div>
             </form>
           </div>
-          <div class="modal-footer">
+          <div className="modal-footer">
             <button
               type="button"
-              class="btn btn-secondary"
+              className="btn btn-secondary"
               data-dismiss="modal"
             >
               Close
             </button>
             <button
               type="button"
-              class="btn btn-primary"
+              className="btn btn-primary"
               data-dismiss="modal"
               onClick={handleEditProfile}
             >

@@ -16,6 +16,7 @@ const ViewSeats = () => {
 
   useEffect(() => {
     getStudentsInfo();
+    // eslint-disable-next-line
   }, []);
 
   const getStudentsInfo = () => {
@@ -33,13 +34,13 @@ const ViewSeats = () => {
         setEndPending(true);
       })
       .catch((e) => {
-        if (e.response.data.isLoggedIn == false) {
+        if (e.response.data.isLoggedIn === false) {
           toast.error("Error occured! User not logged in.");
           history.push("/login");
-        } else if (e.response.data.isVerified == false) {
+        } else if (e.response.data.isVerified === false) {
           toast.error("Error occured! Confirm your email id to continue.");
           history.push("/");
-        } else if (e.response.data.isClassroomTeacher == false) {
+        } else if (e.response.data.isClassroomTeacher === false) {
           toast.error(
             "Only the class teacher can view the roster of the students for a class!"
           );
@@ -73,7 +74,7 @@ const ViewSeats = () => {
             </div>
             <hr style={{ color: "black" }} />
             {classroom.students.length > 0 ? (
-              <table class="table table-hover">
+              <table className="table table-hover">
                 <thead style={{ color: "#f88138" }}>
                   <tr>
                     <th scope="col" style={{ width: "10%" }}>

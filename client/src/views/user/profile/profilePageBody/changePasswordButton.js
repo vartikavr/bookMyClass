@@ -30,7 +30,11 @@ const ChangePasswordButton = ({ email, isPasswordChanging }) => {
   };
 
   return (
-    <button type="button" class="btn password" onClick={handleChangePassword}>
+    <button
+      type="button"
+      className="btn password"
+      onClick={handleChangePassword}
+    >
       Change Password
     </button>
   );

@@ -34,7 +34,7 @@ const ChangeEmailModal = ({ isEmailChanged }) => {
         isEmailChanged(true);
       })
       .catch((e) => {
-        if (e.response.data.isLoggedIn == false) {
+        if (e.response.data.isLoggedIn === false) {
           toast.error("Error occured! User not logged in.");
           history.push("/login");
         } else if (e.response.data.isOldEmail) {

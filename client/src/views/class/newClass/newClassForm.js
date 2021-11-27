@@ -90,7 +90,7 @@ const NewClassForm = ({
         {isFormSubmitted && (
           <button className="formsubmit-btn btn-block mt-2 mb-4" disabled>
             <span
-              class="spinner-border spinner-border-sm"
+              className="spinner-border spinner-border-sm"
               role="status"
               aria-hidden="true"
             ></span>

@@ -9,11 +9,15 @@ const ProfilePageBody = ({ user }) => {
 
   return (
     <div className="row">
-      <div class="profile-nav col-md-4">
-        <div class="panel">
-          <div class="user-heading round">
-            <a href="#">
-              <img src="https://img.icons8.com/external-bearicons-glyph-bearicons/128/ffffff/external-User-essential-collection-bearicons-glyph-bearicons.png" />
+      <div className="profile-nav col-md-4">
+        <div className="panel">
+          <div className="user-heading round">
+            {/* eslint-disable-next-line */}
+            <a href="">
+              <img
+                alt=""
+                src="https://img.icons8.com/external-bearicons-glyph-bearicons/128/ffffff/external-User-essential-collection-bearicons-glyph-bearicons.png"
+              />
             </a>
             <h1>{user.name}</h1>
             <p>{user.email}</p>
@@ -33,7 +37,7 @@ const ProfilePageBody = ({ user }) => {
             {isDeletePending && (
               <button className="profile-links" disabled>
                 <span
-                  class="spinner-border spinner-border-sm"
+                  className="spinner-border spinner-border-sm"
                   role="status"
                   aria-hidden="true"
                 ></span>
@@ -43,47 +47,47 @@ const ProfilePageBody = ({ user }) => {
           </div>
         </div>
       </div>
-      <div class="profile-info col-md-8">
-        <div class="panel">
-          <div class="bio-graph-heading">User Profile</div>
-          <div class="panel-body bio-graph-info mt-3 ms-4">
+      <div className="profile-info col-md-8">
+        <div className="panel">
+          <div className="bio-graph-heading">User Profile</div>
+          <div className="panel-body bio-graph-info mt-3 ms-4">
             <h1 style={{ fontWeight: "600" }}>Account Details</h1>
-            <div class="row">
-              <div class="bio-row mb-2">
+            <div className="row">
+              <div className="bio-row mb-2">
                 <p>
                   <span>Name </span>: {user.name}
                 </p>
               </div>
-              <div class="bio-row mb-2">
+              <div className="bio-row mb-2">
                 <p>
                   <span>Email id </span>: {user.email}
                 </p>
               </div>
-              <div class="bio-row mb-2">
+              <div className="bio-row mb-2">
                 <p>
                   <span>Email id confirmed </span>: {"" + user.isVerified}
                 </p>
               </div>
-              <div class="bio-row mb-2">
-                {user.vaccineStatus == "Below 18" && (
+              <div className="bio-row mb-2">
+                {user.vaccineStatus === "Below 18" && (
                   <p>
                     <span>Vaccination Status </span>: Not vaccinated, below 18
                     age
                   </p>
                 )}
-                {user.vaccineStatus == "First Dose" && (
+                {user.vaccineStatus === "First Dose" && (
                   <p>
                     <span>Vaccination Status </span>: Only first dose of vaccine
                     received
                   </p>
                 )}
-                {user.vaccineStatus == "Second Dose" && (
+                {user.vaccineStatus === "Second Dose" && (
                   <p>
                     <span>Vaccination Status </span>: Second dose of vaccine
                     received
                   </p>
                 )}
-                {user.vaccineStatus == "NOTA" && (
+                {user.vaccineStatus === "NOTA" && (
                   <p>
                     <span>Vaccination Status </span>: Not vaccinated
                   </p>
@@ -95,7 +99,7 @@ const ProfilePageBody = ({ user }) => {
             <div className="actionBtn">
               <button
                 type="button"
-                class="btn email"
+                className="btn email"
                 data-toggle="modal"
                 data-target="#emailModalCenter"
               >
@@ -110,9 +114,9 @@ const ProfilePageBody = ({ user }) => {
                 />
               )}
               {isChangePasswordPending && (
-                <button type="button" class="btn password" disabled>
+                <button type="button" className="btn password" disabled>
                   <span
-                    class="spinner-border spinner-border-sm"
+                    className="spinner-border spinner-border-sm"
                     role="status"
                     aria-hidden="true"
                   ></span>

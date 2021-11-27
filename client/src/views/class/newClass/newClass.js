@@ -53,13 +53,13 @@ const NewClass = () => {
         setIsPending(false);
       })
       .catch((e) => {
-        if (e.response.data.isLoggedIn == false) {
+        if (e.response.data.isLoggedIn === false) {
           toast.error("Error occured! User not logged in.");
           history.push("/login");
-        } else if (e.response.data.isVerified == false) {
+        } else if (e.response.data.isVerified === false) {
           toast.error("Error occured! Confirm your email id to continue.");
           history.push("/");
-        } else if (e.response.data.isClassroomTeacher == false) {
+        } else if (e.response.data.isClassroomTeacher === false) {
           toast.error(
             "An error occured! Only the classroom's teacher can create new classes."
           );

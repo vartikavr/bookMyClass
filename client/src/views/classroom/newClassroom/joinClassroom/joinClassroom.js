@@ -2,14 +2,14 @@ import "./joinClassroom.css";
 
 const JoinClassroom = ({ code, changeCode, isJoiningPending, handleJoin }) => {
   return (
-    <div class="form-wrapper">
-      <button type="button" class="switcher switcher-join">
+    <div className="form-wrapper">
+      <button type="button" className="switcher switcher-join">
         Join Classroom
-        <span class="underline"></span>
+        <span className="underline"></span>
       </button>
-      <form class="formClassroom form-join" onSubmit={handleJoin}>
+      <form className="formClassroom form-join" onSubmit={handleJoin}>
         <fieldset>
-          <div class="input-block">
+          <div className="input-block">
             <label for="classroomCode">Classroom Code</label>
             <p className="info-classroom">
               (The teacher would provide this code)
@@ -26,14 +26,14 @@ const JoinClassroom = ({ code, changeCode, isJoiningPending, handleJoin }) => {
           </div>
         </fieldset>
         {!isJoiningPending && (
-          <button type="submit" class="btn-join">
+          <button type="submit" className="btn-join">
             Join
           </button>
         )}
         {isJoiningPending && (
-          <button type="submit" class="btn-join" disabled>
+          <button type="submit" className="btn-join" disabled>
             <span
-              class="spinner-border spinner-border-sm"
+              className="spinner-border spinner-border-sm"
               role="status"
               aria-hidden="true"
             ></span>

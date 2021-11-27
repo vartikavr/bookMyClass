@@ -19,6 +19,7 @@ const People = () => {
 
   useEffect(() => {
     getPeopleInfo();
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -45,10 +46,10 @@ const People = () => {
         setEndPending(true);
       })
       .catch((e) => {
-        if (e.response.data.isLoggedIn == false) {
+        if (e.response.data.isLoggedIn === false) {
           toast.error("Error occured! User not logged in.");
           history.push("/login");
-        } else if (e.response.data.isVerified == false) {
+        } else if (e.response.data.isVerified === false) {
           toast.error("Error occured! Confirm your email id to continue.");
           history.push("/");
         } else {
@@ -85,7 +86,7 @@ const People = () => {
               <h1 style={{ color: "#f88138" }} className="mt-4">
                 Students
               </h1>
-              {teacherInfo._id == currentUser._id && (
+              {teacherInfo._id === currentUser._id && (
                 <button
                   className="inviteBtn"
                   data-toggle="modal"
@@ -97,7 +98,7 @@ const People = () => {
             </div>
             <hr style={{ color: "black" }} />
             {classroom.students.length > 0 ? (
-              <table class="table table-hover">
+              <table className="table table-hover">
                 <thead style={{ color: "#f88138" }}>
                   <tr>
                     <th scope="col" style={{ width: "10%" }}>

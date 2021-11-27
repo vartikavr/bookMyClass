@@ -1,7 +1,7 @@
 /*----new Class----*/
-
-.newClass .card {
-  margin-top: 5em;
+.newClass {
+  background-color: #fef8f5;
+  padding-top: 2.5em;
 }
 
 .newClass .card-img {

@@ -38,6 +38,7 @@ const ShowClassroom = () => {
 
   useEffect(() => {
     getClassroomInfo();
+    // eslint-disable-next-line
   }, [isBooked, isClassDeleted, isEdited]);
 
   const getClassroomInfo = () => {
@@ -58,10 +59,10 @@ const ShowClassroom = () => {
         setEndPending(true);
       })
       .catch((e) => {
-        if (e.response.data.isLoggedIn == false) {
+        if (e.response.data.isLoggedIn === false) {
           toast.error("Error occured! User not logged in.");
           history.push("/login");
-        } else if (e.response.data.isVerified == false) {
+        } else if (e.response.data.isVerified === false) {
           toast.error("Error occured! Confirm your email id to continue.");
           history.push("/");
         } else {
@@ -123,7 +124,7 @@ const ShowClassroom = () => {
               isDeletionPending={setIsClassroomDeleted}
             />
             <div className="showClassroomBody">
-              {currentUser._id == classroom.teacher && (
+              {currentUser._id === classroom.teacher && (
                 <div className="classroom-btn">
                   <button className="btn-addClass" onClick={redirectToAddClass}>
                     Add Class

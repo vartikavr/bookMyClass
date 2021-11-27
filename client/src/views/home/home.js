@@ -77,7 +77,7 @@ const Home = () => {
                     data-aos="fade-up"
                     data-aos-delay="200"
                   >
-                    <i class="bx bx-laptop"></i>
+                    <i className="bx bx-laptop"></i>
                     <h4 className="heading">Remote classes</h4>
                     <p>
                       Students can also continue with their remotely accessed
@@ -100,18 +100,18 @@ const Home = () => {
           </div>
           <div className="row">
             <div
-              class="col-md-6 col-lg-3 d-flex align-items-stretch"
+              className="col-md-6 col-lg-3 d-flex align-items-stretch"
               data-aos="zoom-in"
               data-aos-delay="400"
             >
-              <div class="icon-box">
-                <div class="icon">
-                  <i class="bx bx-checkbox-checked"></i>
+              <div className="icon-box">
+                <div className="icon">
+                  <i className="bx bx-checkbox-checked"></i>
                 </div>
-                <h4 class="heading" style={{ color: "#eb5d1e" }}>
+                <h4 className="heading" style={{ color: "#eb5d1e" }}>
                   Create classrooms
                 </h4>
-                <p class="description">
+                <p className="description">
                   Create classrooms of your own as their teacher and invite
                   related students in them.
                 </p>
@@ -124,7 +124,7 @@ const Home = () => {
             >
               <div className="icon-box">
                 <div className="icon">
-                  <i class="bx bx-file"></i>
+                  <i className="bx bx-file"></i>
                 </div>
                 <h4 className="heading" style={{ color: "#eb5d1e" }}>
                   Join classrooms
@@ -142,7 +142,7 @@ const Home = () => {
             >
               <div className="icon-box">
                 <div className="icon">
-                  <i class="bx bx-stats"></i>
+                  <i className="bx bx-stats"></i>
                 </div>
                 <h4 className="heading" style={{ color: "#eb5d1e" }}>
                   View available seats
@@ -160,7 +160,7 @@ const Home = () => {
             >
               <div className="icon-box">
                 <div className="icon">
-                  <i class="bx bxs-face"></i>
+                  <i className="bx bxs-face"></i>
                 </div>
                 <h4 className="heading" style={{ color: "#eb5d1e" }}>
                   Book your seat
@@ -191,8 +191,8 @@ const Home = () => {
                 href="#faq1"
               >
                 Where can I view my scheduled classes?{" "}
-                <i class="bi bi-chevron-down icon-show"></i>
-                <i class="bi bi-chevron-up icon-close"></i>
+                <i className="bi bi-chevron-down icon-show"></i>
+                <i className="bi bi-chevron-up icon-close"></i>
               </div>
               <div id="faq1" className="collapse" data-bs-parent=".faq-list">
                 <p>
@@ -211,8 +211,8 @@ const Home = () => {
               >
                 I can't attend the in-person classes as of now, can I still
                 attend them remotely?
-                <i class="bi bi-chevron-down icon-show"></i>
-                <i class="bi bi-chevron-up icon-close"></i>
+                <i className="bi bi-chevron-down icon-show"></i>
+                <i className="bi bi-chevron-up icon-close"></i>
               </div>
               <div id="faq2" className="collapse" data-bs-parent=".faq-list">
                 <p>
@@ -230,8 +230,8 @@ const Home = () => {
                 className="collapsed question"
               >
                 I'm not fully vaccinated, can I attend the in-person classes?
-                <i class="bi bi-chevron-down icon-show"></i>
-                <i class="bi bi-chevron-up icon-close"></i>
+                <i className="bi bi-chevron-down icon-show"></i>
+                <i className="bi bi-chevron-up icon-close"></i>
               </div>
               <div id="faq3" className="collapse" data-bs-parent=".faq-list">
                 <p>
@@ -251,8 +251,8 @@ const Home = () => {
                 className="collapsed question"
               >
                 How many total number of seats are available to book from for an
-                in-person class?<i class="bi bi-chevron-down icon-show"></i>
-                <i class="bi bi-chevron-up icon-close"></i>
+                in-person class?<i className="bi bi-chevron-down icon-show"></i>
+                <i className="bi bi-chevron-up icon-close"></i>
               </div>
               <div id="faq4" className="collapse" data-bs-parent=".faq-list">
                 <p>
@@ -269,8 +269,8 @@ const Home = () => {
               >
                 I have a sudden emergency and want to cancel my booking for the
                 in-person class seat. Can that be done?
-                <i class="bi bi-chevron-down icon-show"></i>
-                <i class="bi bi-chevron-up icon-close"></i>
+                <i className="bi bi-chevron-down icon-show"></i>
+                <i className="bi bi-chevron-up icon-close"></i>
               </div>
               <div id="faq5" className="collapse" data-bs-parent=".faq-list">
                 <p>
@@ -296,11 +296,12 @@ const Home = () => {
       {/* ======= Footer =======  */}
 
       {/* End Footer */}
+      {/* eslint-disable-next-line */}
       <a
         href="#"
         className="backToTop active d-flex align-items-center justify-content-center"
       >
-        <i class="bi bi-arrow-up-short"></i>
+        <i className="bi bi-arrow-up-short"></i>
       </a>
     </div>
   );

@@ -17,6 +17,7 @@ const Classrooms = () => {
 
   useEffect(() => {
     getAllClassrooms();
+    // eslint-disable-next-line
   }, []);
 
   const getAllClassrooms = () => {
@@ -33,10 +34,10 @@ const Classrooms = () => {
         setEndPending(true);
       })
       .catch((e) => {
-        if (e.response.data.isLoggedIn == false) {
+        if (e.response.data.isLoggedIn === false) {
           toast.error("Error occured! User not logged in.");
           history.push("/login");
-        } else if (e.response.data.isVerified == false) {
+        } else if (e.response.data.isVerified === false) {
           toast.error("Error occured! Confirm your email id to continue.");
           history.push("/");
         } else {
@@ -66,7 +67,10 @@ const Classrooms = () => {
                 <div className="card-title">My Classrooms</div>
                 <div className="card-class" style={{ marginLeft: "auto" }}>
                   <Link to="/classrooms/new">
-                    <img src="https://img.icons8.com/ios-filled/50/ffffff/plus.png" />
+                    <img
+                      alt=""
+                      src="https://img.icons8.com/ios-filled/50/ffffff/plus.png"
+                    />
                   </Link>
                 </div>
               </div>
@@ -88,7 +92,7 @@ const Classrooms = () => {
                           }}
                         >
                           <div className="icon">
-                            <i class="bx bx-book-open"></i>
+                            <i className="bx bx-book-open"></i>
                           </div>
                           <h4
                             className="classroomHeading"

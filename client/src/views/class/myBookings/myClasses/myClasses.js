@@ -29,6 +29,7 @@ const MyClasses = () => {
 
   useEffect(() => {
     getClassesInfo();
+    // eslint-disable-next-line
   }, [isCancelled]);
 
   const getClassesInfo = () => {
@@ -45,10 +46,10 @@ const MyClasses = () => {
         setEndPending(true);
       })
       .catch((e) => {
-        if (e.response.data.isLoggedIn == false) {
+        if (e.response.data.isLoggedIn === false) {
           toast.error("Error occured! User not logged in.");
           history.push("/login");
-        } else if (e.response.data.isVerified == false) {
+        } else if (e.response.data.isVerified === false) {
           toast.error("Error occured! Confirm your email id to continue.");
           history.push("/");
         } else {

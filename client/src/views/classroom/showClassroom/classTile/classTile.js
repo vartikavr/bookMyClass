@@ -34,10 +34,10 @@ const ClassTitle = ({
         isProcessGoingOn(false);
       })
       .catch((e) => {
-        if (e.response.data.isLoggedIn == false) {
+        if (e.response.data.isLoggedIn === false) {
           toast.error("Error occured! User not logged in.");
           history.push("/login");
-        } else if (e.response.data.isVerified == false) {
+        } else if (e.response.data.isVerified === false) {
           toast.error("Error occured! Confirm your email id to continue.");
           history.push("/");
         } else {
@@ -50,21 +50,21 @@ const ClassTitle = ({
 
   return (
     <div className="col-lg-6 col-xl-4 offset-2 offset-lg-0 d-flex align-items">
-      <div class="flipCard" title={currentClass.title}>
-        <div class="flipCardInner">
-          <div class="flipCardFront">
+      <div className="flipCard" title={currentClass.title}>
+        <div className="flipCardInner">
+          <div className="flipCardFront">
             <div className="icon">
-              <i class="bx bxs-spreadsheet"></i>
+              <i className="bx bxs-spreadsheet"></i>
             </div>
             <h4 className="classHeading">{currentClass.title}</h4>
           </div>
-          <div class="flipCardBack">
+          <div className="flipCardBack">
             <h5 title="">{currentClass.date.substring(0, 10)}</h5>
             <p className="time mb-2" title="">
               Time : {currentClass.startTime} to {currentClass.endTime} (IST)
             </p>
             <p title="">Available seats : {currentClass.availableSeats}</p>
-            {classroom.teacher != currentUser._id &&
+            {classroom.teacher !== currentUser._id &&
               !currentUser.classes.includes(currentClass._id) &&
               currentClass.date.substring(0, 10) >= currentDate && (
                 <SeatBookingButton
@@ -74,20 +74,20 @@ const ClassTitle = ({
                   isProcessGoingOn={isProcessGoingOn}
                 />
               )}
-            {classroom.teacher != currentUser._id &&
+            {classroom.teacher !== currentUser._id &&
               currentUser.classes.includes(currentClass._id) &&
               currentClass.date.substring(0, 10) >= currentDate && (
                 <button className="btn disabled" title="Class Booked">
                   Booked
                 </button>
               )}
-            {classroom.teacher != currentUser._id &&
+            {classroom.teacher !== currentUser._id &&
               currentClass.date.substring(0, 10) < currentDate && (
                 <button className="btn disabled" title="Class Expired">
                   Ended
                 </button>
               )}
-            {classroom.teacher == currentUser._id && (
+            {classroom.teacher === currentUser._id && (
               <div className="teacherButtons">
                 {!isProcessPending && (
                   <button
@@ -107,7 +107,7 @@ const ClassTitle = ({
                     disabled
                   >
                     <span
-                      class="spinner-border spinner-border-sm"
+                      className="spinner-border spinner-border-sm"
                       role="status"
                       aria-hidden="true"
                     ></span>

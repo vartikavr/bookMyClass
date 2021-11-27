@@ -28,19 +28,19 @@ const SeatBookingButton = ({
         isProcessGoingOn(false);
       })
       .catch((e) => {
-        if (e.response.data.isLoggedIn == false) {
+        if (e.response.data.isLoggedIn === false) {
           toast.error("Error occured! User not logged in.");
           history.push("/login");
-        } else if (e.response.data.isVerified == false) {
+        } else if (e.response.data.isVerified === false) {
           toast.error("Error occured! Confirm your email id to continue.");
           history.push("/");
-        } else if (e.response.data.isQualifiedForBooking == false) {
+        } else if (e.response.data.isQualifiedForBooking === false) {
           toast.error(
             "Student needs to be either under 18 age or fully vaccinated to book an in-person class!"
           );
-        } else if (e.response.data.isSeatLeft == false) {
+        } else if (e.response.data.isSeatLeft === false) {
           toast.error("Sorry, all available seats are booked!");
-        } else if (e.response.data.isClassroomMember == false) {
+        } else if (e.response.data.isClassroomMember === false) {
           toast.error("You've not joined this classroom yet!");
         } else {
           toast.error("An error occured while booking. Try again!");
@@ -64,7 +64,7 @@ const SeatBookingButton = ({
       {isProcessPending && (
         <button title="" id={currentClass._id} disabled>
           <span
-            class="spinner-border spinner-border-sm"
+            className="spinner-border spinner-border-sm"
             role="status"
             aria-hidden="true"
           ></span>

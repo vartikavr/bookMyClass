@@ -11,17 +11,17 @@ const CreateClassroom = ({
   isCreationPending,
 }) => {
   return (
-    <div class="form-wrapper is-active">
-      <button type="button" class="switcher switcher-create">
+    <div className="form-wrapper is-active">
+      <button type="button" className="switcher switcher-create">
         Create Classroom
-        <span class="underline"></span>
+        <span className="underline"></span>
       </button>
-      <form onSubmit={handleCreate} class="formClassroom form-create">
+      <form onSubmit={handleCreate} className="formClassroom form-create">
         <fieldset>
           <p className="info-classroom">
             Enter details to generate a classroom as its teacher
           </p>
-          <div class="input-block">
+          <div className="input-block">
             <input
               id="class"
               type="text"
@@ -33,7 +33,7 @@ const CreateClassroom = ({
               onChange={(event) => changeClassname(event.target.value)}
             />
           </div>
-          <div class="input-block notFirst">
+          <div className="input-block notFirst">
             <input
               id="section"
               type="text"
@@ -44,7 +44,7 @@ const CreateClassroom = ({
               onChange={(event) => changeSection(event.target.value)}
             />
           </div>
-          <div class="input-block notFirst">
+          <div className="input-block notFirst">
             <input
               id="subject"
               type="text"
@@ -57,14 +57,14 @@ const CreateClassroom = ({
           </div>
         </fieldset>
         {!isCreationPending && (
-          <button type="submit" class="btn-create">
+          <button type="submit" className="btn-create">
             Submit
           </button>
         )}
         {isCreationPending && (
-          <button type="submit" class="btn-create" disabled>
+          <button type="submit" className="btn-create" disabled>
             <span
-              class="spinner-border spinner-border-sm"
+              className="spinner-border spinner-border-sm"
               role="status"
               aria-hidden="true"
             ></span>

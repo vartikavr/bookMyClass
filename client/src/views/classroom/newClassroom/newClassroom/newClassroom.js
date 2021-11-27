@@ -55,10 +55,10 @@ const NewClassroom = () => {
       })
       .catch((e) => {
         setIsPending(false);
-        if (e.response.data.isLoggedIn == false) {
+        if (e.response.data.isLoggedIn === false) {
           toast.error("Error occured! User not logged in.");
           history.push("/login");
-        } else if (e.response.data.isVerified == false) {
+        } else if (e.response.data.isVerified === false) {
           toast.error("Error occured! Confirm your email id to continue.");
           history.push("/classrooms");
         } else {
@@ -90,10 +90,10 @@ const NewClassroom = () => {
       })
       .catch((e) => {
         setIsPending(false);
-        if (e.response.data.isLoggedIn == false) {
+        if (e.response.data.isLoggedIn === false) {
           toast.error("Error Occured! User not logged in.");
           history.push("/login");
-        } else if (e.response.data.isVerified == false) {
+        } else if (e.response.data.isVerified === false) {
           toast.error("Error occured! Confirm your email id to continue.");
           history.push("/classrooms");
         } else {
@@ -104,8 +104,8 @@ const NewClassroom = () => {
 
   return (
     <div className="newClassroom">
-      <section class="forms-section">
-        <div class="forms">
+      <section className="forms-section">
+        <div className="forms">
           <CreateClassroom
             classname={classname}
             changeClassname={setClassname}

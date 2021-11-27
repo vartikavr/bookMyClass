@@ -20,6 +20,7 @@ const Profile = () => {
 
   useEffect(() => {
     getUserDetails();
+    // eslint-disable-next-line
   }, [isEdited]);
 
   const getUserDetails = () => {
@@ -38,7 +39,7 @@ const Profile = () => {
         setEndPending(true);
       })
       .catch((e) => {
-        if (e.response.data.isLoggedIn == false) {
+        if (e.response.data.isLoggedIn === false) {
           toast.error("Error occured! User not logged in.");
           history.push("/login");
         } else {
@@ -69,7 +70,7 @@ const Profile = () => {
         </div>
       )}
       {endPending && (
-        <div class="container bootstrap snippets">
+        <div className="container bootstrap snippets">
           <ProfilePageBody user={user} />
         </div>
       )}

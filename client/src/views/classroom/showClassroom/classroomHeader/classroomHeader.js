@@ -29,10 +29,10 @@ const ClassroomHeader = ({
         isDeletionPending(false);
       })
       .catch((e) => {
-        if (e.response.data.isLoggedIn == false) {
+        if (e.response.data.isLoggedIn === false) {
           toast.error("Error occured! User not logged in.");
           history.push("/login");
-        } else if (e.response.data.isVerified == false) {
+        } else if (e.response.data.isVerified === false) {
           toast.error("Error occured! Confirm your email id to continue.");
           history.push("/");
         } else {
@@ -58,42 +58,45 @@ const ClassroomHeader = ({
           </Link>
         </div>
         <div
-          class="card-class dropdown-menu-classroom"
+          className="card-class dropdown-menu-classroom"
           style={{ marginLeft: "auto" }}
         >
           <button className="menu-btn" onClick={openDropdown}>
-            <img src="https://img.icons8.com/ios-glyphs/30/ffffff/menu-2.png" />
+            <img
+              alt=""
+              src="https://img.icons8.com/ios-glyphs/30/ffffff/menu-2.png"
+            />
           </button>
           <div className="menu-content" id="menu-content">
-            {currentUser._id == classroom.teacher && (
+            {currentUser._id === classroom.teacher && (
               <button
-                class="links"
+                className="links"
                 data-toggle="modal"
                 data-target="#codeModalCenter"
               >
                 Classroom Code
               </button>
             )}
-            {currentUser._id == classroom.teacher && (
+            {currentUser._id === classroom.teacher && (
               <button
-                class="links"
+                className="links"
                 data-toggle="modal"
                 data-target="#editModalCenter"
               >
                 Edit
               </button>
             )}
-            {currentUser._id == classroom.teacher && (
+            {currentUser._id === classroom.teacher && (
               <div>
                 {!isDeleting && (
-                  <button class="links" onClick={handleDeleteClassroom}>
+                  <button className="links" onClick={handleDeleteClassroom}>
                     Delete
                   </button>
                 )}
                 {isDeleting && (
-                  <button class="links" disabled>
+                  <button className="links" disabled>
                     <span
-                      class="spinner-border spinner-border-sm"
+                      className="spinner-border spinner-border-sm"
                       role="status"
                       aria-hidden="true"
                     ></span>
@@ -103,7 +106,7 @@ const ClassroomHeader = ({
               </div>
             )}
             <button
-              class="links"
+              className="links"
               to={`/classsrooms/${classroom._id}/people`}
               onClick={redirectToPeople}
             >

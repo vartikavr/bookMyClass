@@ -33,10 +33,10 @@ const ClassTile = ({
         changeSelectedButton("all");
       })
       .catch((e) => {
-        if (e.response.data.isLoggedIn == false) {
+        if (e.response.data.isLoggedIn === false) {
           toast.error("Error occured! User not logged in.");
           history.push("/login");
-        } else if (e.response.data.isVerified == false) {
+        } else if (e.response.data.isVerified === false) {
           toast.error("Error occured! Confirm your email id to continue.");
           history.push("/");
         } else {
@@ -50,15 +50,15 @@ const ClassTile = ({
 
   return (
     <div className="col-lg-6 col-xl-4 offset-lg-0 d-flex align-items justify-content-center">
-      <div class="flipCard" title={currentClass.title}>
-        <div class="flipCardInner">
-          <div class="flipCardFrontBooking">
+      <div className="flipCard" title={currentClass.title}>
+        <div className="flipCardInner">
+          <div className="flipCardFrontBooking">
             <div className="icon">
-              <i class="bx bxs-spreadsheet"></i>
+              <i className="bx bxs-spreadsheet"></i>
             </div>
             <h4 className="classHeading">{currentClass.title}</h4>
           </div>
-          <div class="flipCardBackBooking">
+          <div className="flipCardBackBooking">
             <h5 title="">{currentClass.date.substring(0, 10)}</h5>
             <p className="time mb-2" title="">
               Time : {currentClass.startTime} to {currentClass.endTime} (IST)
@@ -84,7 +84,7 @@ const ClassTile = ({
                     disabled
                   >
                     <span
-                      class="spinner-border spinner-border-sm"
+                      className="spinner-border spinner-border-sm"
                       role="status"
                       aria-hidden="true"
                     ></span>

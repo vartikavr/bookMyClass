@@ -24,10 +24,10 @@ const SendInvite = ({ email, changeEmail, classroomId }) => {
         toast.success("Successfully sent invite!");
       })
       .catch((e) => {
-        if (e.response.data.isLoggedIn == false) {
+        if (e.response.data.isLoggedIn === false) {
           toast.error("Error occured! User not logged in.");
           history.push("/login");
-        } else if (e.response.data.isVerified == false) {
+        } else if (e.response.data.isVerified === false) {
           toast.error("Error occured! Confirm your email id to continue.");
           history.push("/classrooms");
         } else {
@@ -38,29 +38,29 @@ const SendInvite = ({ email, changeEmail, classroomId }) => {
 
   return (
     <div
-      class="modal fade"
+      className="modal fade"
       id="inviteModalCenter"
       tabindex="-1"
       role="dialog"
       aria-labelledby="inviteModalCenterTitle"
       aria-hidden="true"
     >
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="inviteModalLongTitle">
+      <div className="modal-dialog modal-dialog-centered" role="document">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h5 className="modal-title" id="inviteModalLongTitle">
               Enter student's email id to send an invite
             </h5>
             <button
               type="button"
-              class="close"
+              className="close"
               data-dismiss="modal"
               aria-label="Close"
             >
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body">
+          <div className="modal-body">
             <form id="form">
               <label className="form-label">
                 <b>Email id:</b>
@@ -77,17 +77,17 @@ const SendInvite = ({ email, changeEmail, classroomId }) => {
               />
             </form>
           </div>
-          <div class="modal-footer">
+          <div className="modal-footer">
             <button
               type="button"
-              class="btn btn-secondary"
+              className="btn btn-secondary"
               data-dismiss="modal"
             >
               Close
             </button>
             <button
               type="button"
-              class="btn btn-primary"
+              className="btn btn-primary"
               data-dismiss="modal"
               id="submitBtnEmail"
               onClick={sendInvite}

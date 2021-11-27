@@ -26,7 +26,7 @@ const ConfirmEmail = () => {
         setIsPending(false);
       })
       .catch((e) => {
-        if (e.response.data.isLoggedIn == false) {
+        if (e.response.data.isLoggedIn === false) {
           toast.error("User not logged in. Try again!");
           history.push("/login");
         } else {
@@ -52,7 +52,7 @@ const ConfirmEmail = () => {
       {isPending && (
         <button disabled>
           <span
-            class="spinner-border spinner-border-sm"
+            className="spinner-border spinner-border-sm"
             role="status"
             aria-hidden="true"
           ></span>

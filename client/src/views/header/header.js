@@ -10,6 +10,7 @@ const Header = () => {
   const [url, setURL] = useState("");
   useEffect(() => {
     getURLPathname();
+    // eslint-disable-next-line
   }, [window.location.pathname]);
 
   const getURLPathname = () => {
@@ -25,7 +26,7 @@ const Header = () => {
     axios
       .get("/api/logout", {}, axiosConfig)
       .then((res) => {
-        if (url == "/") {
+        if (url === "/") {
           window.location.reload();
         } else {
           toast.info("Logged out");
@@ -59,7 +60,7 @@ const Header = () => {
           <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div className="navbar-nav">
               <Link
-                className={`nav-item ${url == "/" ? " active" : ""}`}
+                className={`nav-item ${url === "/" ? " active" : ""}`}
                 aria-current="page"
                 to="/"
               >
@@ -70,7 +71,7 @@ const Header = () => {
               {!document.cookie && (
                 <Link
                   className={`nav-item d-block ${
-                    url == "/login" ? " active" : ""
+                    url === "/login" ? " active" : ""
                   }`}
                   to="/login"
                 >
@@ -80,7 +81,7 @@ const Header = () => {
               {document.cookie && (
                 <Link
                   className={`nav-item ${
-                    url == "/classrooms" ? " active" : ""
+                    url === "/classrooms" ? " active" : ""
                   }`}
                   to="/classrooms"
                 >
@@ -89,7 +90,7 @@ const Header = () => {
               )}
               {document.cookie && (
                 <Link
-                  className={`nav-item ${url == "/class" ? " active" : ""}`}
+                  className={`nav-item ${url === "/class" ? " active" : ""}`}
                   to="/class"
                 >
                   My Bookings
@@ -97,7 +98,7 @@ const Header = () => {
               )}
               {document.cookie && (
                 <Link
-                  className={`nav-item ${url == "/profile" ? " active" : ""}`}
+                  className={`nav-item ${url === "/profile" ? " active" : ""}`}
                   to="/profile"
                 >
                   My Profile
@@ -105,7 +106,7 @@ const Header = () => {
               )}
               {document.cookie && (
                 <Link
-                  className={`nav-item ${url == "/logout" ? " active" : ""}`}
+                  className={`nav-item ${url === "/logout" ? " active" : ""}`}
                   onClick={handleLogout}
                   style={{ cursor: "pointer" }}
                 >

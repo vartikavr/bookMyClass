@@ -29,6 +29,7 @@ const RegisterForm = ({
         <select
           className="input-register"
           name="vaccineStatus"
+          id="vaccineStatus"
           required
           title="Vaccination status"
           value={vaccineStatus}
@@ -68,7 +69,7 @@ const RegisterForm = ({
         {isRegisterPending && (
           <button className="buttonRegister" disabled>
             <span
-              class="spinner-border spinner-border-sm"
+              className="spinner-border spinner-border-sm"
               role="status"
               aria-hidden="true"
             ></span>

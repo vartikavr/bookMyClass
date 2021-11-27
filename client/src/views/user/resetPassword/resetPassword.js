@@ -41,7 +41,7 @@ const ResetPassword = () => {
         setConfirmPassword("");
         if (e.response.data.isOldPassword) {
           toast.error("Invalid entry! Old password entered.");
-        } else if (e.response.data.isMatch == false) {
+        } else if (e.response.data.isMatch === false) {
           toast.error("Invalid entry! Passwords do not match");
         } else {
           toast.error("Invalid entry. Please try again!");

@@ -16,7 +16,7 @@ const SignInForm = ({
           className="input-signin"
           type="email"
           name="email"
-          id="email"
+          id="emailLogin"
           placeholder="Email"
           required
           autoFocus
@@ -27,12 +27,13 @@ const SignInForm = ({
           className="input-signin"
           type="password"
           name="password"
-          id="password"
+          id="passwordLogin"
           placeholder="Password"
           required
           value={password}
           onChange={(event) => changePassword(event.target.value)}
         />
+        {/* eslint-disable-next-line */}
         <a
           href=""
           className="forgotPasswordLink"
@@ -45,7 +46,7 @@ const SignInForm = ({
         {isSigninPending && (
           <button className="buttonLogin" disabled>
             <span
-              class="spinner-border spinner-border-sm"
+              className="spinner-border spinner-border-sm"
               role="status"
               aria-hidden="true"
             ></span>
