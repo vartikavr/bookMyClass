@@ -26,7 +26,6 @@ const NewClass = () => {
     dateToday = "0" + dateToday;
   }
   const currentDate = getDate.getFullYear() + "-" + month + "-" + dateToday;
-  // const currentDate = new Date().toISOString().split("T")[0];
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -49,7 +48,6 @@ const NewClass = () => {
         axiosConfig
       )
       .then((res) => {
-        console.log("class added", res);
         toast.success("New class scheduled!");
         history.push(`/classrooms/${classroomId}`);
         setIsPending(false);
@@ -68,7 +66,6 @@ const NewClass = () => {
           history.push("/classrooms");
         } else {
           toast.error("Invalid entry. Please try again!");
-          console.log("error in client", e);
         }
         setIsPending(false);
       });

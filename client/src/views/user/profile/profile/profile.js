@@ -35,7 +35,6 @@ const Profile = () => {
         setUser(res.data.user);
         setName(res.data.user.name);
         setVaccineStatus(res.data.user.vaccineStatus);
-        console.log(res.data, "successful seed!");
         setEndPending(true);
       })
       .catch((e) => {
@@ -45,7 +44,6 @@ const Profile = () => {
         } else {
           toast.error("An error occured. Try again!");
         }
-        console.log("error in client", e);
         setEndPending(true);
       });
   };

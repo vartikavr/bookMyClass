@@ -29,7 +29,6 @@ const ClassTitle = ({
     axios
       .delete(`/class/${classId}/delete`, {}, axiosConfig)
       .then((res) => {
-        console.log("successfully deleted class!");
         toast.success("Successfully deleted a class!");
         isClassDeleted(true);
         isProcessGoingOn(false);
@@ -46,7 +45,6 @@ const ClassTitle = ({
         }
         isClassDeleted(false);
         isProcessGoingOn(false);
-        console.log("error in client", e);
       });
   };
 

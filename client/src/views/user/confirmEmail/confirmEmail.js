@@ -21,7 +21,6 @@ const ConfirmEmail = () => {
     axios
       .get(`/confirmation/${token}`, {}, axiosConfig)
       .then((res) => {
-        console.log("email confirmed");
         toast.success("Email confirmed!");
         history.push("/classrooms");
         setIsPending(false);
@@ -34,7 +33,6 @@ const ConfirmEmail = () => {
           toast.error("An error occured while confirming email. Try again!");
           history.push("/classrooms");
         }
-        console.log("error in client ...", e);
         setIsPending(false);
       });
   };

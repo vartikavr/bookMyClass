@@ -27,8 +27,6 @@ const ClassTile = ({
     axios
       .get(`/class/${classId}/cancel`, {}, axiosConfig)
       .then((res) => {
-        console.log(res.data);
-        console.log("successful cancelation!");
         toast.success("Successfully cancelled booking!");
         isBookingCancelled(true);
         setIsCancellationPending(false);
@@ -44,7 +42,6 @@ const ClassTile = ({
         } else {
           toast.error("An error occured. Try again!");
         }
-        console.log("error in client", e);
         isBookingCancelled(false);
         setIsCancellationPending(false);
         changeSelectedButton("all");

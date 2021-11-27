@@ -53,9 +53,6 @@ const Login = () => {
         axiosConfig
       )
       .then((res) => {
-        localStorage.setItem("isLoggedIn", true);
-        //console.log(localStorage.getItem('isLoggedIn'), "login done");
-        console.log("registration done");
         toast.success(
           "Successfully Registered! Check your mails to confirm your email id."
         );
@@ -65,14 +62,16 @@ const Login = () => {
       .catch((e) => {
         setIsPending(false);
         setPassword("");
-        if (e.response.data.isEmailExisting) {
+        if (e.response.data.isAlreadyLoggedIn) {
+          toast.error("User already logged in!");
+          history.push("/");
+        } else if (e.response.data.isEmailExisting) {
           toast.error(
             "Invalid entry! Email already registered on our website."
           );
         } else {
           toast.error("Invalid entry. Please try again!");
         }
-        console.log("error in client", e);
       });
   };
 
@@ -94,8 +93,6 @@ const Login = () => {
         axiosConfig
       )
       .then((res) => {
-        localStorage.setItem("isLoggedIn", true);
-        console.log("login done");
         toast.success("Logged in!");
         history.push("/classrooms");
         setIsPending(false);
@@ -103,8 +100,12 @@ const Login = () => {
       .catch((e) => {
         setPassword("");
         setIsPending(false);
-        toast.error("Invalid email or password. Please try again!");
-        console.log("error in client ...", e);
+        if (e.response.data.isAlreadyLoggedIn) {
+          toast.error("User already logged in!");
+          history.push("/");
+        } else {
+          toast.error("Invalid email or password. Please try again!");
+        }
       });
   };
 

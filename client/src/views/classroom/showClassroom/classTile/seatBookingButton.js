@@ -23,7 +23,6 @@ const SeatBookingButton = ({
     axios
       .get(`/class/${classId}/book`, {}, axiosConfig)
       .then((res) => {
-        console.log("successfully booked class!");
         toast.success("Successfully booked the class!");
         isSeatBooked(true);
         isProcessGoingOn(false);
@@ -46,7 +45,6 @@ const SeatBookingButton = ({
         } else {
           toast.error("An error occured while booking. Try again!");
         }
-        console.log("error in client", e);
         isSeatBooked(false);
         isProcessGoingOn(false);
       });

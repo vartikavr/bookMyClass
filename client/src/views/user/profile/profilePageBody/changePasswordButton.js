@@ -21,12 +21,10 @@ const ChangePasswordButton = ({ email, isPasswordChanging }) => {
       )
       .then((res) => {
         toast.success("Check email to reset password!");
-        console.log("change password mail sent");
         isPasswordChanging(false);
       })
       .catch((res, e) => {
         toast.error("An error occured. Please try again!");
-        console.log(res.error, "error in client ...", e);
         isPasswordChanging(false);
       });
   };

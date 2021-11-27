@@ -21,7 +21,6 @@ const SendInvite = ({ email, changeEmail, classroomId }) => {
         axiosConfig
       )
       .then((res) => {
-        console.log("invite sent!");
         toast.success("Successfully sent invite!");
       })
       .catch((e) => {
@@ -33,7 +32,6 @@ const SendInvite = ({ email, changeEmail, classroomId }) => {
           history.push("/classrooms");
         } else {
           toast.error("An error occured. Please try again!");
-          console.log("error in client", e);
         }
       });
   };

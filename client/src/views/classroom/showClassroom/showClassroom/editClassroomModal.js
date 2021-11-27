@@ -33,7 +33,6 @@ const EditClassroomModal = ({
         axiosConfig
       )
       .then((res) => {
-        console.log("successfully edited classroom!");
         toast.success("Successfully edited the classroom details!");
         isClassroomModified(true);
       })
@@ -47,7 +46,6 @@ const EditClassroomModal = ({
         } else {
           toast.error("An error occured. Try again!");
         }
-        console.log("error in client", e);
         isClassroomModified(false);
       });
   };

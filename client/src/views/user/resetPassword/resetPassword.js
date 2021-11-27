@@ -45,7 +45,6 @@ const ResetPassword = () => {
           toast.error("Invalid entry! Passwords do not match");
         } else {
           toast.error("Invalid entry. Please try again!");
-          console.log("error in client ...", e);
         }
         setIsPending(false);
       });

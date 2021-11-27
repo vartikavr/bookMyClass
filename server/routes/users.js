@@ -1,15 +1,15 @@
 const express = require("express");
 const router = express.Router();
 const users = require("../controllers/users");
-const { isLoggedIn } = require("../middleware");
+const { isNotLoggedIn, isLoggedIn } = require("../middleware");
 
-router.post("/register", users.registerUser);
+router.post("/register", isNotLoggedIn, users.registerUser);
 
-router.post("/login", users.loginUser);
+router.post("/login", isNotLoggedIn, users.loginUser);
 
 router.get("/confirmation/:token", isLoggedIn, users.confirmEmail);
 
-router.post("/reset", users.resetPassword);
+router.post("/reset", isNotLoggedIn, users.resetPassword);
 
 router.post("/reset/:token", users.confirmResetPassword);
 
@@ -21,6 +21,6 @@ router.post("/edit/email", isLoggedIn, users.changeEmail);
 
 router.delete("/delete", isLoggedIn, users.deleteProfile);
 
-router.get("/logout", users.logoutUser);
+router.get("/logout", isLoggedIn, users.logoutUser);
 
 module.exports = router;

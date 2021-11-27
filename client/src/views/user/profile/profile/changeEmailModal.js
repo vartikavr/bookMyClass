@@ -28,7 +28,6 @@ const ChangeEmailModal = ({ isEmailChanged }) => {
     axios
       .post("/edit/email", { changedEmail: email }, axiosConfig)
       .then((res) => {
-        console.log("successfully updated email!");
         toast.success(
           "Email id updated! Check your mails to confirm new email id."
         );
@@ -47,7 +46,6 @@ const ChangeEmailModal = ({ isEmailChanged }) => {
         } else {
           toast.error("An error occured. Try again!");
         }
-        console.log("error in client", e);
         isEmailChanged(false);
       });
   };

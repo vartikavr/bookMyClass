@@ -50,13 +50,11 @@ const ShowClassroom = () => {
     axios
       .get(`/classrooms/${classroomId}`, {}, axiosConfig)
       .then((res) => {
-        console.log(res.data);
         setClassroom(res.data.currentClassroom);
         setClassname(res.data.currentClassroom.classname);
         setSection(res.data.currentClassroom.section);
         setSubject(res.data.currentClassroom.subject);
         setCurrentUser(res.data.user);
-        console.log(classroom, "successful seed!");
         setEndPending(true);
       })
       .catch((e) => {
@@ -69,7 +67,6 @@ const ShowClassroom = () => {
         } else {
           toast.error("An error occured. Try again!");
         }
-        console.log("error in client", e);
         setEndPending(true);
       });
   };

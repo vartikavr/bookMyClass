@@ -26,7 +26,6 @@ const MyClasses = () => {
     dateToday = "0" + dateToday;
   }
   const currentDate = date.getFullYear() + "-" + month + "-" + dateToday;
-  // const currentDate = new Date().toISOString().split("T")[0];
 
   useEffect(() => {
     getClassesInfo();
@@ -42,9 +41,7 @@ const MyClasses = () => {
     axios
       .post("/class", { selected: selected }, axiosConfig)
       .then((res) => {
-        console.log(res.data);
         setBookedClasses(res.data.classes);
-        console.log("successful seed!");
         setEndPending(true);
       })
       .catch((e) => {
@@ -57,7 +54,6 @@ const MyClasses = () => {
         } else {
           toast.error("An error occured. Try again!");
         }
-        console.log("error in client", e);
         setEndPending(true);
       });
   };

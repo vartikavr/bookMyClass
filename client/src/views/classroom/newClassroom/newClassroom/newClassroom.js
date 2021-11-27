@@ -49,7 +49,6 @@ const NewClassroom = () => {
         axiosConfig
       )
       .then((res) => {
-        console.log("created classroom");
         toast.success("Successfully created classroom!");
         history.push("/classrooms");
         setIsPending(false);
@@ -64,7 +63,6 @@ const NewClassroom = () => {
           history.push("/classrooms");
         } else {
           toast.error("Invalid entry. Please try again!");
-          console.log("error in client", e);
         }
       });
   };
@@ -72,7 +70,6 @@ const NewClassroom = () => {
   const handleJoin = (e) => {
     e.preventDefault();
     setIsPending(true);
-    console.log(".....");
     const axiosConfig = {
       headers: {
         "Content-Type": "application/json",
@@ -87,7 +84,6 @@ const NewClassroom = () => {
         axiosConfig
       )
       .then((res) => {
-        console.log("joined classroom");
         toast.success("Successfully joined classroom!");
         history.push("/classrooms");
         setIsPending(false);
@@ -103,7 +99,6 @@ const NewClassroom = () => {
         } else {
           toast.error("Invalid entry. Please try again!");
         }
-        console.log("error in client", e);
       });
   };
 

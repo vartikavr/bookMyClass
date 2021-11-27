@@ -28,13 +28,11 @@ const ViewSeats = () => {
     axios
       .get(`/class/${classId}/seats`, {}, axiosConfig)
       .then((res) => {
-        console.log(res.data);
         setClassroom(res.data.classroom);
         setCurrentClass(res.data.currentClass);
         setEndPending(true);
       })
       .catch((e) => {
-        console.log(e);
         if (e.response.data.isLoggedIn == false) {
           toast.error("Error occured! User not logged in.");
           history.push("/login");
@@ -49,7 +47,6 @@ const ViewSeats = () => {
         } else {
           toast.error("An error occured. Try again!");
         }
-        console.log("error in client", e);
         setEndPending(true);
       });
   };

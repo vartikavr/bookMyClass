@@ -14,7 +14,6 @@ const Header = () => {
 
   const getURLPathname = () => {
     setURL(window.location.pathname);
-    //console.log(url);
   };
 
   const handleLogout = () => {
@@ -26,8 +25,6 @@ const Header = () => {
     axios
       .get("/logout", {}, axiosConfig)
       .then((res) => {
-        localStorage.removeItem("isLoggedIn");
-        console.log("log out");
         if (url == "/") {
           window.location.reload();
         } else {
@@ -36,7 +33,7 @@ const Header = () => {
         }
       })
       .catch((e) => {
-        console.log("error in client ...", e);
+        toast.error("Error in logging out!");
       });
   };
   const history = useHistory();
@@ -70,7 +67,7 @@ const Header = () => {
               </Link>
             </div>
             <div className="navbar-nav ms-auto">
-              {!localStorage.getItem("isLoggedIn") && (
+              {!document.cookie && (
                 <Link
                   className={`nav-item d-block ${
                     url == "/login" ? " active" : ""
@@ -80,7 +77,7 @@ const Header = () => {
                   SignUp/SignIn
                 </Link>
               )}
-              {localStorage.getItem("isLoggedIn") && (
+              {document.cookie && (
                 <Link
                   className={`nav-item ${
                     url == "/classrooms" ? " active" : ""
@@ -90,7 +87,7 @@ const Header = () => {
                   My Classrooms
                 </Link>
               )}
-              {localStorage.getItem("isLoggedIn") && (
+              {document.cookie && (
                 <Link
                   className={`nav-item ${url == "/class" ? " active" : ""}`}
                   to="/class"
@@ -98,7 +95,7 @@ const Header = () => {
                   My Bookings
                 </Link>
               )}
-              {localStorage.getItem("isLoggedIn") && (
+              {document.cookie && (
                 <Link
                   className={`nav-item ${url == "/profile" ? " active" : ""}`}
                   to="/profile"
@@ -106,7 +103,7 @@ const Header = () => {
                   My Profile
                 </Link>
               )}
-              {localStorage.getItem("isLoggedIn") && (
+              {document.cookie && (
                 <Link
                   className={`nav-item ${url == "/logout" ? " active" : ""}`}
                   onClick={handleLogout}

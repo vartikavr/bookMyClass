@@ -29,7 +29,6 @@ const EditProfileModal = ({
         axiosConfig
       )
       .then((res) => {
-        console.log("successfully edited profile!");
         toast.success("Successfully edited the user details!");
         isUserInfoEdited(true);
       })
@@ -40,7 +39,6 @@ const EditProfileModal = ({
         } else {
           toast.error("An error occured. Try again!");
         }
-        console.log("error in client", e);
         isUserInfoEdited(false);
       });
   };

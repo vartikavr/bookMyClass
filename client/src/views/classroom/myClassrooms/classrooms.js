@@ -29,9 +29,7 @@ const Classrooms = () => {
     axios
       .get("/classrooms", {}, axiosConfig)
       .then((res) => {
-        console.log(res.data);
         setAllClassrooms(res.data.classrooms);
-        console.log(allClassrooms, "successful seed!");
         setEndPending(true);
       })
       .catch((e) => {
@@ -44,7 +42,6 @@ const Classrooms = () => {
         } else {
           toast.error("An error occured. Try again!");
         }
-        console.log("error in client", e);
         setEndPending(true);
       });
   };

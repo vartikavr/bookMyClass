@@ -8,15 +8,10 @@ const bcrypt = require("bcrypt");
 const schedule = require("node-schedule");
 
 module.exports.registerUser = async (req, res) => {
-  // if (currentUser) {
-  //   return res.status(400).send({ isAlreadyLoggedIn: true });
-  // }
   const findEmailUser = await User.findOne({ email: req.body.email });
-  console.log(findEmailUser);
   if (findEmailUser) {
     return res.status(400).send({ isEmailExisting: true });
   }
-  console.log(req.body);
   const newUser = new User({
     name: req.body.name,
     email: req.body.email,
@@ -26,18 +21,13 @@ module.exports.registerUser = async (req, res) => {
   newUser.isVerified = false;
   try {
     await newUser.save();
-    console.log(newUser);
-    currentUser = newUser._id;
-    // const token = jwt.sign(
-    //   {
-    //     u_id: newUser._id,
-    //   },
-    //   process.env.JWT_SECRET
-    // );
-    // res.cookie("u_id", token, {
-    //   expire: new Date() + 1000 * 60 * 60 * 24,
-    // });
-    // console.log("cookie=", req.headers.cookie.split("=")[1]);
+    const token = jwt.sign(
+      {
+        u_id: newUser._id.toString(),
+      },
+      process.env.JWT_SECRET
+    );
+    req.session.userid = token;
     jwt.sign(
       {
         userId: newUser._id,
@@ -48,7 +38,6 @@ module.exports.registerUser = async (req, res) => {
       },
       (err, emailToken) => {
         const url = `${process.env.SERVER_URI}/confirmation/${emailToken}`;
-        console.log(emailToken);
         const transporter = nodemailer.createTransport({
           service: "gmail",
           auth: {
@@ -66,75 +55,54 @@ module.exports.registerUser = async (req, res) => {
         };
         transporter.sendMail(mailOptions, (error, info) => {
           if (error) {
-            console.log("error in sending mail..", error);
+            return res.status(400).send({ error: "Email not sent!" });
           } else {
-            console.log("Email sent: ", info.response);
+            return res.status(200).send({ sucess: "registered!" });
           }
         });
       }
     );
-    return res.status(200).send({ sucess: "registered!" });
   } catch (e) {
-    console.log(e);
     return res.status(403).send({ error: "Invalid entry!" });
   }
 };
 
 module.exports.confirmEmail = async (req, res) => {
   try {
-    console.log(req.params);
-    const result = jwt.verify(req.params.token, process.env.EMAIL_SECRET);
-    console.log("result...", result);
-    await User.findByIdAndUpdate(result.userId, { isVerified: true });
+    const resultInfo = jwt.verify(req.params.token, process.env.EMAIL_SECRET);
+    await User.findByIdAndUpdate(resultInfo.userId, { isVerified: true });
     return res.status(200).send({ success: "confirmed email" });
   } catch (e) {
-    console.log("error", e);
     return res.status(400).send({ error: "not confirmed." });
   }
 };
 
 module.exports.loginUser = async (req, res) => {
-  // if (currentUser) {
-  //   return res.status(400).send({ isAlreadyLoggedIn: true });
-  // }
   const email = req.body.email;
   const password = req.body.password;
   const checkUser = await User.findOne({ email: email });
   if (checkUser) {
     const isMatch = await checkUser.comparePassword(password);
     if (!isMatch) {
-      console.log("not pwd valid");
-      return res.status(403).send({ error: "invalid pwd" });
+      return res.status(403).send({ error: "invalid password" });
     }
-    currentUser = checkUser._id;
-    // const token = jwt.sign(
-    //   {
-    //     u_id: checkUser._id,
-    //   },
-    //   process.env.JWT_SECRET
-    // );
-    // res.cookie("u_id", token, {
-    //   expire: new Date() + 1000 * 60 * 60 * 24,
-    // });
-    // console.log("cookie=", req.headers.cookie.split("=")[1]);
-    // const result = jwt.verify(
-    //   req.headers.cookie.split("=")[1],
-    //   process.env.JWT_SECRET
-    // );
-    // console.log("result=", result.u_id);
+    const token = jwt.sign(
+      {
+        u_id: checkUser._id.toString(),
+      },
+      process.env.JWT_SECRET
+    );
+    req.session.userid = token;
     return res.status(200).send({ sucess: "logged in!" });
   } else {
-    console.log("email not found");
     return res.status(403).send({ error: "login unsuccessful" });
   }
 };
 
 module.exports.resetPassword = async (req, res) => {
   try {
-    console.log(req.body);
     const email = req.body.email;
     const passwordChangeUser = await User.findOne({ email: email });
-    console.log(passwordChangeUser);
     jwt.sign(
       {
         userId: passwordChangeUser._id,
@@ -145,7 +113,6 @@ module.exports.resetPassword = async (req, res) => {
       },
       (err, resetToken) => {
         const url = `${process.env.SERVER_URI}/reset/${resetToken}`;
-        console.log(resetToken);
         const transporter = nodemailer.createTransport({
           service: "gmail",
           auth: {
@@ -165,32 +132,31 @@ module.exports.resetPassword = async (req, res) => {
         };
         transporter.sendMail(mailOptions, (error, info) => {
           if (error) {
-            console.log("error in sending mail..", error);
+            return res.status(400).send({ error: "Email not sent!" });
           } else {
-            console.log("Email sent: ", info.response);
+            return res.status(200).send({ sucess: "reset password worked!" });
           }
         });
       }
     );
-    return res.status(200).send({ sucess: "reset password worked!" });
   } catch (e) {
-    console.log("reset password email not sent");
     return res.status(403).send({ error: "error in reset password" });
   }
 };
 
 module.exports.confirmResetPassword = async (req, res) => {
   try {
-    const result = jwt.verify(req.params.token, process.env.RESET_SECRET);
-    console.log("result = ", result);
-    const user = await User.findById(result.userId);
+    const resultInfo = jwt.verify(req.params.token, process.env.RESET_SECRET);
+    const user = await User.findById(resultInfo.userId);
     const newPassword = req.body.newPassword;
     const isOldPassword = await user.comparePassword(newPassword);
     if (!isOldPassword) {
       const confirmPassword = req.body.confirmPassword;
       if (confirmPassword == newPassword) {
         const passwordHash = bcrypt.hashSync(newPassword, 12);
-        await User.findByIdAndUpdate(result.userId, { password: passwordHash });
+        await User.findByIdAndUpdate(resultInfo.userId, {
+          password: passwordHash,
+        });
         return res.status(200).send({ success: "password reset successful" });
       } else {
         return res.status(400).send({ isMatch: false });
@@ -199,30 +165,29 @@ module.exports.confirmResetPassword = async (req, res) => {
       return res.status(400).send({ isOldPassword });
     }
   } catch (e) {
-    console.log("error", e);
     return res.status(400).send({ error: "change in password failed" });
   }
 };
 
 module.exports.getMyProfile = async (req, res) => {
   try {
-    const user = await User.findById(currentUser);
+    const currentUser = jwt.verify(req.session.userid, process.env.JWT_SECRET);
+    const user = await User.findById(currentUser.u_id);
     return res.status(200).send({ user });
   } catch (e) {
-    console.log("error", e);
     return res.status(400).send({ error: "error in getting user profile!" });
   }
 };
 
 module.exports.editDetails = async (req, res) => {
   try {
-    await User.findByIdAndUpdate(currentUser, {
+    const currentUser = jwt.verify(req.session.userid, process.env.JWT_SECRET);
+    await User.findByIdAndUpdate(currentUser.u_id, {
       name: req.body.name,
       vaccineStatus: req.body.vaccineStatus,
     });
     return res.status(200).send({ success: "user details updated!" });
   } catch (e) {
-    console.log("error", e);
     return res.status(400).send({ error: "error in updating user details!" });
   }
 };
@@ -230,16 +195,16 @@ module.exports.editDetails = async (req, res) => {
 module.exports.changeEmail = async (req, res) => {
   try {
     const newEmail = req.body.changedEmail;
-    const user = await User.findById(currentUser);
+    const currentUser = jwt.verify(req.session.userid, process.env.JWT_SECRET);
+    const user = await User.findById(currentUser.u_id);
     if (newEmail == user.email) {
       return res.status(400).send({ isOldEmail: true });
     }
     const findEmailUser = await User.findOne({ email: req.body.changedEmail });
-    console.log(findEmailUser);
     if (findEmailUser) {
       return res.status(400).send({ isEmailExisting: true });
     }
-    await User.findByIdAndUpdate(currentUser, {
+    await User.findByIdAndUpdate(currentUser.u_id, {
       email: newEmail,
       isVerified: false,
     });
@@ -253,7 +218,6 @@ module.exports.changeEmail = async (req, res) => {
       },
       (err, emailToken) => {
         const url = `${process.env.SERVER_URI}/confirmation/${emailToken}`;
-        console.log(emailToken);
         const transporter = nodemailer.createTransport({
           service: "gmail",
           auth: {
@@ -271,23 +235,22 @@ module.exports.changeEmail = async (req, res) => {
         };
         transporter.sendMail(mailOptions, (error, info) => {
           if (error) {
-            console.log("error in sending mail..", error);
+            return res.status(400).send({ error: "Email not sent!" });
           } else {
-            console.log("Email sent: ", info.response);
+            return res.status(200).send({ success: "Email id updated!" });
           }
         });
       }
     );
-    return res.status(200).send({ success: "Email id updated!" });
   } catch (e) {
-    console.log("error", e);
     return res.status(400).send({ error: "error in updating email!" });
   }
 };
 
 module.exports.deleteProfile = async (req, res) => {
   try {
-    const userToBeDeleted = await User.findById(currentUser);
+    const currentUser = jwt.verify(req.session.userid, process.env.JWT_SECRET);
+    const userToBeDeleted = await User.findById(currentUser.u_id);
     //cancel schedules for booked classes by the user
     const bookedClasses = userToBeDeleted.classes;
     for (const bookedClassIndex in bookedClasses) {
@@ -299,7 +262,6 @@ module.exports.deleteProfile = async (req, res) => {
       const jobId =
         userToBeDeleted._id.toString() +
         bookedClasses[bookedClassIndex]._id.toString();
-      console.log("scheduled job=", schedule.scheduledJobs[jobId]);
       schedule.cancelJob(jobId);
     }
     //remove this user from their joined classrooms
@@ -313,7 +275,7 @@ module.exports.deleteProfile = async (req, res) => {
       );
     }
     //delete classrooms made by user
-    const classrooms = await Classroom.find({ teacher: currentUser });
+    const classrooms = await Classroom.find({ teacher: currentUser.u_id });
     for (const classroomIndex in classrooms) {
       //delete classrooms from all the users who have joined it
       const joinedUsers = await User.find({
@@ -327,11 +289,10 @@ module.exports.deleteProfile = async (req, res) => {
       //delete classes of these classrooms
       const deletedClasses = classrooms[classroomIndex].classes;
       for (const classIndex in deletedClasses) {
-        //cancel reminder email schedule (for currentUser as it's teacher) for all these classes
+        //cancel reminder email schedule (for current user as it's teacher) for all these classes
         const jobIdTeacher =
           userToBeDeleted._id.toString() +
           deletedClasses[classIndex]._id.toString();
-        console.log("scheduled job=", schedule.scheduledJobs[jobIdTeacher]);
         schedule.cancelJob(jobIdTeacher);
         //cancel reminder email schedule for students who booked these classes
         const users = await User.find({
@@ -344,33 +305,27 @@ module.exports.deleteProfile = async (req, res) => {
           const jobId =
             users[index]._id.toString() +
             deletedClasses[classIndex]._id.toString();
-          console.log("scheduled job=", schedule.scheduledJobs[jobId]);
           schedule.cancelJob(jobId);
         }
         await Class.findByIdAndDelete(deletedClasses[classIndex]._id);
       }
       await Classroom.findByIdAndDelete(classrooms[classroomIndex]._id);
     }
-    console.log("all schedules=", schedule.scheduledJobs);
     //delete User
     await User.findByIdAndDelete(userToBeDeleted._id);
     //logout User
-    console.log("current user=", currentUser);
-    currentUser = null;
-    console.log("logging out..", currentUser);
+    req.session.destroy();
+    res.clearCookie("sid");
     return res.status(200).send({ success: "Profile deleted!" });
   } catch (e) {
-    console.log("error", e);
     return res.status(400).send({ error: "error in deleting profile!" });
   }
 };
 
 module.exports.logoutUser = async (req, res) => {
-  console.log(currentUser);
-  if (currentUser) {
-    // res.clearCookie("u_id");
-    currentUser = null;
-    console.log("logging out ...", currentUser);
+  if (req.session.userid) {
+    req.session.destroy();
+    res.clearCookie("sid");
     res.status(200).send({ success: "Logged out!" });
   } else {
     return res.status(403).send({ error: "not logged out" });

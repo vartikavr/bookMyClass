@@ -24,7 +24,6 @@ const ClassroomHeader = ({
     axios
       .delete(`/classrooms/${classroom._id}/delete`, {}, axiosConfig)
       .then((res) => {
-        console.log("successfully deleted classroom!");
         toast.success("Successfully deleted a classroom!");
         history.push("/classrooms");
         isDeletionPending(false);
@@ -40,7 +39,6 @@ const ClassroomHeader = ({
           toast.error("An error occured. Try again!");
         }
         isDeletionPending(false);
-        console.log("error in client", e);
       });
   };
 

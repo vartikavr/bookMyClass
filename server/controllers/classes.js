@@ -3,15 +3,16 @@ const Classroom = require("../schemas/classroom");
 const User = require("../schemas/user");
 const nodemailer = require("nodemailer");
 const schedule = require("node-schedule");
+const jwt = require("jsonwebtoken");
 
 module.exports.viewMyClasses = async (req, res) => {
   try {
-    const user = await User.findById(currentUser).populate({
+    const currentUser = jwt.verify(req.session.userid, process.env.JWT_SECRET);
+    const user = await User.findById(currentUser.u_id).populate({
       path: "classes",
       populate: { path: "classroom" },
       options: { sort: { date: 1, startTime: 1 } },
     });
-    // console.log(user);
     var date = new Date();
     var month = date.getMonth() + 1;
     if (month < 10) {
@@ -22,7 +23,6 @@ module.exports.viewMyClasses = async (req, res) => {
       dateToday = "0" + dateToday;
     }
     const currentDate = date.getFullYear() + "-" + month + "-" + dateToday;
-    // currentDate = currentDate.toISOString().split("T")[0];
     var filteredClasses = [];
     if (req.body.selected == "expired") {
       for (const index in user.classes) {
@@ -32,7 +32,6 @@ module.exports.viewMyClasses = async (req, res) => {
           filteredClasses.push(user.classes[index]);
         }
       }
-      console.log("filter,", filteredClasses);
       return res.status(200).send({ classes: filteredClasses });
     } else if (req.body.selected == "upcoming") {
       for (const index in user.classes) {
@@ -42,13 +41,11 @@ module.exports.viewMyClasses = async (req, res) => {
           filteredClasses.push(user.classes[index]);
         }
       }
-      console.log("filter,", filteredClasses);
       return res.status(200).send({ classes: filteredClasses });
     } else {
       return res.status(200).send({ classes: user.classes });
     }
   } catch (e) {
-    console.log("error", e);
     return res.status(400).send({ error: "error in getting classes" });
   }
 };
@@ -57,7 +54,8 @@ module.exports.bookClass = async (req, res) => {
   try {
     const classId = req.params.id;
     const targetClass = await Class.findById(classId).populate("classroom");
-    const user = await User.findById(currentUser);
+    const currentUser = jwt.verify(req.session.userid, process.env.JWT_SECRET);
+    const user = await User.findById(currentUser.u_id);
     if (targetClass.classroom.students.includes(user._id)) {
       if (targetClass.availableSeats > 0) {
         targetClass.availableSeats = targetClass.availableSeats - 1;
@@ -71,17 +69,14 @@ module.exports.bookClass = async (req, res) => {
           targetClass.startTime +
           ":00";
         const classDate = new Date(stringDate);
-        console.log("classDate", classDate);
         var milliseconds = classDate.getTime();
         milliseconds = milliseconds - 60 * 60 * 1000; //60mins ago
         var reminderDate = new Date(milliseconds);
-        console.log("reminderDate", reminderDate);
         const year = reminderDate.getFullYear();
         const month = reminderDate.getMonth();
         const newDate = reminderDate.getDate();
         const hours = reminderDate.getHours();
         const mins = reminderDate.getMinutes();
-        console.log(year, month, newDate, hours, mins);
         reminderDate = new Date(year, month, newDate, hours, mins, 0);
         //mail options
         const currentClassroom = await Classroom.findById(
@@ -120,20 +115,16 @@ module.exports.bookClass = async (req, res) => {
         };
         //job name => user id+class id
         const jobId = user._id.toString() + targetClass._id.toString();
-        console.log("jobId=", jobId);
         const job = schedule.scheduleJob(jobId, reminderDate, function () {
           //scheduling to send an email later
           transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
-              console.log("error in sending mail..", error);
               return res.status(403).send({ error: "error in sending mail" });
             } else {
-              console.log("Email sent: ", info.response);
               return res.status(200).send({ success: "Email sent" });
             }
           });
         });
-        console.log("all schedules=", schedule.scheduledJobs);
         return res.status(200).send({ success: "booking done!" });
       } else {
         return res.status(400).send({ isSeatLeft: false });
@@ -142,7 +133,6 @@ module.exports.bookClass = async (req, res) => {
       return res.status(400).send({ isClassroomMember: false });
     }
   } catch (e) {
-    console.log("error", e);
     return res.status(400).send({ error: "error in booking" });
   }
 };
@@ -150,19 +140,17 @@ module.exports.bookClass = async (req, res) => {
 module.exports.cancelBooking = async (req, res) => {
   try {
     const classId = req.params.id;
-    const user = await User.findByIdAndUpdate(currentUser, {
+    const currentUser = jwt.verify(req.session.userid, process.env.JWT_SECRET);
+    const user = await User.findByIdAndUpdate(currentUser.u_id, {
       $pull: { classes: classId },
     });
     const currentClass = await Class.findById(classId);
     currentClass.availableSeats = currentClass.availableSeats + 1;
     await currentClass.save();
     const jobId = user._id.toString() + currentClass._id.toString();
-    console.log("scheduled job=", schedule.scheduledJobs[jobId]);
     schedule.cancelJob(jobId);
-    console.log("all schedules=", schedule.scheduledJobs);
     return res.status(200).send({ success: "booking cancelled!" });
   } catch (e) {
-    console.log("error", e);
     return res.status(400).send({ error: "error in cancelling booking" });
   }
 };
@@ -174,7 +162,8 @@ module.exports.viewSeats = async (req, res) => {
     const classroom = await Classroom.findById(currentClass.classroom).populate(
       "students"
     );
-    if (classroom.teacher.toString() == currentUser.toString()) {
+    const currentUser = jwt.verify(req.session.userid, process.env.JWT_SECRET);
+    if (classroom.teacher.toString() == currentUser.u_id.toString()) {
       return res.status(200).send({ classroom, currentClass });
     } else {
       return res.status(400).send({
@@ -182,7 +171,6 @@ module.exports.viewSeats = async (req, res) => {
       });
     }
   } catch (e) {
-    console.log("error", e);
     return res.status(400).send({ error: "error in viewing seats" });
   }
 };
@@ -191,12 +179,11 @@ module.exports.deleteClass = async (req, res) => {
   try {
     const classId = req.params.id;
     const classToBeDeleted = await Class.findById(classId);
-    console.log(classToBeDeleted);
     const associatedClassroom = await Classroom.findById(
       classToBeDeleted.classroom
     );
-    console.log(associatedClassroom.teacher, currentUser);
-    if (associatedClassroom.teacher.toString() == currentUser.toString()) {
+    const currentUser = jwt.verify(req.session.userid, process.env.JWT_SECRET);
+    if (associatedClassroom.teacher.toString() == currentUser.u_id.toString()) {
       //delete class from users
       const users = await User.find({ classes: { $in: classId } });
       for (const index in users) {
@@ -206,7 +193,6 @@ module.exports.deleteClass = async (req, res) => {
         //cancel reminder email schedule for students who booked this class
         const jobId =
           users[index]._id.toString() + classToBeDeleted._id.toString();
-        console.log("scheduled job=", schedule.scheduledJobs[jobId]);
         schedule.cancelJob(jobId);
       }
       //delete class from its classroom
@@ -217,9 +203,7 @@ module.exports.deleteClass = async (req, res) => {
       const jobIdTeacher =
         associatedClassroom.teacher.toString() +
         classToBeDeleted._id.toString();
-      console.log("scheduled job=", schedule.scheduledJobs[jobIdTeacher]);
       schedule.cancelJob(jobIdTeacher);
-      console.log("all schedules=", schedule.scheduledJobs);
       //delete class
       await Class.findByIdAndDelete(classId);
       return res.status(200).send({ success: "deleted class!" });
@@ -229,7 +213,6 @@ module.exports.deleteClass = async (req, res) => {
       });
     }
   } catch (e) {
-    console.log("error", e);
     return res.status(400).send({ error: "error in deleting class" });
   }
 };

@@ -17,16 +17,12 @@ const DeleteProfileButton = ({ isProfileDeleting }) => {
       .delete("/delete", {}, axiosConfig)
       .then((res) => {
         isProfileDeleting(false);
-        console.log("successfully deleted profile!");
         toast.success("Successfully deleted the user's profile!");
-        localStorage.removeItem("isLoggedIn");
-        console.log("logging out..");
         history.push("/");
       })
       .catch((e) => {
         isProfileDeleting(false);
         toast.error("An error occured. Try again!");
-        console.log("error in client", e);
       });
   };
 
