@@ -1,4 +1,4 @@
-import styles from "../../../styles/people.module.css";
+import "./people.css";
 import SendInvite from "./sendInvite";
 import axios from "axios";
 import { useState, useEffect } from "react";
@@ -62,7 +62,7 @@ const People = () => {
   };
 
   return (
-    <div className={styles.showPeople}>
+    <div className="showPeople">
       <SendInvite
         email={email}
         changeEmail={setEmail}
@@ -84,13 +84,13 @@ const People = () => {
             <h1 style={{ color: "#f88138" }}>Teacher</h1>
             <hr style={{ color: "black" }} />
             <h5 className="ms-4">{teacherInfo.name}</h5>
-            <div className={styles.studentsHeading}>
+            <div className="studentsHeading">
               <h1 style={{ color: "#f88138" }} className="mt-4">
                 Students
               </h1>
               {teacherInfo._id == currentUser._id && (
                 <button
-                  className={styles.inviteBtn}
+                  className="inviteBtn"
                   data-toggle="modal"
                   data-target="#inviteModalCenter"
                 >

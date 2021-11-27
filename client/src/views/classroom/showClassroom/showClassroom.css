@@ -1,0 +1,32 @@
+.pageLoading {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.showClassroom {
+  padding-top: 2em;
+  background-color: #fef8f5;
+}
+
+.btn-addClass {
+  padding: 5px 150px;
+  margin: 30px auto;
+  margin-bottom: 0;
+  display: block;
+  font-size: 1.2em;
+  border-radius: 20px;
+  border: 2px solid #f88138;
+  color: #f88138;
+  font-weight: 600;
+  outline: none;
+  background: transparent;
+}
+
+.btn-addClass:hover {
+  transform: translateY(-2px);
+  background-color: #f88138;
+  color: #fff;
+}

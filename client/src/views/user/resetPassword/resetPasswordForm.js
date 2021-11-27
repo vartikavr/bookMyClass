@@ -1,3 +1,5 @@
+import "./resetPasswordForm.css";
+
 const ResetPasswordForm = ({
   password,
   setPassword,

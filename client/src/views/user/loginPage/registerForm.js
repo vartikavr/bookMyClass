@@ -1,4 +1,4 @@
-import styles from "../../../styles/login.module.css";
+import "./registerForm.css";
 
 const RegisterForm = ({
   name,
@@ -14,10 +14,10 @@ const RegisterForm = ({
 }) => {
   return (
     <div className="formContainer signUpContainer">
-      <form className={styles.form} onSubmit={handleRegisterSubmit}>
-        <h3 className={styles.h3}>Create Account</h3>
+      <form className="registerForm" onSubmit={handleRegisterSubmit}>
+        <h3 className="heading">Create Account</h3>
         <input
-          className={styles.input}
+          className="input-register"
           name="name"
           id="name"
           type="text"
@@ -27,7 +27,7 @@ const RegisterForm = ({
           onChange={(event) => changeName(event.target.value)}
         />
         <select
-          className={styles.input}
+          className="input-register"
           name="vaccineStatus"
           required
           title="Vaccination status"
@@ -43,7 +43,7 @@ const RegisterForm = ({
           <option value="NOTA">NOTA</option>
         </select>
         <input
-          className={styles.input}
+          className="input-register"
           type="email"
           name="email"
           id="email"
@@ -53,7 +53,7 @@ const RegisterForm = ({
           onChange={(event) => changeEmail(event.target.value)}
         />
         <input
-          className={styles.input}
+          className="input-register"
           type="password"
           name="password"
           id="password"
@@ -62,9 +62,11 @@ const RegisterForm = ({
           value={password}
           onChange={(event) => changePassword(event.target.value)}
         />
-        {!isRegisterPending && <button className="buttonLogin">Sign Up</button>}
+        {!isRegisterPending && (
+          <button className="buttonRegister">Sign Up</button>
+        )}
         {isRegisterPending && (
-          <button className="buttonLogin" disabled>
+          <button className="buttonRegister" disabled>
             <span
               class="spinner-border spinner-border-sm"
               role="status"

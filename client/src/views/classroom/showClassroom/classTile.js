@@ -1,5 +1,4 @@
-import styles from "../../../styles/class.module.css";
-import stylesHome from "../../../styles/home.module.css";
+import "./classTile.css";
 import SeatBookingButton from "./seatBookingButton";
 import { useHistory, Link } from "react-router-dom";
 import axios from "axios";
@@ -53,15 +52,15 @@ const ClassTitle = ({
 
   return (
     <div className="col-lg-6 col-xl-4 offset-2 offset-lg-0 d-flex align-items">
-      <div class={styles.flipCard} title={currentClass.title}>
-        <div class={styles.flipCardInner}>
-          <div class={styles.flipCardFront}>
+      <div class="flipCard" title={currentClass.title}>
+        <div class="flipCardInner">
+          <div class="flipCardFront">
             <div className="icon">
               <i class="bx bxs-spreadsheet"></i>
             </div>
-            <h4 className={stylesHome.h4}>{currentClass.title}</h4>
+            <h4 className="classHeading">{currentClass.title}</h4>
           </div>
-          <div class={styles.flipCardBack}>
+          <div class="flipCardBack">
             <h5 title="">{currentClass.date.substring(0, 10)}</h5>
             <p className="time mb-2" title="">
               Time : {currentClass.startTime} to {currentClass.endTime} (IST)

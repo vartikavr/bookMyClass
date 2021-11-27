@@ -1,0 +1,106 @@
+.classHeading {
+  font-family: "Raleway", sans-serif;
+}
+
+.flipCard {
+  background-color: transparent;
+  width: 300px;
+  height: 200px;
+  border: 1px solid #f1f1f1;
+  perspective: 1000px; /* Remove this if you don't want the 3D effect */
+  margin-top: 3em;
+}
+
+/* This container is needed to position the front and back side */
+.flipCardInner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+/* Do an horizontal flip when you move the mouse over the flip box container */
+.flipCard:hover .flipCardInner {
+  transform: rotateY(180deg);
+}
+
+/* Position the front and back side */
+.flipCardBackBooking,
+.flipCardFrontBooking {
+  position: absolute;
+  width: 100%;
+  border-radius: 20px;
+  -webkit-backface-visibility: hidden; /* Safari */
+  backface-visibility: hidden;
+}
+
+.flipCardFrontBooking,
+.flipCardBackBooking {
+  height: 200px;
+}
+
+/* Style the front side (fallback if image is missing) */
+.flipCardFrontBooking {
+  background-color: #fef8f5;
+  color: black;
+  border: 1px solid #ef7f4d;
+  padding-left: 1.2em;
+  padding-right: 1.2em;
+}
+
+.flipCardFrontBooking {
+  padding-top: 3.5em;
+}
+.flipCardFrontBooking h4 {
+  color: black;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+/* Style the back side */
+.flipCardBackBooking {
+  background-color: #f88138;
+  color: white;
+  transform: rotateY(180deg);
+  padding-top: 1em;
+}
+
+.flipCardBackBooking button {
+  border-radius: 15px;
+  background-color: transparent;
+  border: 1px solid #fff;
+  color: #fff;
+  padding: 2px 12px;
+}
+
+.flipCardBackBooking button {
+  font-size: 1em;
+}
+
+.flipCardBackBooking .cancelBtn {
+  margin-inline-start: 1.6em;
+  margin-inline-end: 1.6em;
+}
+
+.flipCardBackBooking .endedBtn {
+  margin-inline-start: 3.2em;
+  margin-inline-end: 3.2em;
+  background-color: rgb(173, 170, 170);
+  border: 1px solid rgb(173, 170, 170);
+  color: #fff;
+}
+
+.flipCardBackBooking button {
+  background-color: #fff;
+  color: #f88138;
+  transform: translateY(-1px);
+}
+
+.myClasses .icon i {
+  font-size: 48px;
+  line-height: 1;
+  margin-bottom: 15px;
+  color: #ef7f4d;
+}

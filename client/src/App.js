@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Header from "./header";
-import Home from "./home";
+import Header from "./views/header/header";
+import Home from "./views/home/home";
 import Login from "./views/user/loginPage/login";
 import ConfirmEmail from "./views/user/confirmEmail/confirmEmail";
 import ResetPassword from "./views/user/resetPassword/resetPassword";
@@ -12,7 +12,7 @@ import People from "./views/classroom/showPeople/people";
 import ViewSeats from "./views/class/viewSeats/viewSeats";
 import Profile from "./views/user/profile/profile";
 import MyClasses from "./views/class/myBookings/myClasses";
-import NotFound from "./notFound";
+import NotFound from "./views/notFound/notFound";
 
 function App() {
   return (

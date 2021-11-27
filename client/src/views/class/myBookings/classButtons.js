@@ -1,3 +1,5 @@
+import "./classButtons.css";
+
 const ClassButtons = ({
   selectedButton,
   handleAll,

@@ -1,0 +1,65 @@
+.showClassroom .card-class button {
+  background-color: transparent;
+}
+
+.showClassroom .card-class button:hover {
+  transform: translateY(-1px);
+}
+
+.showClassroom .card-title {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  padding-right: 2em;
+}
+
+.showClassroom .card-title,
+.showClassroom .card-class {
+  padding-bottom: 0;
+}
+
+.showClassroom .title-text {
+  font-size: 0.8em;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  padding-right: 2em;
+}
+
+.showClassroom .menu-btn {
+  border: none;
+}
+.showClassroom .dropdown-menu-classroom {
+  position: relative;
+}
+.showClassroom .menu-content {
+  z-index: 1;
+  position: absolute;
+  display: none;
+  background-color: rgba(255, 255, 255);
+  border-color: black;
+  margin-left: 20px;
+  margin-top: -13px;
+  box-shadow: 2px 2px #acaaaa;
+}
+
+@media (max-width: 580px) {
+  .showClassroom .menu-content {
+    margin-left: -120px;
+  }
+}
+
+.showClassroom .links {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  font-size: 0.4em;
+  border: none;
+  text-align: left;
+  width: 100%;
+  white-space: nowrap;
+}
+.showClassroom .links:hover {
+  background-color: rgb(216, 210, 210);
+}

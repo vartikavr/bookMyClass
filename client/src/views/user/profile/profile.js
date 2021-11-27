@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import ChangeEmailModal from "./changeEmailModal";
 import EditProfileModal from "./editProfileModal";
 import ProfilePageBody from "./profilePageBody";
-import styles from "../../../styles/profile.module.css";
+import "./profile.css";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import ReactLoading from "react-loading";
@@ -51,7 +51,7 @@ const Profile = () => {
   };
 
   return (
-    <div className={styles.profile}>
+    <div className="profile">
       <ChangeEmailModal isEmailChanged={setIsEdited} />
       <EditProfileModal
         name={name}

@@ -1,4 +1,4 @@
-import styles from "../../../styles/login.module.css";
+import "./signInForm.css";
 
 const SignInForm = ({
   email,
@@ -10,10 +10,10 @@ const SignInForm = ({
 }) => {
   return (
     <div className="formContainer signInContainer">
-      <form className={styles.form} onSubmit={handleLoginSubmit}>
-        <h1 className={styles.h1}>Sign in</h1>
+      <form className="signin-form" onSubmit={handleLoginSubmit}>
+        <h1 className="heading">Sign in</h1>
         <input
-          className={styles.input}
+          className="input-signin"
           type="email"
           name="email"
           id="email"
@@ -24,7 +24,7 @@ const SignInForm = ({
           onChange={(event) => changeEmail(event.target.value)}
         />
         <input
-          className={styles.input}
+          className="input-signin"
           type="password"
           name="password"
           id="password"
@@ -35,7 +35,7 @@ const SignInForm = ({
         />
         <a
           href=""
-          className={styles.forgotPasswordLink}
+          className="forgotPasswordLink"
           data-toggle="modal"
           data-target="#forgotPasswordModalCenter"
         >

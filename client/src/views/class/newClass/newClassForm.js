@@ -1,3 +1,4 @@
+import "./newClassForm.css";
 const NewClassForm = ({
   title,
   changeTitle,
@@ -84,10 +85,10 @@ const NewClassForm = ({
       </div>
       <div className="d-grid">
         {!isFormSubmitted && (
-          <button className="btn btn-block mt-2 mb-4">Submit</button>
+          <button className="formsubmit-btn btn-block mt-2 mb-4">Submit</button>
         )}
         {isFormSubmitted && (
-          <button className="btn btn-block mt-2 mb-4" disabled>
+          <button className="formsubmit-btn btn-block mt-2 mb-4" disabled>
             <span
               class="spinner-border spinner-border-sm"
               role="status"

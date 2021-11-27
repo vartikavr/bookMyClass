@@ -1,0 +1,13 @@
+.pageLoading {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.myClasses {
+  padding-top: 2em;
+  background-color: #fef8f5;
+  margin-bottom: 4em;
+}

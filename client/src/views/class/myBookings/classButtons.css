@@ -1,0 +1,39 @@
+.myClasses .btn-group {
+  margin-left: 20em;
+}
+
+@media (min-width: 1000px) and (max-width: 1400px) {
+  .myClasses .btn-group {
+    margin-left: 8em;
+  }
+}
+
+@media (min-width: 800px) and (max-width: 1000px) {
+  .myClasses .btn-group {
+    margin-left: 5em;
+  }
+}
+
+@media (max-width: 800px) {
+  .myClasses .btn-group {
+    margin-left: 2em;
+  }
+}
+.myClasses .btn-group button {
+  padding: 0.5em 2em;
+  border-radius: 0;
+  background-color: transparent;
+  border: 1px solid #f88138;
+  color: #f88138;
+  box-shadow: none;
+}
+
+.myClasses .btn-group button:hover {
+  transform: translateY(-1px);
+}
+
+.myClasses .btn-group .selected {
+  background-color: #f88138;
+  border: 1px solid #f88138;
+  color: #fff;
+}

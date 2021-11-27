@@ -1,3 +1,4 @@
+import "./resetPassword.css";
 import { useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import ResetPasswordForm from "./resetPasswordForm";

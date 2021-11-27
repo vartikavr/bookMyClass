@@ -1,0 +1,18 @@
+.confirmEmail {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.confirmEmail button {
+  margin-left: 2em;
+  margin-top: 1em;
+  border-radius: 20px;
+  border: 1px solid #ff4b2b;
+  background-color: #ff4b2b;
+  color: #ffffff;
+  font-size: 1.2em;
+  font-weight: bold;
+}

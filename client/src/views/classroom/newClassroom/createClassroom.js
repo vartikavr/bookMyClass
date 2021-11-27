@@ -1,3 +1,5 @@
+import "./createClassroom.css";
+
 const CreateClassroom = ({
   classname,
   changeClassname,

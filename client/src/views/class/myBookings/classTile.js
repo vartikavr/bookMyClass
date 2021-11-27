@@ -1,5 +1,4 @@
-import styles from "../../../styles/class.module.css";
-import stylesHome from "../../../styles/home.module.css";
+import "./classTile.css";
 import axios from "axios";
 import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
@@ -53,16 +52,16 @@ const ClassTile = ({
   };
 
   return (
-    <div className="col-lg-6 col-xl-4 offset-2 offset-lg-0 d-flex align-items">
-      <div class={styles.flipCard} title={currentClass.title}>
-        <div class={styles.flipCardInner}>
-          <div class={styles.flipCardFrontBooking}>
+    <div className="col-lg-6 col-xl-4 offset-lg-0 d-flex align-items justify-content-center">
+      <div class="flipCard" title={currentClass.title}>
+        <div class="flipCardInner">
+          <div class="flipCardFrontBooking">
             <div className="icon">
               <i class="bx bxs-spreadsheet"></i>
             </div>
-            <h4 className={stylesHome.h4}>{currentClass.title}</h4>
+            <h4 className="classHeading">{currentClass.title}</h4>
           </div>
-          <div class={styles.flipCardBackBooking}>
+          <div class="flipCardBackBooking">
             <h5 title="">{currentClass.date.substring(0, 10)}</h5>
             <p className="time mb-2" title="">
               Time : {currentClass.startTime} to {currentClass.endTime} (IST)
@@ -72,7 +71,7 @@ const ClassTile = ({
               <div>
                 {!isCancellationPending && (
                   <button
-                    className={styles.cancelBtn}
+                    className="cancelBtn"
                     title=""
                     id={currentClass._id}
                     onClick={handleCancelBooking}
@@ -82,7 +81,7 @@ const ClassTile = ({
                 )}
                 {isCancellationPending && (
                   <button
-                    className={styles.cancelBtn}
+                    className="cancelBtn"
                     title=""
                     id={currentClass._id}
                     disabled
@@ -98,11 +97,7 @@ const ClassTile = ({
               </div>
             )}
             {currentClass.date.substring(0, 10) < currentDate && (
-              <button
-                className={styles.endedBtn}
-                title="Class Expired"
-                disabled
-              >
+              <button className="endedBtn" title="Class Expired" disabled>
                 Ended
               </button>
             )}

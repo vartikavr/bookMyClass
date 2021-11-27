@@ -1,3 +1,4 @@
+import "./showClassroom.css";
 import CodeModal from "./codeModal";
 import EditClassroomModal from "./editClassroomModal";
 import ClassroomHeader from "./classroomHeader";

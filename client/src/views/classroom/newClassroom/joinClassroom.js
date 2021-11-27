@@ -1,3 +1,5 @@
+import "./joinClassroom.css";
+
 const JoinClassroom = ({ code, changeCode, isJoiningPending, handleJoin }) => {
   return (
     <div class="form-wrapper">

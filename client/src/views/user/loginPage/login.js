@@ -1,3 +1,4 @@
+import "./login.css";
 import ForgotPasswordModal from "./forgotPasswordModal";
 import RegisterForm from "./registerForm";
 import SignInForm from "./signInForm";
@@ -7,7 +8,6 @@ import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
-import styles from "../../../styles/login.module.css";
 toast.configure();
 
 const Login = () => {
@@ -109,9 +109,9 @@ const Login = () => {
   };
 
   return (
-    <div className={styles.login}>
+    <div className="login">
       <ForgotPasswordModal />
-      <div className={styles.container} id="container">
+      <div className="login-container" id="container">
         <RegisterForm
           name={name}
           changeName={setName}

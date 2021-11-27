@@ -1,0 +1,58 @@
+.form-wrapper.is-active .switcher-join {
+  color: #ff4b2b;
+  transform: translateX(-90px);
+}
+
+.switcher-join .underline::before {
+  transform: translateX(-101%);
+}
+
+.form-join {
+  animation: hideJoin 0.3s ease-out forwards;
+}
+
+.form-wrapper.is-active .form-join {
+  animation: showJoin 0.3s ease-in forwards;
+}
+
+@keyframes showJoin {
+  0% {
+    background: #d7e7f1;
+    transform: translate(-40%, 10px) scaleY(0.8);
+  }
+  50% {
+    transform: translate(0, 0) scaleY(0.8);
+  }
+  100% {
+    background-color: #fff;
+    transform: translate(-35%, -20px) scaleY(1);
+  }
+}
+
+@keyframes hideJoin {
+  0% {
+    background-color: #fff;
+    transform: translate(-35%, -20px) scaleY(1);
+  }
+  50% {
+    transform: translate(0, 0) scaleY(0.8);
+  }
+  100% {
+    background: #d7e7f1;
+    transform: translate(-40%, 10px) scaleY(0.8);
+  }
+}
+
+.form-join fieldset {
+  transform: translateX(50%);
+}
+
+.btn-join {
+  border-radius: 20px;
+  border: 1px solid #ff4b2b;
+  background-color: #ff4b2b;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: bold;
+  transform: translateX(30%);
+}

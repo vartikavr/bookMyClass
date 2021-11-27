@@ -1,3 +1,4 @@
+import "./confirmEmail.css";
 import axios from "axios";
 import { useHistory, useParams } from "react-router-dom";
 import { useState } from "react";

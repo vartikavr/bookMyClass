@@ -1,3 +1,7 @@
+.classHeading {
+  font-family: "Raleway", sans-serif;
+}
+
 .flipCard {
   background-color: transparent;
   width: 300px;
@@ -24,9 +28,7 @@
 
 /* Position the front and back side */
 .flipCardFront,
-.flipCardBack,
-.flipCardBackBooking,
-.flipCardFrontBooking {
+.flipCardBack {
   position: absolute;
   width: 100%;
   border-radius: 20px;
@@ -36,17 +38,11 @@
 
 .flipCardFront,
 .flipCardBack {
-  height: 24vh;
-}
-
-.flipCardFrontBooking,
-.flipCardBackBooking {
-  height: 30vh;
+  height: 180px;
 }
 
 /* Style the front side (fallback if image is missing) */
-.flipCardFront,
-.flipCardFrontBooking {
+.flipCardFront {
   background-color: #fef8f5;
   color: black;
   border: 1px solid #ef7f4d;
@@ -58,27 +54,21 @@
   padding-top: 2.5em;
 }
 
-.flipCardFrontBooking {
-  padding-top: 3.5em;
-}
-.flipCardFront h4,
-.flipCardFrontBooking h4 {
+.flipCardFront h4 {
   color: black;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
 }
 /* Style the back side */
-.flipCardBack,
-.flipCardBackBooking {
+.flipCardBack {
   background-color: #f88138;
   color: white;
   transform: rotateY(180deg);
   padding-top: 1em;
 }
 
-.flipCardBack button,
-.flipCardBackBooking button {
+.flipCardBack button {
   border-radius: 15px;
   background-color: transparent;
   border: 1px solid #fff;
@@ -90,26 +80,15 @@
   font-size: 1.3em;
 }
 
-.flipCardBackBooking button {
-  font-size: 1em;
-}
-
-.flipCardBackBooking .cancelBtn {
-  margin-inline-start: 1.6em;
-  margin-inline-end: 1.6em;
-}
-
-.flipCardBackBooking .endedBtn {
-  margin-inline-start: 3.2em;
-  margin-inline-end: 3.2em;
-  background-color: rgb(173, 170, 170);
-  border: 1px solid rgb(173, 170, 170);
-  color: #fff;
-}
-
-.flipCardBack button:hover,
-.flipCardBackBooking button {
+.flipCardBack button:hover {
   background-color: #fff;
   color: #f88138;
   transform: translateY(-1px);
+}
+
+.icon i {
+  font-size: 48px;
+  line-height: 1;
+  margin-bottom: 15px;
+  color: #ef7f4d;
 }

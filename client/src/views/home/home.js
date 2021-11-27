@@ -1,9 +1,9 @@
-import styles from "./styles/home.module.css";
+import "./home.css";
 import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
-    <div className={styles.home}>
+    <div className="home">
       {/* ======= Top Section =======  */}
       <section
         id="hero"
@@ -12,10 +12,10 @@ const Home = () => {
         <div className="container mt-5 mb-4">
           <div className="row gy-4">
             <div className="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center">
-              <h1 className={styles.h1}>
+              <h1 className="heading">
                 Prioritizing learning with BookMyClass!
               </h1>
-              <h2 className={styles.h2}>
+              <h2 className="heading">
                 We ease your task of scheduling your everyday classes so that
                 you experience no hurdles while learning.
               </h2>
@@ -38,7 +38,7 @@ const Home = () => {
       {/* End Main Section  */}
       <main id="main">
         {/* ======= About Section =======  */}
-        <section id="about" className={styles.about}>
+        <section id="about" className="about">
           <div className="container">
             <div className="row justify-content-between">
               <div className="mt-5 mb-5 col-lg-5 d-flex align-items-center justify-content-center about-img">
@@ -50,7 +50,7 @@ const Home = () => {
                 />
               </div>
               <div className="col-lg-6 mt-5 pt-lg-0">
-                <h3 data-aos="fade-up" className={styles.h3}>
+                <h3 data-aos="fade-up" className="heading">
                   Learning amidst pandemic
                 </h3>
                 <p data-aos="fade-up" data-aos-delay="100" className="mt-4">
@@ -66,7 +66,7 @@ const Home = () => {
                     data-aos-delay="100"
                   >
                     <i className="bx bx-book"></i>
-                    <h4 className={styles.h4}>In-person classes</h4>
+                    <h4 className="heading">In-person classes</h4>
                     <p>
                       Students of a pre-decided number will be allowed to have
                       face-to-face classes.
@@ -78,7 +78,7 @@ const Home = () => {
                     data-aos-delay="200"
                   >
                     <i class="bx bx-laptop"></i>
-                    <h4 className={styles.h4}>Remote classes</h4>
+                    <h4 className="heading">Remote classes</h4>
                     <p>
                       Students can also continue with their remotely accessed
                       online classes.
@@ -95,7 +95,7 @@ const Home = () => {
       <section id="services" className="section-home services section-bg">
         <div className="container" data-aos="fade-up">
           <div className="section-title">
-            <h2 className={styles.h2}>Services</h2>
+            <h2 className="heading">Services</h2>
             <p>Check out the different functionalities of BookMyClass</p>
           </div>
           <div className="row">
@@ -108,7 +108,7 @@ const Home = () => {
                 <div class="icon">
                   <i class="bx bx-checkbox-checked"></i>
                 </div>
-                <h4 class={styles.h4} style={{ color: "#eb5d1e" }}>
+                <h4 class="heading" style={{ color: "#eb5d1e" }}>
                   Create classrooms
                 </h4>
                 <p class="description">
@@ -126,7 +126,7 @@ const Home = () => {
                 <div className="icon">
                   <i class="bx bx-file"></i>
                 </div>
-                <h4 className={styles.h4} style={{ color: "#eb5d1e" }}>
+                <h4 className="heading" style={{ color: "#eb5d1e" }}>
                   Join classrooms
                 </h4>
                 <p className="description">
@@ -144,7 +144,7 @@ const Home = () => {
                 <div className="icon">
                   <i class="bx bx-stats"></i>
                 </div>
-                <h4 className={styles.h4} style={{ color: "#eb5d1e" }}>
+                <h4 className="heading" style={{ color: "#eb5d1e" }}>
                   View available seats
                 </h4>
                 <p className="description">
@@ -162,7 +162,7 @@ const Home = () => {
                 <div className="icon">
                   <i class="bx bxs-face"></i>
                 </div>
-                <h4 className={styles.h4} style={{ color: "#eb5d1e" }}>
+                <h4 className="heading" style={{ color: "#eb5d1e" }}>
                   Book your seat
                 </h4>
                 <p className="description">
@@ -180,7 +180,7 @@ const Home = () => {
       <section id="faq" className="faq">
         <div className="container" data-aos="fade-up">
           <div className="section-title">
-            <h2 className={styles.h2}>F.A.Q</h2>
+            <h2 className="heading">F.A.Q</h2>
             <p>Frequently Asked Questions</p>
           </div>
           <ul className="faqList" data-aos="fade-up" data-aos-delay="100">

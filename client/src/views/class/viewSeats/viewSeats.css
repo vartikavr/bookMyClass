@@ -1,0 +1,46 @@
+/*--------show people-------*/
+
+.pageLoading {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.studentsHeading h1 {
+  display: inline-block;
+  width: 100%;
+  margin-right: -12%;
+}
+
+@media (max-width: 1140px) {
+  .studentsHeading h1 {
+    margin-right: -18%;
+  }
+}
+
+@media (max-width: 860px) {
+  .studentsHeading h1 {
+    margin-right: -25%;
+  }
+}
+
+.viewSeats {
+  background-color: #fef8f5;
+  font-family: "Raleway", sans-serif;
+}
+
+.inPerson {
+  background-color: inherit;
+  border-radius: 10px;
+  border: 1px solid green;
+  color: green;
+}
+
+.remote {
+  background-color: inherit;
+  border-radius: 10px;
+  border: 1px solid red;
+  color: red;
+}

@@ -1,3 +1,4 @@
+import "./newClass.css";
 import { useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import axios from "axios";

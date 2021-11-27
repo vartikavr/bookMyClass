@@ -1,4 +1,4 @@
-import styles from "../../../styles/home.module.css";
+import "./classrooms.css";
 import Searchbar from "./searchbar";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -94,7 +94,7 @@ const Classrooms = () => {
                             <i class="bx bx-book-open"></i>
                           </div>
                           <h4
-                            className={styles.h4}
+                            className="classroomHeading"
                             title={`${classroom.classname} - Section ${classroom.section}`}
                             style={{ color: "#eb5d1e" }}
                           >

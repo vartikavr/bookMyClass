@@ -1,5 +1,5 @@
+import "./viewSeats.css";
 import axios from "axios";
-import styles from "../../../styles/people.module.css";
 import { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import ReactLoading from "react-loading";
@@ -55,7 +55,7 @@ const ViewSeats = () => {
   };
 
   return (
-    <div className={styles.viewSeats}>
+    <div className="viewSeats">
       {!endPending && (
         <div className="pageLoading">
           <ReactLoading
@@ -69,7 +69,7 @@ const ViewSeats = () => {
       {endPending && (
         <div className="col-sm-8 offset-sm-2">
           <div className="peopleBody">
-            <div className={styles.studentsHeading}>
+            <div className="studentsHeading">
               <h1 style={{ color: "#f88138" }} className="mt-4">
                 Students
               </h1>
@@ -101,14 +101,14 @@ const ViewSeats = () => {
                       <td>{student.email}</td>
                       {student.classes.includes(currentClass._id) && (
                         <td>
-                          <button className={styles.inPerson} disabled>
+                          <button className="inPerson" disabled>
                             in-person
                           </button>
                         </td>
                       )}
                       {!student.classes.includes(currentClass._id) && (
                         <td>
-                          <button className={styles.remote} disabled>
+                          <button className="remote" disabled>
                             Remotely
                           </button>
                         </td>

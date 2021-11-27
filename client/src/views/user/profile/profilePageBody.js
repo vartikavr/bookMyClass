@@ -1,3 +1,4 @@
+import "./profilePageBody.css";
 import DeleteProfileButton from "./deleteProfileButton";
 import ChangePasswordButton from "./changePasswordButton";
 import { useState } from "react";

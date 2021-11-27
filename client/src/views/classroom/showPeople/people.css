@@ -4,11 +4,14 @@
   background-color: #fef8f5;
   font-family: "Raleway", sans-serif;
 }
-/* 
-.studentsHeading {
-  position: relative; 
-  overflow: hidden;
-} */
+
+.pageLoading {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
 
 .studentsHeading h1 {
   display: inline-block;
@@ -40,23 +43,4 @@
 .inviteBtn:hover {
   background: #f88138;
   color: #fff;
-}
-
-.viewSeats {
-  background-color: #fef8f5;
-  font-family: "Raleway", sans-serif;
-}
-
-.viewSeats .inPerson {
-  background-color: inherit;
-  border-radius: 10px;
-  border: 1px solid green;
-  color: green;
-}
-
-.viewSeats .remote {
-  background-color: inherit;
-  border-radius: 10px;
-  border: 1px solid red;
-  color: red;
 }
