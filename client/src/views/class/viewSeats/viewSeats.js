@@ -26,7 +26,7 @@ const ViewSeats = () => {
       },
     };
     axios
-      .get(`/class/${classId}/seats`, {}, axiosConfig)
+      .get(`/api/class/${classId}/seats`, {}, axiosConfig)
       .then((res) => {
         setClassroom(res.data.classroom);
         setCurrentClass(res.data.currentClass);

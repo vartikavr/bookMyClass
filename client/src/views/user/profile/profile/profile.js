@@ -30,7 +30,7 @@ const Profile = () => {
       },
     };
     axios
-      .get("/profile", {}, axiosConfig)
+      .get("/api/profile", {}, axiosConfig)
       .then((res) => {
         setUser(res.data.user);
         setName(res.data.user.name);

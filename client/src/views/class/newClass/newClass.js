@@ -37,7 +37,7 @@ const NewClass = () => {
     };
     axios
       .post(
-        `/classrooms/${classroomId}/new`,
+        `/api/classrooms/${classroomId}/new`,
         {
           title: title,
           startTime: startTime,

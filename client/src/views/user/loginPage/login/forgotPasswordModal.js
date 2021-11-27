@@ -23,7 +23,7 @@ const ForgotPasswordModal = () => {
     };
     axios
       .post(
-        "/reset",
+        "/api/reset",
         {
           email: email,
         },

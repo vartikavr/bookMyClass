@@ -25,7 +25,7 @@ const ClassTile = ({
       },
     };
     axios
-      .get(`/class/${classId}/cancel`, {}, axiosConfig)
+      .get(`/api/class/${classId}/cancel`, {}, axiosConfig)
       .then((res) => {
         toast.success("Successfully cancelled booking!");
         isBookingCancelled(true);

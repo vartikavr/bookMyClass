@@ -43,7 +43,7 @@ const Login = () => {
     };
     axios
       .post(
-        "/register",
+        "/api/register",
         {
           name: name,
           email: email,
@@ -85,7 +85,7 @@ const Login = () => {
     };
     axios
       .post(
-        "/login",
+        "/api/login",
         {
           email: email,
           password: password,

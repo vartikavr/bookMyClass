@@ -24,7 +24,7 @@ const EditClassroomModal = ({
     };
     axios
       .post(
-        `/classrooms/${classroomId}/edit`,
+        `/api/classrooms/${classroomId}/edit`,
         {
           classname: classname,
           subject: subject,

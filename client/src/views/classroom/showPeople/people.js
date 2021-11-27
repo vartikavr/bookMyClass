@@ -37,7 +37,7 @@ const People = () => {
       },
     };
     axios
-      .get(`/classrooms/${classroomId}`, {}, axiosConfig)
+      .get(`/api/classrooms/${classroomId}`, {}, axiosConfig)
       .then((res) => {
         setClassroom(res.data.currentClassroom);
         setTeacherInfo(res.data.teacher);

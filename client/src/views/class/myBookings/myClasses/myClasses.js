@@ -39,7 +39,7 @@ const MyClasses = () => {
       },
     };
     axios
-      .post("/class", { selected: selected }, axiosConfig)
+      .post("/api/class", { selected: selected }, axiosConfig)
       .then((res) => {
         setBookedClasses(res.data.classes);
         setEndPending(true);

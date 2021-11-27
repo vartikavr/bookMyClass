@@ -14,7 +14,7 @@ const SendInvite = ({ email, changeEmail, classroomId }) => {
     };
     axios
       .post(
-        `/classrooms/${classroomId}/invite`,
+        `/api/classrooms/${classroomId}/invite`,
         {
           email: email,
         },

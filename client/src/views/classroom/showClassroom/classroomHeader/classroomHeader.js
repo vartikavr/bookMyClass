@@ -22,7 +22,7 @@ const ClassroomHeader = ({
       },
     };
     axios
-      .delete(`/classrooms/${classroom._id}/delete`, {}, axiosConfig)
+      .delete(`/api/classrooms/${classroom._id}/delete`, {}, axiosConfig)
       .then((res) => {
         toast.success("Successfully deleted a classroom!");
         history.push("/classrooms");

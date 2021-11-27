@@ -23,7 +23,7 @@ const Header = () => {
       },
     };
     axios
-      .get("/logout", {}, axiosConfig)
+      .get("/api/logout", {}, axiosConfig)
       .then((res) => {
         if (url == "/") {
           window.location.reload();

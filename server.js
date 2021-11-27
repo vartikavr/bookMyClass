@@ -28,9 +28,9 @@ const classroomRoutes = require("./server/routes/classrooms");
 const classRoutes = require("./server/routes/classes");
 
 app.use(morgan("tiny"));
-app.use("/", userRoutes); // for user routes
-app.use("/classrooms", classroomRoutes);
-app.use("/class", classRoutes);
+app.use("/api/", userRoutes); // for user routes
+app.use("/api/classrooms", classroomRoutes);
+app.use("/api/class", classRoutes);
 
 const dbUrl = process.env.DB_URL || "mongodb://localhost:27017/bookMyClass";
 

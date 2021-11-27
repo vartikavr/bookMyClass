@@ -48,7 +48,7 @@ const ShowClassroom = () => {
       },
     };
     axios
-      .get(`/classrooms/${classroomId}`, {}, axiosConfig)
+      .get(`/api/classrooms/${classroomId}`, {}, axiosConfig)
       .then((res) => {
         setClassroom(res.data.currentClassroom);
         setClassname(res.data.currentClassroom.classname);

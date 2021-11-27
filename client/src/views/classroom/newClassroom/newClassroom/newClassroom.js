@@ -40,7 +40,7 @@ const NewClassroom = () => {
     };
     axios
       .post(
-        "/classrooms/create",
+        "/api/classrooms/create",
         {
           classname: classname,
           subject: subject,
@@ -77,7 +77,7 @@ const NewClassroom = () => {
     };
     axios
       .post(
-        "/classrooms/join",
+        "/api/classrooms/join",
         {
           code: code,
         },

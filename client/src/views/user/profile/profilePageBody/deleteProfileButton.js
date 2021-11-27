@@ -14,7 +14,7 @@ const DeleteProfileButton = ({ isProfileDeleting }) => {
       },
     };
     axios
-      .delete("/delete", {}, axiosConfig)
+      .delete("/api/delete", {}, axiosConfig)
       .then((res) => {
         isProfileDeleting(false);
         toast.success("Successfully deleted the user's profile!");

@@ -21,7 +21,7 @@ const SeatBookingButton = ({
       },
     };
     axios
-      .get(`/class/${classId}/book`, {}, axiosConfig)
+      .get(`/api/class/${classId}/book`, {}, axiosConfig)
       .then((res) => {
         toast.success("Successfully booked the class!");
         isSeatBooked(true);

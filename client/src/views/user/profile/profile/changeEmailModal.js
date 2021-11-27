@@ -26,7 +26,7 @@ const ChangeEmailModal = ({ isEmailChanged }) => {
       },
     };
     axios
-      .post("/edit/email", { changedEmail: email }, axiosConfig)
+      .post("/api/edit/email", { changedEmail: email }, axiosConfig)
       .then((res) => {
         toast.success(
           "Email id updated! Check your mails to confirm new email id."

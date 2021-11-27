@@ -27,7 +27,7 @@ const Classrooms = () => {
       },
     };
     axios
-      .get("/classrooms", {}, axiosConfig)
+      .get("/api/classrooms", {}, axiosConfig)
       .then((res) => {
         setAllClassrooms(res.data.classrooms);
         setEndPending(true);

@@ -27,7 +27,7 @@ const ClassTitle = ({
       },
     };
     axios
-      .delete(`/class/${classId}/delete`, {}, axiosConfig)
+      .delete(`/api/class/${classId}/delete`, {}, axiosConfig)
       .then((res) => {
         toast.success("Successfully deleted a class!");
         isClassDeleted(true);

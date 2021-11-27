@@ -21,7 +21,7 @@ const EditProfileModal = ({
     };
     axios
       .post(
-        "/edit",
+        "/api/edit",
         {
           name: name,
           vaccineStatus: vaccineStatus,

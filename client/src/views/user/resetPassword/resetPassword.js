@@ -24,7 +24,7 @@ const ResetPassword = () => {
     };
     axios
       .post(
-        `/reset/${token}`,
+        `/api/reset/${token}`,
         {
           newPassword: newPassword,
           confirmPassword: confirmPassword,

@@ -13,7 +13,7 @@ const ChangePasswordButton = ({ email, isPasswordChanging }) => {
     };
     axios
       .post(
-        "/reset",
+        "/api/reset",
         {
           email: email,
         },
