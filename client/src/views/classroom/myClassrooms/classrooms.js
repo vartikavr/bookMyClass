@@ -81,7 +81,7 @@ const Classrooms = () => {
                   classroom.subject
                     .toLowerCase()
                     .includes(search.toLowerCase()) ? (
-                    <div className="col-lg-6 col-xl-4 d-flex align-items">
+                    <div className="col-lg-6 col-xl-4 d-flex align-items justify-content-center">
                       <div className="icon-box">
                         <Link
                           to={`/classrooms/${classroom._id}`}

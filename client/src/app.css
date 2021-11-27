@@ -1,5 +1,6 @@
 .mainRoot {
   background-color: #fef8f5;
+  overflow-x: hidden;
 }
 
 /*---modals---*/

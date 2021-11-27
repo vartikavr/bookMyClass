@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import ChangeEmailModal from "./changeEmailModal";
 import EditProfileModal from "./editProfileModal";
-import ProfilePageBody from "./profilePageBody";
+import ProfilePageBody from "../profilePageBody/profilePageBody";
 import "./profile.css";
 import axios from "axios";
 import { useHistory } from "react-router-dom";

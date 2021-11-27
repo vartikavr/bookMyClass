@@ -4,8 +4,8 @@ import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import JoinClassroom from "./joinClassroom";
-import CreateClassroom from "./createClassroom";
+import JoinClassroom from "../joinClassroom/joinClassroom";
+import CreateClassroom from "../createClassroom/createClassroom";
 toast.configure();
 
 const NewClassroom = () => {

@@ -1,8 +1,8 @@
 import "./showClassroom.css";
 import CodeModal from "./codeModal";
 import EditClassroomModal from "./editClassroomModal";
-import ClassroomHeader from "./classroomHeader";
-import ClassTile from "./classTile";
+import ClassroomHeader from "../classroomHeader/classroomHeader";
+import ClassTile from "../classTile/classTile";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";

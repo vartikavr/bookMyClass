@@ -1,8 +1,8 @@
 import "./login.css";
 import ForgotPasswordModal from "./forgotPasswordModal";
-import RegisterForm from "./registerForm";
-import SignInForm from "./signInForm";
-import OverlayContainer from "./overlayContainer";
+import RegisterForm from "../registerForm/registerForm";
+import SignInForm from "../signInForm/signInForm";
+import OverlayContainer from "../overlayContainer/overlayContainer";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";

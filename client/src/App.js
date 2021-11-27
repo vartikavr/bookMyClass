@@ -1,17 +1,17 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Header from "./views/header/header";
 import Home from "./views/home/home";
-import Login from "./views/user/loginPage/login";
+import Login from "./views/user/loginPage/login/login";
 import ConfirmEmail from "./views/user/confirmEmail/confirmEmail";
 import ResetPassword from "./views/user/resetPassword/resetPassword";
 import Classrooms from "./views/classroom/myClassrooms/classrooms";
-import NewClassroom from "./views/classroom/newClassroom/newClassroom";
-import ShowClassroom from "./views/classroom/showClassroom/showClassroom";
+import NewClassroom from "./views/classroom/newClassroom/newClassroom/newClassroom";
+import ShowClassroom from "./views/classroom/showClassroom/showClassroom/showClassroom";
 import NewClass from "./views/class/newClass/newClass";
 import People from "./views/classroom/showPeople/people";
 import ViewSeats from "./views/class/viewSeats/viewSeats";
-import Profile from "./views/user/profile/profile";
-import MyClasses from "./views/class/myBookings/myClasses";
+import Profile from "./views/user/profile/profile/profile";
+import MyClasses from "./views/class/myBookings/myClasses/myClasses";
 import NotFound from "./views/notFound/notFound";
 
 function App() {
