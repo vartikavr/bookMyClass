@@ -9,7 +9,7 @@ router.post("/login", isNotLoggedIn, users.loginUser);
 
 router.get("/confirmation/:token", isLoggedIn, users.confirmEmail);
 
-router.post("/reset", isNotLoggedIn, users.resetPassword);
+router.post("/reset", users.resetPassword);
 
 router.post("/reset/:token", users.confirmResetPassword);
 
