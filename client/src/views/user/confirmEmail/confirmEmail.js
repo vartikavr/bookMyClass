@@ -19,7 +19,7 @@ const ConfirmEmail = () => {
       },
     };
     axios
-      .get(`/confirmation/${token}`, {}, axiosConfig)
+      .post(`/confirmation/${token}`, {}, axiosConfig)
       .then((res) => {
         toast.success("Email confirmed!");
         history.push("/classrooms");
