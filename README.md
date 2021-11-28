@@ -18,7 +18,8 @@ git clone https://github.com/vartikavr/bookMyClass.git
   - Open [localhost:3000](http://localhost:3000/) in the browser <br/>
     (in some cases, localhost fails to load properly, so [127.0.0.1:3000](http://127.0.0.1:3000) can also be used)
 - Since this repository is to be cloned and evaluated locally, therefore for now, the environment variables file is made available too.
-- This website is also deployed on heroku, the link for the same is [Book My Class](https://immense-spire-21650.herokuapp.com/).
+- A video demo is also made for this website, open demo from [here](https://youtu.be/97zehQlWLmc).
+- This website is also deployed on Heroku, the link for the same is [Book My Class](https://immense-spire-21650.herokuapp.com/).
 
 ## About the website
 
