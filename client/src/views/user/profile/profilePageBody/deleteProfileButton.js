@@ -1,11 +1,15 @@
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+// show flash success ,error, or info messages
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 toast.configure();
 
+//set whether profile deletion is in-process or not
 const DeleteProfileButton = ({ isProfileDeleting }) => {
   const history = useHistory();
+
+  //handle profile deletion in backend
   const handleDeleteProfile = () => {
     isProfileDeleting(true);
     const axiosConfig = {

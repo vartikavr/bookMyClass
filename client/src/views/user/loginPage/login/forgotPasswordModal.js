@@ -1,11 +1,15 @@
 import { useState, useEffect } from "react";
+// show flash success ,error, or info messages
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 toast.configure();
 
 const ForgotPasswordModal = () => {
+  //get and set email id in the form
   const [email, setEmail] = useState("");
+
+  //enable submit button in modal only when valid email id is entered
   useEffect(() => {
     const form = document.getElementById("forgotPasswordForm");
     document.getElementById("submitBtnEmail").disabled = true;
@@ -15,6 +19,7 @@ const ForgotPasswordModal = () => {
     });
   }, [email]);
 
+  //handle sending reset password email in backend
   const sendResetPasswordEmail = () => {
     const axiosConfig = {
       headers: {

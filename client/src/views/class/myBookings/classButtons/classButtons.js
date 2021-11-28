@@ -1,7 +1,8 @@
 import "./classButtons.css";
 
+// all, upcoming and expired buttons in MyBookings
 const ClassButtons = ({
-  selectedButton,
+  selectedButton, //which button out of three is selected right now
   handleAll,
   handleExpired,
   handleUpcoming,

@@ -4,16 +4,23 @@ import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import ClassTile from "../classTile/classTile";
 import ClassButtons from "../classButtons/classButtons";
+// loader while page information is being fetched from backend
 import ReactLoading from "react-loading";
+// show flash success ,error, or info messages
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 toast.configure();
 
 const MyClasses = () => {
+  //check whether page information has been fetched from backend or not
   const [endPending, setEndPending] = useState(false);
+  //get the values of the booked classes
   const [bookedClasses, setBookedClasses] = useState([]);
+  //select which button out of (all, upcoming and expired) is selected
   var selected = "all";
+  //change selected state from - all, upcoming, expired
   const [selectedState, setSelectedState] = useState("all");
+  //check whether a booking is cancelled or not
   const [isCancelled, setIsCancelled] = useState(false);
   const history = useHistory();
   const date = new Date();
@@ -25,6 +32,7 @@ const MyClasses = () => {
   if (dateToday < 10) {
     dateToday = "0" + dateToday;
   }
+  //get current date
   const currentDate = date.getFullYear() + "-" + month + "-" + dateToday;
 
   useEffect(() => {
@@ -32,6 +40,7 @@ const MyClasses = () => {
     // eslint-disable-next-line
   }, [isCancelled]);
 
+  //get the information about the class from backend
   const getClassesInfo = () => {
     setEndPending(false);
     const axiosConfig = {
@@ -59,18 +68,21 @@ const MyClasses = () => {
       });
   };
 
+  //action to be performed when "all" button selected
   const handleAll = () => {
     selected = "all";
     setSelectedState("all");
     getClassesInfo();
   };
 
+  //action to be performed when "upcoming" button selected
   const handleUpcoming = () => {
     selected = "upcoming";
     setSelectedState("upcoming");
     getClassesInfo();
   };
 
+  //action to be performed when "expired" button selected
   const handleExpired = () => {
     selected = "expired";
     setSelectedState("expired");

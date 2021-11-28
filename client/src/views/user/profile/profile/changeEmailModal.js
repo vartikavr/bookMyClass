@@ -1,14 +1,18 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
+// show flash success ,error, or info messages
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 toast.configure();
 
+//check whether email id is changed or not
 const ChangeEmailModal = ({ isEmailChanged }) => {
+  //get and set email id value in the form
   const [email, setEmail] = useState("");
   const history = useHistory();
 
+  //enable submit button in modal only after a valid email id is entered
   useEffect(() => {
     const form = document.getElementById("form");
     document.getElementById("submitBtnEmail").disabled = true;
@@ -18,6 +22,7 @@ const ChangeEmailModal = ({ isEmailChanged }) => {
     });
   }, [email]);
 
+  //handle changing email id in backend
   const handleChangeEmail = () => {
     isEmailChanged(false);
     const axiosConfig = {

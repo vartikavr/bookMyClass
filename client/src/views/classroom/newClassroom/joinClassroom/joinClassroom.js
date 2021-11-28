@@ -1,5 +1,8 @@
 import "./joinClassroom.css";
 
+//code, changeCode => get and set(change) the code value in the form
+//isJoiningPending => check whether joining classroom is in-process or not
+//handleJoin => handle joining of a classroom in backend
 const JoinClassroom = ({ code, changeCode, isJoiningPending, handleJoin }) => {
   return (
     <div className="form-wrapper">

@@ -4,7 +4,9 @@ import ChangePasswordButton from "./changePasswordButton";
 import { useState } from "react";
 
 const ProfilePageBody = ({ user }) => {
+  //check whether profile deletion action is going-on or not
   const [isDeletePending, setIsDeletePending] = useState(false);
+  //check whether change password action is going-on or not
   const [isChangePasswordPending, setIsChangePasswordPending] = useState(false);
 
   return (

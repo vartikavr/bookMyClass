@@ -6,23 +6,35 @@ import ClassTile from "../classTile/classTile";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
+// loader while page information is being fetched from backend
 import ReactLoading from "react-loading";
+// show flash success ,error, or info messages
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 toast.configure();
 
 const ShowClassroom = () => {
+  //get classroom id from url
   const { id: classroomId } = useParams();
+  //get and set classroom info
   const [classroom, setClassroom] = useState([]);
+  //get and set classname, subject, section values in editing form
   const [classname, setClassname] = useState("");
   const [subject, setSubject] = useState("");
   const [section, setSection] = useState("");
+  //check whether page information has been fetched from backend or not
   const [endPending, setEndPending] = useState(false);
+  //get and set the current user info
   const [currentUser, setCurrentUser] = useState("");
+  //check if a class is booked or not
   const [isBooked, setIsBooked] = useState(false);
+  //check if a class is deleted or not
   const [isClassDeleted, setIsClassDeleted] = useState(false);
+  //check if a class is edited (or updated) or not
   const [isEdited, setIsEdited] = useState(false);
+  //check if a classroom is deleted or not
   const [isClassroomDeleted, setIsClassroomDeleted] = useState(false);
+  //check whether the corresponding action is in-process or not
   const [isPendingBtn, setIsPendingBtn] = useState(false);
   const history = useHistory();
   const date = new Date();
@@ -34,6 +46,7 @@ const ShowClassroom = () => {
   if (dateToday < 10) {
     dateToday = "0" + dateToday;
   }
+  //get current date
   const currentDate = date.getFullYear() + "-" + month + "-" + dateToday;
 
   useEffect(() => {
@@ -41,6 +54,7 @@ const ShowClassroom = () => {
     // eslint-disable-next-line
   }, [isBooked, isClassDeleted, isEdited]);
 
+  //get classroom info from backend
   const getClassroomInfo = () => {
     setEndPending(false);
     const axiosConfig = {
@@ -72,6 +86,7 @@ const ShowClassroom = () => {
       });
   };
 
+  //show or hide the dropdown list
   const openDropdown = () => {
     let menuContent = document.querySelector(".menu-content");
     if (menuContent.style.display === "") {
@@ -81,10 +96,12 @@ const ShowClassroom = () => {
     }
   };
 
+  //redirect to "Add class" page
   const redirectToAddClass = () => {
     history.push(`/classrooms/${classroomId}/new`);
   };
 
+  //redirect to "people" page
   const redirectToPeople = () => {
     history.push(`/classrooms/${classroomId}/people`);
   };
@@ -124,6 +141,7 @@ const ShowClassroom = () => {
               isDeletionPending={setIsClassroomDeleted}
             />
             <div className="showClassroomBody">
+              {/* check if current user is classroom's teacher or not */}
               {currentUser._id === classroom.teacher && (
                 <div className="classroom-btn">
                   <button className="btn-addClass" onClick={redirectToAddClass}>

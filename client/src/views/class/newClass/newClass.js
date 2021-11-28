@@ -2,18 +2,23 @@ import "./newClass.css";
 import { useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import axios from "axios";
+// show flash success ,error, or info messages
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import NewClassForm from "./newClassForm";
 toast.configure();
 
 const NewClass = () => {
+  //get the classroom id from url
   const { id: classroomId } = useParams();
+  //get the values of title, date, startTime, endTime,
+  //available (in-person) seats from the form
   const [title, setTitle] = useState("");
   const [date, setDate] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [seats, setSeats] = useState("");
+  //check if form is in the process of being submittted
   const [isPending, setIsPending] = useState("");
   const history = useHistory();
   const getDate = new Date();
@@ -25,8 +30,10 @@ const NewClass = () => {
   if (dateToday < 10) {
     dateToday = "0" + dateToday;
   }
+  //get current date
   const currentDate = getDate.getFullYear() + "-" + month + "-" + dateToday;
 
+  //handle form submission for creating a new class in the classroom
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsPending(true);

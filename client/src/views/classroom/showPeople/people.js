@@ -3,17 +3,25 @@ import SendInvite from "./sendInvite";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
+// loader while page information is being fetched from backend
 import ReactLoading from "react-loading";
+// show flash success ,error, or info messages
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 toast.configure();
 
 const People = () => {
+  //get classroom id from url
   const { id: classroomId } = useParams();
+  //get and set classroom info
   const [classroom, setClassroom] = useState([]);
+  //get and set classroom's teacher's info
   const [teacherInfo, setTeacherInfo] = useState({});
+  //get and set current user's info
   const [currentUser, setCurrentUser] = useState({});
+  //get and set email id to send invite to
   const [email, setEmail] = useState("");
+  //check whether page information has been fetched from backend or not
   const [endPending, setEndPending] = useState(false);
   const history = useHistory();
 
@@ -22,6 +30,7 @@ const People = () => {
     // eslint-disable-next-line
   }, []);
 
+  //enable submit button on invite modal only when valid email id is entered
   useEffect(() => {
     const form = document.getElementById("form");
     document.getElementById("submitBtnEmail").disabled = true;
@@ -31,6 +40,7 @@ const People = () => {
     });
   }, [email]);
 
+  //get the info about the people of the classrooom from backend
   const getPeopleInfo = () => {
     const axiosConfig = {
       headers: {
@@ -86,6 +96,7 @@ const People = () => {
               <h1 style={{ color: "#f88138" }} className="mt-4">
                 Students
               </h1>
+              {/* check whether current user is classroom's teacher or not */}
               {teacherInfo._id === currentUser._id && (
                 <button
                   className="inviteBtn"

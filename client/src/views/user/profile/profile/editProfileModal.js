@@ -1,17 +1,22 @@
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+// show flash success ,error, or info messages
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 toast.configure();
 
 const EditProfileModal = ({
+  //get and set(change) name, vaccineStatus values in the form
   name,
   changeName,
   vaccineStatus,
   changeVaccineStatus,
+  //set whether the user info is being edited or not
   isUserInfoEdited,
 }) => {
   const history = useHistory();
+
+  //handle updation of profile info in backend
   const handleEditProfile = () => {
     isUserInfoEdited(false);
     const axiosConfig = {

@@ -2,15 +2,21 @@ import "./viewSeats.css";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
+// loader while page information is being fetched from backend
 import ReactLoading from "react-loading";
+// show flash success ,error, or info messages
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 toast.configure();
 
 const ViewSeats = () => {
+  //check whether page information has been fetched from backend or not
   const [endPending, setEndPending] = useState(false);
+  //get class id from url
   const { id: classId } = useParams();
+  //get and set current classroom information
   const [classroom, setClassroom] = useState({});
+  //get and set class information
   const [currentClass, setCurrentClass] = useState({});
   const history = useHistory();
 
@@ -19,6 +25,7 @@ const ViewSeats = () => {
     // eslint-disable-next-line
   }, []);
 
+  //get students' information via classroom and class from the backend
   const getStudentsInfo = () => {
     setEndPending(false);
     const axiosConfig = {

@@ -1,9 +1,13 @@
 import axios from "axios";
+// show flash success ,error, or info messages
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 toast.configure();
 
+//email => get email id of the current user
+//isPasswordChanging => set whether the sending mail for changing password action is in-process or not
 const ChangePasswordButton = ({ email, isPasswordChanging }) => {
+  //handle sending changing password mail in backend
   const handleChangePassword = () => {
     isPasswordChanging(true);
     const axiosConfig = {

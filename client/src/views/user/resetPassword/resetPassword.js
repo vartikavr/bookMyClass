@@ -2,18 +2,23 @@ import "./resetPassword.css";
 import { useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import ResetPasswordForm from "./resetPasswordForm";
+// show flash success ,error, or info messages
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 toast.configure();
 
 const ResetPassword = () => {
+  //get token value from url
   const { token } = useParams();
+  //get and set new password, confirm password values in form
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  //check if the reset password action is in-process or not
   const [isPending, setIsPending] = useState(false);
   const history = useHistory();
 
+  //handle reset password form submission in backend
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsPending(true);

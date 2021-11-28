@@ -5,16 +5,19 @@ import SignInForm from "../signInForm/signInForm";
 import OverlayContainer from "../overlayContainer/overlayContainer";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
+// show flash success ,error, or info messages
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 toast.configure();
 
 const Login = () => {
+  //get and set values of name, email, vaccineStatus, password in the forms
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [vaccineStatus, setVaccineStatus] = useState("");
   const [password, setPassword] = useState("");
+  //check and set whether registration or login actions are in-process or not
   const [isPending, setIsPending] = useState(false);
   const history = useHistory();
 
@@ -32,6 +35,7 @@ const Login = () => {
     });
   }, []);
 
+  //handle user registration in backend
   const handleRegisterSubmit = (e) => {
     e.preventDefault();
     setIsPending(true);
@@ -75,6 +79,7 @@ const Login = () => {
       });
   };
 
+  //handle user login in backend
   const handleLoginSubmit = (e) => {
     e.preventDefault();
     setIsPending(true);

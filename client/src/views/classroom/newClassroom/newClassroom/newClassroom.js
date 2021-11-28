@@ -2,6 +2,7 @@ import "./newClassroom.css";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
+// show flash success ,error, or info messages
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import JoinClassroom from "../joinClassroom/joinClassroom";
@@ -9,10 +10,12 @@ import CreateClassroom from "../createClassroom/createClassroom";
 toast.configure();
 
 const NewClassroom = () => {
+  //get and set the classname, subject, section and classroom code values from the forms
   const [classname, setClassname] = useState("");
   const [section, setSection] = useState("");
   const [subject, setSubject] = useState("");
   const [code, setCode] = useState("");
+  //check whether the processes - creation or joining of a classroom are in-process or not
   const [isPending, setIsPending] = useState(false);
   const history = useHistory();
 
@@ -29,6 +32,7 @@ const NewClassroom = () => {
     });
   }, []);
 
+  //handle creation of a classroom in backend
   const handleCreate = (e) => {
     e.preventDefault();
     setIsPending(true);
@@ -67,6 +71,7 @@ const NewClassroom = () => {
       });
   };
 
+  //handle joining of a classroom in backend
   const handleJoin = (e) => {
     e.preventDefault();
     setIsPending(true);

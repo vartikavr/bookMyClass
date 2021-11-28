@@ -4,14 +4,19 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
+// loader while page information is being fetched from backend
 import ReactLoading from "react-loading";
+// show flash success ,error, or info messages
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 toast.configure();
 
 const Classrooms = () => {
+  //get and set all the created and joined classrooms for the user
   const [allClassrooms, setAllClassrooms] = useState([]);
+  //check whether page information has been fetched from backend or not
   const [endPending, setEndPending] = useState(false);
+  //get and set search value from the searchbar
   const [search, setSearch] = useState("");
   const history = useHistory();
 
@@ -20,6 +25,7 @@ const Classrooms = () => {
     // eslint-disable-next-line
   }, []);
 
+  //get information about all joined and created classrooms from the backend
   const getAllClassrooms = () => {
     setEndPending(false);
     const axiosConfig = {

@@ -1,16 +1,19 @@
 import { useHistory } from "react-router-dom";
 import axios from "axios";
+// show flash success ,error, or info messages
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 toast.configure();
 
 const SeatBookingButton = ({
-  currentClass,
-  isSeatBooked,
-  isProcessPending,
-  isProcessGoingOn,
+  currentClass, //get current class info
+  isSeatBooked, //check whether the class is booked or not
+  isProcessPending, //check whether the booking seat action is in-process or not
+  isProcessGoingOn, //set the value whether booking of class is in-process or not
 }) => {
   const history = useHistory();
+
+  //handle seat booking in backend
   const handleSeatBooking = (event) => {
     const classId = event.target.id;
     isSeatBooked(false);

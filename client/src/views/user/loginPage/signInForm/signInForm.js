@@ -1,11 +1,14 @@
 import "./signInForm.css";
 
 const SignInForm = ({
+  //get and set(change) email, password values in the form
   email,
   changeEmail,
   password,
   changePassword,
+  //handle login action in backend
   handleLoginSubmit,
+  //check whether sign-in(login) action is in-process or not
   isSigninPending,
 }) => {
   return (

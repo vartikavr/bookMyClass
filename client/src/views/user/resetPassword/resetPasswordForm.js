@@ -1,11 +1,14 @@
 import "./resetPasswordForm.css";
 
 const ResetPasswordForm = ({
+  //get and set password and confirm password value in form
   password,
   setPassword,
   confirmPassword,
   setConfirmPassword,
+  //handle form submission action in backend
   handleSubmit,
+  //check whether new password's submission action is in-process or not
   isPasswordSubmitting,
 }) => {
   return (

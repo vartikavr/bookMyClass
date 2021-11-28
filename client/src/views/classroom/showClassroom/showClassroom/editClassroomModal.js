@@ -5,16 +5,21 @@ import "react-toastify/dist/ReactToastify.css";
 toast.configure();
 
 const EditClassroomModal = ({
+  //get and set(change) the following values in the form
   classname,
   section,
   subject,
   changeClassname,
   changeSection,
   changeSubject,
+  //check is classroom has been edited or not
   isClassroomModified,
+  //getclassroom id value
   classroomId,
 }) => {
   const history = useHistory();
+
+  //handle updation of classroom info in backend
   const handleEditClassroom = () => {
     isClassroomModified(false);
     const axiosConfig = {

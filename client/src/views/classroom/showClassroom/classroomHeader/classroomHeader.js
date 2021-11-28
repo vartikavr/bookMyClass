@@ -1,19 +1,22 @@
 import "./classroomHeader.css";
 import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
+// show flash success ,error, or info messages
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 toast.configure();
 
 const ClassroomHeader = ({
-  classroom,
-  currentUser,
-  openDropdown,
-  redirectToPeople,
-  isDeleting,
-  isDeletionPending,
+  classroom, //get classrooom info
+  currentUser, //get information about current user
+  openDropdown, //action to be performed when top-right three dots button is clicked
+  redirectToPeople, //redirect to page viewing people in a classroom
+  isDeleting, //is deletion of classroom in-process or not
+  isDeletionPending, //set the value of whether deletion is in-process or not
 }) => {
   const history = useHistory();
+
+  //handle deletion of the classroom in backend
   const handleDeleteClassroom = () => {
     isDeletionPending(true);
     const axiosConfig = {
@@ -68,6 +71,7 @@ const ClassroomHeader = ({
             />
           </button>
           <div className="menu-content" id="menu-content">
+            {/* check whether current user is the classroom's teacher or not */}
             {currentUser._id === classroom.teacher && (
               <button
                 className="links"

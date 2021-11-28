@@ -1,5 +1,6 @@
 import "./newClassForm.css";
 const NewClassForm = ({
+  //get and set(change) values of the following in the form
   title,
   changeTitle,
   date,
@@ -10,8 +11,11 @@ const NewClassForm = ({
   changeEndTime,
   seats,
   changeSeats,
+  //handle submission of the form
   handleSubmit,
+  //get current date
   currentDate,
+  //check if form is being submitted or not
   isFormSubmitted,
 }) => {
   return (

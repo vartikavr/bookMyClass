@@ -1,11 +1,15 @@
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+// show flash success ,error, or info messages
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 toast.configure();
 
+//get and set(change) email id value in the form
 const SendInvite = ({ email, changeEmail, classroomId }) => {
   const history = useHistory();
+
+  //handle sending invite to the entered email id in the backend
   const sendInvite = () => {
     const axiosConfig = {
       headers: {

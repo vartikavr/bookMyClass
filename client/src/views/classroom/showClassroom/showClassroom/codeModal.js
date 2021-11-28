@@ -1,5 +1,5 @@
 const CodeModal = (props) => {
-  const classroom = props.classroom;
+  const classroom = props.classroom; //get classroom info
 
   return (
     <div

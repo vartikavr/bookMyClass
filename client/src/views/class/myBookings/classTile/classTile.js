@@ -2,6 +2,7 @@ import "./classTile.css";
 import axios from "axios";
 import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
+// show flash success ,error, or info messages
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 toast.configure();
@@ -9,12 +10,14 @@ toast.configure();
 const ClassTile = ({
   currentClass,
   currentDate,
-  isBookingCancelled,
-  changeSelectedButton,
+  isBookingCancelled, //check whether booking cancelled or not
+  changeSelectedButton, //change which buttons out of (all, upcoming, expired) is selected
 }) => {
+  //check whether cancellation is in-process or not
   const [isCancellationPending, setIsCancellationPending] = useState(false);
   const history = useHistory();
 
+  //handle cancellation of booking in backend
   const handleCancelBooking = (event) => {
     isBookingCancelled(false);
     setIsCancellationPending(true);
@@ -64,6 +67,7 @@ const ClassTile = ({
               Time : {currentClass.startTime} to {currentClass.endTime} (IST)
             </p>
             <p title="">Available seats : {currentClass.availableSeats}</p>
+            {/* check whether class's date is on or later than the current date */}
             {currentClass.date.substring(0, 10) >= currentDate && (
               <div>
                 {!isCancellationPending && (
@@ -93,6 +97,7 @@ const ClassTile = ({
                 )}
               </div>
             )}
+            {/* check whether class's date is before the current date */}
             {currentClass.date.substring(0, 10) < currentDate && (
               <button className="endedBtn" title="Class Expired" disabled>
                 Ended

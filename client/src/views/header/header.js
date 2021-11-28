@@ -2,21 +2,25 @@ import "./header.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useHistory } from "react-router-dom";
+// show flash success ,error, or info messages
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 toast.configure();
 
 const Header = () => {
+  //get current url
   const [url, setURL] = useState("");
   useEffect(() => {
     getURLPathname();
     // eslint-disable-next-line
   }, [window.location.pathname]);
 
+  //get the current pathname from the url
   const getURLPathname = () => {
     setURL(window.location.pathname);
   };
 
+  //handle logout in the backend
   const handleLogout = () => {
     const axiosConfig = {
       headers: {
@@ -68,6 +72,7 @@ const Header = () => {
               </Link>
             </div>
             <div className="navbar-nav ms-auto">
+              {/* check if user is logged in or not(cookie is set or not) */}
               {!document.cookie && (
                 <Link
                   className={`nav-item d-block ${
@@ -78,6 +83,7 @@ const Header = () => {
                   SignUp/SignIn
                 </Link>
               )}
+              {/* check if user is logged in or not(cookie is set or not) */}
               {document.cookie && (
                 <Link
                   className={`nav-item ${
@@ -88,6 +94,7 @@ const Header = () => {
                   My Classrooms
                 </Link>
               )}
+              {/* check if user is logged in or not(cookie is set or not) */}
               {document.cookie && (
                 <Link
                   className={`nav-item ${url === "/class" ? " active" : ""}`}
@@ -96,6 +103,7 @@ const Header = () => {
                   My Bookings
                 </Link>
               )}
+              {/* check if user is logged in or not (cookie is set or not) */}
               {document.cookie && (
                 <Link
                   className={`nav-item ${url === "/profile" ? " active" : ""}`}
@@ -104,6 +112,7 @@ const Header = () => {
                   My Profile
                 </Link>
               )}
+              {/* check if user is logged in or not(cookie is set or not) */}
               {document.cookie && (
                 <Link
                   className={`nav-item ${url === "/logout" ? " active" : ""}`}

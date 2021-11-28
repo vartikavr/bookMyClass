@@ -1,6 +1,7 @@
 import "./registerForm.css";
 
 const RegisterForm = ({
+  //get and set(change) name, email, vaccineStatus, password values in the form
   name,
   changeName,
   vaccineStatus,
@@ -9,7 +10,9 @@ const RegisterForm = ({
   changeEmail,
   password,
   changePassword,
+  //handle user registration in backend
   handleRegisterSubmit,
+  //check whether user registration action is in-process or not
   isRegisterPending,
 }) => {
   return (

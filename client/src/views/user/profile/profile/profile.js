@@ -5,16 +5,22 @@ import ProfilePageBody from "../profilePageBody/profilePageBody";
 import "./profile.css";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+// loader while page information is being fetched from backend
 import ReactLoading from "react-loading";
+// show flash success ,error, or info messages
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 toast.configure();
 
 const Profile = () => {
+  //get and set the user info
   const [user, setUser] = useState({});
+  //check whether page information has been fetched from backend or not
   const [endPending, setEndPending] = useState(false);
+  //get and set the name, vaccineStatus info of user
   const [name, setName] = useState("");
   const [vaccineStatus, setVaccineStatus] = useState("");
+  //check if user info is edited or not
   const [isEdited, setIsEdited] = useState(false);
   const history = useHistory();
 
@@ -23,6 +29,7 @@ const Profile = () => {
     // eslint-disable-next-line
   }, [isEdited]);
 
+  //get user info from backend
   const getUserDetails = () => {
     setEndPending(false);
     const axiosConfig = {

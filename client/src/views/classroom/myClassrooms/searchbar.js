@@ -1,5 +1,6 @@
 import "./searchbar.css";
 
+//get and set the search value in the searchbar
 const Searchbar = ({ searchValue, changeSearchValue }) => {
   return (
     <div className="searchBar input-group">

@@ -1,13 +1,16 @@
 import "./createClassroom.css";
 
 const CreateClassroom = ({
+  //get and set(change) the following values in the form
   classname,
   changeClassname,
   section,
   changeSection,
   subject,
   changeSubject,
+  //handle creation of a classroom in the backend
   handleCreate,
+  //is creation of classroom in-process or not
   isCreationPending,
 }) => {
   return (

@@ -2,15 +2,20 @@ import "./confirmEmail.css";
 import axios from "axios";
 import { useHistory, useParams } from "react-router-dom";
 import { useState } from "react";
+//to show loading symbol while confirm email button is not clicked
 import { WifiLoader } from "react-awesome-loaders";
+// show flash success ,error, or info messages
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 toast.configure();
 
 const ConfirmEmail = () => {
+  //get token value from url
   const { token } = useParams();
+  //is email confirmation action is in-process or not
   const [isPending, setIsPending] = useState(false);
 
+  //handle confirmation of email in backend
   const verifyEmail = () => {
     setIsPending(true);
     const axiosConfig = {
