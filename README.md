@@ -4,7 +4,7 @@ Book My Class helps students and teachers to connect and encourages greater coll
 
 ## Getting started
 
-- Prerequisite
+- Prerequisite <br/>
   Node.js
 
 - Clone this repository <br/>
