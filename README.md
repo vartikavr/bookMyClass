@@ -4,21 +4,25 @@ Book My Class helps students and teachers to connect and encourages greater coll
 
 ## Getting started
 
+- Prerequisite
+  Node.js
+
 - Clone this repository <br/>
 
 ```bash
 git clone https://github.com/vartikavr/bookMyClass.git
 ```
 
-- Open command line in the cloned folder,
+- Open command line in the <strong>cloned folder (bookMyClass)</strong>,
   - To install server-side dependencies, run `npm install`
   - To install client-side dependencies, run
     `cd client` and then, `npm install`
-  - To run the application for development, run `npm run dev`
+  - To run the application for development, run `npm run dev`. <br/>
+    (This would run both the client and server)
   - Open [localhost:3000](http://localhost:3000/) in the browser <br/>
     (in some cases, localhost fails to load properly, so [127.0.0.1:3000](http://127.0.0.1:3000) can also be used)
-- Since this repository is to be cloned and evaluated locally, therefore for now, the environment variables file is made available too.
-- A video demo is also made for this website, open demo from [here](https://youtu.be/97zehQlWLmc).
+- Since this repository is to be cloned and evaluated locally, therefore, for now, the environment variables file is made available too.
+- A video demo is also made for this website. Open demo from [here](https://youtu.be/97zehQlWLmc).
 - This website is also deployed on Heroku, the link for the same is [Book My Class](https://immense-spire-21650.herokuapp.com/).
 
 ## About the website
