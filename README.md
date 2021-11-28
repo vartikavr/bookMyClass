@@ -13,6 +13,8 @@ git clone https://github.com/vartikavr/bookMyClass.git
     - To run the application for development, run ```npm run dev```
     - Open [localhost:3000](http://localhost:3000/) in the browser <br/>
       (in some cases, localhost fails to load properly, so [127.0.0.1:3000](http://127.0.0.1:3000) can also be used)
+- Since this repository is to be cloned and evaluated locally, therefore for now, the environment variables file is made available too.
+- This website is also deployed on heroku, this link for the same is [Book My Class](https://immense-spire-21650.herokuapp.com/).
 
 ## About the website
 At the current time, with the decreasing number of Covid cases around the globe, we are slowly moving towards opening various offline activities. These also include offline classes, which have been closed ever since the pandemic began. Therefore, our website helps to ease this transformation of slowly shifting from remotely attending the classes to attending them in-person. <br />
