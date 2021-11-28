@@ -13,6 +13,7 @@ const classroomSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  //classroom code, used by students to join a classroom
   code: {
     type: String,
   },
@@ -20,12 +21,14 @@ const classroomSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
+  //array of ids of students who have joined this classroom
   students: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
   ],
+  //array of class ids of all the scheduled classes in a classroom
   classes: [
     {
       type: mongoose.Schema.Types.ObjectId,

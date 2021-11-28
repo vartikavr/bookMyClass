@@ -36,7 +36,7 @@ const SeatBookingButton = ({
           history.push("/");
         } else if (e.response.data.isQualifiedForBooking === false) {
           toast.error(
-            "Student needs to be either under 18 age or fully vaccinated to book an in-person class!"
+            "As per govt. guidelines, student needs to be either under 18 age or fully vaccinated to book an in-person class!"
           );
         } else if (e.response.data.isSeatLeft === false) {
           toast.error("Sorry, all available seats are booked!");

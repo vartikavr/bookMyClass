@@ -1,17 +1,21 @@
 const User = require("../schemas/user");
 const Class = require("../schemas/class");
 const Classroom = require("../schemas/classroom");
-const nodemailer = require("nodemailer");
+const nodemailer = require("nodemailer"); //for sending emails by admin's email id and password
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+//for scheduling the task of sending mails to a particular date and time
 const schedule = require("node-schedule");
 
 module.exports.registerUser = async (req, res) => {
+  //check if the entered email id is already registered in our database
   const findEmailUser = await User.findOne({ email: req.body.email });
   if (findEmailUser) {
+    //email id of all users should be unique, therefore error will be shown if not unique
     return res.status(400).send({ isEmailExisting: true });
   }
+  //creating a new user
   const newUser = new User({
     name: req.body.name,
     email: req.body.email,
@@ -21,6 +25,7 @@ module.exports.registerUser = async (req, res) => {
   newUser.isVerified = false;
   try {
     await newUser.save();
+    //signing the _id of newUser and saving its value in the session
     const token = jwt.sign(
       {
         u_id: newUser._id.toString(),
@@ -28,6 +33,7 @@ module.exports.registerUser = async (req, res) => {
       process.env.JWT_SECRET
     );
     req.session.userid = token;
+    //sending email confirmation email to newly created user
     jwt.sign(
       {
         userId: newUser._id,
@@ -69,7 +75,9 @@ module.exports.registerUser = async (req, res) => {
 
 module.exports.confirmEmail = async (req, res) => {
   try {
+    //verifying if the sent email confirmation link matches with the current one
     const resultInfo = jwt.verify(req.params.token, process.env.EMAIL_SECRET);
+    //confirming email id and verifying the current user
     await User.findByIdAndUpdate(resultInfo.userId, { isVerified: true });
     return res.status(200).send({ success: "confirmed email" });
   } catch (e) {
@@ -81,11 +89,14 @@ module.exports.loginUser = async (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
   const checkUser = await User.findOne({ email: email });
+  //since email ids are unique, check if entered email is found in database
   if (checkUser) {
     const isMatch = await checkUser.comparePassword(password);
+    //check if entered password matches with password in the database
     if (!isMatch) {
       return res.status(403).send({ error: "invalid password" });
     }
+    //signing the _id of newUser and saving its value in the session
     const token = jwt.sign(
       {
         u_id: checkUser._id.toString(),
@@ -102,7 +113,9 @@ module.exports.loginUser = async (req, res) => {
 module.exports.resetPassword = async (req, res) => {
   try {
     const email = req.body.email;
+    //since email ids are unique, check if entered email id is present in the database
     const passwordChangeUser = await User.findOne({ email: email });
+    //sending an email with a link to reset the password
     jwt.sign(
       {
         userId: passwordChangeUser._id,
@@ -146,14 +159,18 @@ module.exports.resetPassword = async (req, res) => {
 
 module.exports.confirmResetPassword = async (req, res) => {
   try {
+    //verifying if the sent reset password link matches with the current one
     const resultInfo = jwt.verify(req.params.token, process.env.RESET_SECRET);
     const user = await User.findById(resultInfo.userId);
     const newPassword = req.body.newPassword;
     const isOldPassword = await user.comparePassword(newPassword);
+    //check if the entered password is same as the old one
     if (!isOldPassword) {
       const confirmPassword = req.body.confirmPassword;
+      //check if the new password and confirm password values match
       if (confirmPassword == newPassword) {
         const passwordHash = bcrypt.hashSync(newPassword, 12);
+        //updating passsword in database
         await User.findByIdAndUpdate(resultInfo.userId, {
           password: passwordHash,
         });
@@ -171,6 +188,7 @@ module.exports.confirmResetPassword = async (req, res) => {
 
 module.exports.getMyProfile = async (req, res) => {
   try {
+    //getting current user's id from the session
     const currentUser = jwt.verify(req.session.userid, process.env.JWT_SECRET);
     const user = await User.findById(currentUser.u_id);
     return res.status(200).send({ user });
@@ -181,7 +199,9 @@ module.exports.getMyProfile = async (req, res) => {
 
 module.exports.editDetails = async (req, res) => {
   try {
+    //getting current user's id from the session
     const currentUser = jwt.verify(req.session.userid, process.env.JWT_SECRET);
+    //update user details in database
     await User.findByIdAndUpdate(currentUser.u_id, {
       name: req.body.name,
       vaccineStatus: req.body.vaccineStatus,
@@ -195,19 +215,24 @@ module.exports.editDetails = async (req, res) => {
 module.exports.changeEmail = async (req, res) => {
   try {
     const newEmail = req.body.changedEmail;
+    //getting current user's id from the session
     const currentUser = jwt.verify(req.session.userid, process.env.JWT_SECRET);
     const user = await User.findById(currentUser.u_id);
+    //check if new entered email id is same as the old one
     if (newEmail == user.email) {
       return res.status(400).send({ isOldEmail: true });
     }
     const findEmailUser = await User.findOne({ email: req.body.changedEmail });
+    //since email ids should be unique, check if email entered is in our database or not
     if (findEmailUser) {
       return res.status(400).send({ isEmailExisting: true });
     }
+    //update email id
     await User.findByIdAndUpdate(currentUser.u_id, {
       email: newEmail,
       isVerified: false,
     });
+    //send email confirmation mail to the new email id
     jwt.sign(
       {
         userId: user._id,
@@ -249,14 +274,16 @@ module.exports.changeEmail = async (req, res) => {
 
 module.exports.deleteProfile = async (req, res) => {
   try {
+    //getting current user's id from the session
     const currentUser = jwt.verify(req.session.userid, process.env.JWT_SECRET);
     const userToBeDeleted = await User.findById(currentUser.u_id);
-    //cancel schedules for booked classes by the user
+    //cancel schedules for sending reminder emails for the booked classes by the user
     const bookedClasses = userToBeDeleted.classes;
     for (const bookedClassIndex in bookedClasses) {
       const classRemove = await Class.findById(
         bookedClasses[bookedClassIndex]._id
       );
+      //cancel booking in the booked classes by the user
       classRemove.availableSeats = classRemove.availableSeats + 1;
       await classRemove.save();
       const jobId =
@@ -264,7 +291,7 @@ module.exports.deleteProfile = async (req, res) => {
         bookedClasses[bookedClassIndex]._id.toString();
       schedule.cancelJob(jobId);
     }
-    //remove this user from their joined classrooms
+    //remove this user's id from their joined classrooms
     const joinedClassrooms = await Classroom.find({
       students: { $in: userToBeDeleted._id },
     });
@@ -323,6 +350,7 @@ module.exports.deleteProfile = async (req, res) => {
 };
 
 module.exports.logoutUser = async (req, res) => {
+  //logout user
   if (req.session.userid) {
     req.session.destroy();
     res.clearCookie("sid");

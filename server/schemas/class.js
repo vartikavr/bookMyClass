@@ -17,10 +17,12 @@ const classSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  //total number of in-person seats available for a class
   availableSeats: {
     type: Number,
     default: 25,
   },
+  //the classroom id for a class
   classroom: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Classroom",

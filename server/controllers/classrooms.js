@@ -2,16 +2,19 @@ const User = require("../schemas/user");
 const Classroom = require("../schemas/classroom");
 const Class = require("../schemas/class");
 const bcrypt = require("bcrypt");
-const nodemailer = require("nodemailer");
+const nodemailer = require("nodemailer"); //for sending emails by admin's email id and password
+//for scheduling the task of sending mails to a particular date and time
 const schedule = require("node-schedule");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 module.exports.getMyClassrooms = async (req, res) => {
   try {
+    //getting current user's id from the session
     const currentUser = jwt.verify(req.session.userid, process.env.JWT_SECRET);
     const requestedUser = await User.findById(currentUser.u_id);
     const classroomIds = requestedUser.classrooms;
+    //getting all the created and joined classrooms of the current user
     var classrooms = [];
     for (const index in classroomIds) {
       const item = await Classroom.findById(classroomIds[index]);
@@ -29,12 +32,16 @@ module.exports.createClassroom = async (req, res) => {
     subject: req.body.subject,
     section: req.body.section,
   });
+  //getting current user's id from the session
   const currentUser = jwt.verify(req.session.userid, process.env.JWT_SECRET);
+  //assigning current user as the classroom teacher
   newClassroom.teacher = currentUser.u_id;
   try {
     await newClassroom.save();
+    //generating classroom code
     newClassroom.code = bcrypt.hashSync(newClassroom._id.toString(), 10);
     await newClassroom.save();
+    //pushing classroom's id in the user's record
     const creator = await User.findById(currentUser.u_id);
     creator.classrooms.push(newClassroom._id);
     await creator.save();
@@ -48,10 +55,13 @@ module.exports.joinClassroom = async (req, res) => {
   const joiningCode = req.body.code;
   try {
     const currentClassroom = await Classroom.findOne({ code: joiningCode });
+    //getting current user's id from the session
     const currentUser = jwt.verify(req.session.userid, process.env.JWT_SECRET);
     const joiningUser = await User.findById(currentUser.u_id);
+    //adding current user to the list of students of the classroom
     currentClassroom.students.push(joiningUser._id);
     await currentClassroom.save();
+    //adding classroom to the record of current user
     joiningUser.classrooms.push(currentClassroom._id);
     await joiningUser.save();
     return res.status(200).send({ success: "joined classroom!" });
@@ -67,6 +77,7 @@ module.exports.specificClassroom = async (req, res) => {
     const currentClassroom = await Classroom.findById(classroomId)
       .populate("classes")
       .populate("students");
+    //getting current user's id from the session
     const currentUser = jwt.verify(req.session.userid, process.env.JWT_SECRET);
     const user = await User.findById(currentUser.u_id);
     const teacher = await User.findById(currentClassroom.teacher);
@@ -80,9 +91,12 @@ module.exports.sendInvite = async (req, res) => {
   try {
     const email = req.body.email;
     const classroom = await Classroom.findById(req.params.id);
+    //getting current user's id from the session
     const currentUser = jwt.verify(req.session.userid, process.env.JWT_SECRET);
+    //checking if current user is the teacher of this classroom as only teachers can send invites
     if (classroom.teacher.toString() == currentUser.u_id.toString()) {
       const teacher = await User.findById(classroom.teacher);
+      //sending email to invite in the classroom
       const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
@@ -127,7 +141,9 @@ module.exports.editClassroom = async (req, res) => {
   try {
     const classroomId = req.params.id;
     const classroom = await Classroom.findById(classroomId);
+    //getting current user's id from the session
     const currentUser = jwt.verify(req.session.userid, process.env.JWT_SECRET);
+    //checking if the current user is the teacher of the classroom as only the teacher can edit classroom details
     if (classroom.teacher.toString() == currentUser.u_id.toString()) {
       const updatedClassroom = await Classroom.findByIdAndUpdate(classroomId, {
         classname: req.body.classname,
@@ -152,9 +168,11 @@ module.exports.deleteClassroom = async (req, res) => {
   try {
     const classroomId = req.params.id;
     const classroom = await Classroom.findById(classroomId);
+    //getting current user's id from the session
     const currentUser = jwt.verify(req.session.userid, process.env.JWT_SECRET);
+    //checking if the current user is the classroom's teacher as only a teacher can delete their classroom
     if (classroom.teacher.toString() == currentUser.u_id.toString()) {
-      //delete classrooms from user
+      //delete classroom's id from user's records
       const users = await User.find({ classrooms: { $in: classroomId } });
       for (const index in users) {
         await User.findByIdAndUpdate(users[index]._id, {
@@ -202,7 +220,9 @@ module.exports.addNewClass = async (req, res) => {
   try {
     const classroomId = req.params.id;
     const currentClassroom = await Classroom.findById(classroomId);
+    //getting current user's id from the session
     const currentUser = jwt.verify(req.session.userid, process.env.JWT_SECRET);
+    //check if the current user is the classroom's teacher as only the teacher can add a new class into the classroom
     if (currentClassroom.teacher.toString() == currentUser.u_id.toString()) {
       const newClass = new Class({
         title: req.body.title,
@@ -215,6 +235,7 @@ module.exports.addNewClass = async (req, res) => {
         newClass.availableSeats = req.body.seats;
       }
       await newClass.save();
+      //add new class to the classroom's record
       currentClassroom.classes.push(newClass._id);
       await currentClassroom.save();
       //set reminder email for this class (for the teacher)
@@ -223,6 +244,7 @@ module.exports.addNewClass = async (req, res) => {
         " " +
         newClass.startTime +
         ":00";
+      //stringDate format = yyyy-mm-dd hh:mm:ss
       const classDate = new Date(stringDate);
       var milliseconds = classDate.getTime();
       milliseconds = milliseconds - 60 * 60 * 1000; //60mins ago
@@ -268,8 +290,8 @@ module.exports.addNewClass = async (req, res) => {
       };
       //job name => teacher id+class id
       const jobId = teacher._id.toString() + newClass._id.toString();
+      //scheduling to send an email one hour before the start time of the class
       const job = schedule.scheduleJob(jobId, reminderDate, function () {
-        //scheduling to send an email later
         transporter.sendMail(mailOptions, (error, info) => {
           if (error) {
             return res.status(403).send({ error: "error in sending mail" });

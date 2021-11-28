@@ -3,6 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
+//to see server api(s) on the terminal, when accessed
 const morgan = require("morgan");
 const path = require("path");
 const session = require("express-session");
@@ -29,8 +30,8 @@ const classRoutes = require("./server/routes/classes");
 
 app.use(morgan("tiny"));
 app.use("/api/", userRoutes); // for user routes
-app.use("/api/classrooms", classroomRoutes);
-app.use("/api/class", classRoutes);
+app.use("/api/classrooms", classroomRoutes); // for classroom routes
+app.use("/api/class", classRoutes); // for class routes
 
 const dbUrl = process.env.DB_URL || "mongodb://localhost:27017/bookMyClass";
 
